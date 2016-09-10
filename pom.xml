@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.weltraumschaf.organization</groupId>
+        <artifactId>organization-parent</artifactId>
+        <version>2.1.0</version>
+    </parent>
+
+    <groupId>de.weltraumschaf.experiments</groupId>
+    <artifactId>slartibartfass</artifactId>
+    <name>Slartibartfass</name>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.version.source>1.8</project.build.version.source>
+        <project.build.version.target>1.8</project.build.version.target>
+        <project.build.mainClass>de.weltraumschaf.slartibartfass.Application</project.build.mainClass>
+        <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>        
+    </properties>
+    
+    <build>
+        <finalName>${project.artifactId}</finalName>
+            
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.build.binDirectory}</directory>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${project.build.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                    </descriptorRefs>
+                    <finalName>${project.build.finalName}</finalName>
+                    <outputDirectory>${project.build.binDirectory}</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <attach>false</attach>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
