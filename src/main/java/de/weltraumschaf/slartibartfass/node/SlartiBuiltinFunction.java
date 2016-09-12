@@ -128,6 +128,16 @@ public enum SlartiBuiltinFunction {
 
             return SlartiList.EMPTY;
         }
+    }),
+    PRINT(new SlartiFunction("print") {
+        @Override
+        public final Object apply(final List<Object> args) {
+            for (final Object arg : args) {
+                System.out.print(arg.toString());
+            }
+
+            return SlartiList.EMPTY;
+        }
     });
 
     private final SlartiFunction impl;
