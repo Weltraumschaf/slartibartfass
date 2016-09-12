@@ -61,6 +61,6 @@ public abstract class SlartiSpecialForm extends SlartiList {
 
     @Override
     public final String toString() {
-        return '(' + name.toString() + ' ' + String.join(", ", data.stream().map(SlartiNode::toString).collect(Collectors.toList())) + ')';
+        return '(' + name.toString() + ' ' + data.itemsAsString() + ')';
     }
 }

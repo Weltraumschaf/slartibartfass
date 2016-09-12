@@ -5,4 +5,12 @@
             (+ (fib (- n 1))
                (fib (- n 2))))))
 
-(fib 10)
+(define loop (lambda (i) 
+    ))
+               
+(print (quote fib 10 = ))
+(println (fib 10))
+(print (quote fib 11 = ))
+(println (fib 11))
+(print (quote fib 12 = ))
+(println (fib 12))

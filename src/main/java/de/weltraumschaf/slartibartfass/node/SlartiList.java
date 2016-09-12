@@ -1,19 +1,24 @@
 package de.weltraumschaf.slartibartfass.node;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.InternalList;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
     public static final SlartiList EMPTY = new SlartiList(Collections.emptyList());
-    protected final List<SlartiNode> data;
+    protected final InternalList<SlartiNode> data;
 
     public SlartiList(final SlartiNode ... data) {
         this(Arrays.asList(data));
     }
 
     public SlartiList(List<SlartiNode> data) {
+        this(new InternalList<>(data));
+    }
+
+    public SlartiList(InternalList<SlartiNode> data) {
         super();
         this.data = data;
     }
@@ -30,16 +35,16 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
         return function.apply(args);
     }
 
-    public List<SlartiNode> data() {
+    public InternalList<SlartiNode> data() {
         return data;
     }
 
     public SlartiNode head() {
-        return data.get(0);
+        return data.head();
     }
 
     public SlartiList tail() {
-        return new SlartiList(data.subList(1, data.size()));
+        return new SlartiList(data.tail());
     }
 
     @Override
@@ -59,7 +64,7 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
 
     @Override
     public String toString() {
-        return '(' + String.join(", ", data.stream().map(SlartiNode::toString).collect(Collectors.toList())) + ')';
+        return '(' + data.itemsAsString() + ')';
     }
 
     @Override
