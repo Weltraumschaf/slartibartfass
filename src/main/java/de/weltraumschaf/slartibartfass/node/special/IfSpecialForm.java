@@ -1,7 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.node.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 /**

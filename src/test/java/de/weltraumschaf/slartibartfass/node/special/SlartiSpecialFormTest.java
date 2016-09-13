@@ -1,8 +1,8 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
-import de.weltraumschaf.slartibartfass.node.SlartiList;
-import de.weltraumschaf.slartibartfass.node.SlartiNumber;
-import de.weltraumschaf.slartibartfass.node.SlartiSymbol;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Ignore;
 import org.junit.Test;

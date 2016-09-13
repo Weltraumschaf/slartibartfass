@@ -1,10 +1,11 @@
-package de.weltraumschaf.slartibartfass.node;
+package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
+import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
     public static final SlartiList EMPTY = new SlartiList(Collections.emptyList());

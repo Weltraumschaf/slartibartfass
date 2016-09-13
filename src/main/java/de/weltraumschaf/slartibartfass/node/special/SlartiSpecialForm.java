@@ -1,11 +1,10 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
-import de.weltraumschaf.slartibartfass.node.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.SlartiSymbol;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * The special forms contains a list of expressions (the name is not part of the list).

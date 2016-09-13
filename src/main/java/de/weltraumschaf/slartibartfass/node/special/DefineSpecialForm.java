@@ -1,8 +1,8 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.node.SlartiList;
-import de.weltraumschaf.slartibartfass.node.SlartiSymbol;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 /**
  * Syntax: {@code (define name (VALUE) )}.

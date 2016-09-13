@@ -1,6 +1,7 @@
-package de.weltraumschaf.slartibartfass.node;
+package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public final class SlartiNumber implements SlartiNode {
 
     @Override
     public Object eval(final Environment env) {
-        return this.value;
+        return value;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package de.weltraumschaf.slartibartfass.node;
+package de.weltraumschaf.slartibartfass.node.function;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +11,6 @@ import java.util.Collections;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.*;
 
 public class SlartiBuiltinFunctionTest {

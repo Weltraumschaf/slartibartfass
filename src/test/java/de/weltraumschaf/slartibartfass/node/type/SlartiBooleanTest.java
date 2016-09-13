@@ -1,4 +1,4 @@
-package de.weltraumschaf.slartibartfass.node;
+package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import nl.jqno.equalsverifier.EqualsVerifier;

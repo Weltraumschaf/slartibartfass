@@ -1,8 +1,8 @@
-package de.weltraumschaf.slartibartfass.node;
+package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 
-import java.io.PrintStream;
 import java.util.List;
 
 public enum SlartiBuiltinFunction {

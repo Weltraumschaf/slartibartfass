@@ -1,7 +1,10 @@
 package de.weltraumschaf.slartibartfass;
 
-import de.weltraumschaf.slartibartfass.node.*;
 import de.weltraumschaf.slartibartfass.node.special.QuoteSpecialForm;
+import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;

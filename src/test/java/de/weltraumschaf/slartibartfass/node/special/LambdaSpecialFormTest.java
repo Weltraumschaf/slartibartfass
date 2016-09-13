@@ -1,7 +1,11 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.node.*;
+import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunction;
+import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;

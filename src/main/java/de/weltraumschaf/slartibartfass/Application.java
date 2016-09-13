@@ -1,7 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
-import de.weltraumschaf.slartibartfass.node.SlartiBuiltinFunction;
-import de.weltraumschaf.slartibartfass.node.SlartiList;
+import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunction;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.io.*;
