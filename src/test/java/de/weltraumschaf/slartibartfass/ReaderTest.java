@@ -1,10 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.slartibartfass.node.special.QuoteSpecialForm;
-import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
-import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
-import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
+import de.weltraumschaf.slartibartfass.node.type.*;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -80,7 +77,24 @@ public class ReaderTest {
     }
 
     @Test
-    public void read_helloWorld() throws IOException {
+    public void read_oneString() throws IOException {
+        assertThat(sut.read(stream("\"foobar\"")), contains(new SlartiString("foobar")));
+    }
+
+    @Test
+    public void read_oneStringWithWhitespaces() throws IOException {
+        assertThat(sut.read(stream("\"  foobar\n\"")), contains(new SlartiString("  foobar\n")));
+    }
+
+    @Test
+    public void read_threeStrings() throws IOException {
+        assertThat(
+            sut.read(stream("\"foo\" \"bar\" \"baz\"")),
+            contains(new SlartiString("foo"), new SlartiString("bar"), new SlartiString("baz")));
+    }
+
+    @Test
+    public void read_helloWorldQuote() throws IOException {
         assertThat(
             sut.read(stream("(println (quote hello-world!))")),
             contains(new SlartiList(Arrays.asList(
@@ -88,6 +102,15 @@ public class ReaderTest {
                     new SlartiList(Arrays.asList(
                         new SlartiSymbol("hello-world!")
                     )))
+            ))));
+    }
+
+    @Test
+    public void read_helloWorldString() throws IOException {
+        assertThat(
+            sut.read(stream("(println \"Hello, World!\")")),
+            contains(new SlartiList(Arrays.asList(
+                new SlartiSymbol("println"),  new SlartiString("Hello, World!")
             ))));
     }
 }
