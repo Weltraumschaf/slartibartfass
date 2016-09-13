@@ -192,7 +192,7 @@ public class SlartiBuiltinFunctionTest {
     public void println_zeroArgs() {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Collections.emptyList());
 
-        verifyNoMoreInteractions(out);
+        verify(out, times(1)).println("");
     }
 
     @Test
@@ -207,8 +207,7 @@ public class SlartiBuiltinFunctionTest {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo", "bar"));
 
         final InOrder inOrder = inOrder(out);
-        inOrder.verify(out, times(1)).println("foo");
-        inOrder.verify(out, times(1)).println("bar");
+        inOrder.verify(out, times(1)).println("foobar");
     }
 
     @Test
@@ -216,8 +215,6 @@ public class SlartiBuiltinFunctionTest {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo", "bar", "baz"));
 
         final InOrder inOrder = inOrder(out);
-        inOrder.verify(out, times(1)).println("foo");
-        inOrder.verify(out, times(1)).println("bar");
-        inOrder.verify(out, times(1)).println("baz");
+        inOrder.verify(out, times(1)).println("foobarbaz");
     }
 }

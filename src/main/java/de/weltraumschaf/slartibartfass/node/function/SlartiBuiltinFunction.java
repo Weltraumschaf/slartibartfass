@@ -122,20 +122,26 @@ public enum SlartiBuiltinFunction {
     PRINTLN(new SlartiFunction("println") {
         @Override
         public final Object apply(final List<Object> args) {
+            final StringBuilder buffer = new StringBuilder();
+
             for (final Object arg : args) {
-                System.out.println(arg.toString());
+                buffer.append(arg.toString());
             }
 
+            System.out.println(buffer.toString());
             return SlartiList.EMPTY;
         }
     }),
     PRINT(new SlartiFunction("print") {
         @Override
         public final Object apply(final List<Object> args) {
+            final StringBuilder buffer = new StringBuilder();
+
             for (final Object arg : args) {
-                System.out.print(arg.toString());
+                buffer.append(arg.toString());
             }
 
+            System.out.print(buffer.toString());
             return SlartiList.EMPTY;
         }
     });
