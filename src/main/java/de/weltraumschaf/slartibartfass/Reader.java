@@ -48,7 +48,24 @@ final class Reader {
     }
 
     private  void readComments(final PushbackReader input) throws IOException {
+        char c = (char) input.read();
 
+        if (';' != c) {
+            input.unread(c);
+            return;
+        }
+
+        do {
+            c = (char) input.read();
+
+            if (isEof(c)) {
+                break;
+            }
+
+            if ('\n' == c) {
+                break;
+            }
+        } while (true);
     }
 
     private SlartiNode readNode(final PushbackReader input) throws IOException {

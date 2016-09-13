@@ -113,4 +113,14 @@ public class ReaderTest {
                 new SlartiSymbol("println"),  new SlartiString("Hello, World!")
             ))));
     }
+
+    @Test
+    public void read_helloWorldStringWithComments() throws IOException {
+        assertThat(
+            sut.read(stream(" ; One line comment with own line.\n" +
+                "(println \"Hello, World!\") ; Comment at end of line\n")),
+            contains(new SlartiList(Arrays.asList(
+                new SlartiSymbol("println"),  new SlartiString("Hello, World!")
+            ))));
+    }
 }
