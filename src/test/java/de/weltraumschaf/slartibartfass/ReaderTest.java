@@ -1,5 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm;
 import de.weltraumschaf.slartibartfass.node.special.QuoteSpecialForm;
 import de.weltraumschaf.slartibartfass.node.type.*;
 import org.junit.Test;
@@ -8,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
@@ -116,11 +119,34 @@ public class ReaderTest {
 
     @Test
     public void read_helloWorldStringWithComments() throws IOException {
+        final List<SlartiNode> nodes = sut.read(stream(
+            " ; One line comment with own line.\n" +
+            "(println \"Hello, World!\") ; Comment at end of line\n"));
+
         assertThat(
-            sut.read(stream(" ; One line comment with own line.\n" +
-                "(println \"Hello, World!\") ; Comment at end of line\n")),
+            nodes,
             contains(new SlartiList(Arrays.asList(
                 new SlartiSymbol("println"),  new SlartiString("Hello, World!")
             ))));
+    }
+
+    @Test
+    public void read_ignoreComments() throws IOException {
+        final String src = "(define n 10)\n" +
+            "\n" +
+            ";(if (> n 0) \n" +
+            ";    (println \"true\") \n" +
+            ";    (println \"false\"))\n" +
+            "\n" +
+            "(foo n)";
+
+        final List<SlartiNode> nodes = sut.read(stream(src));
+
+        assertThat(
+            nodes,
+            contains(
+                new DefineSpecialForm(new SlartiList(new SlartiSymbol("n"), new SlartiNumber(10L))),
+                new SlartiList(new SlartiSymbol("foo"), new SlartiSymbol("n"))
+            ));
     }
 }

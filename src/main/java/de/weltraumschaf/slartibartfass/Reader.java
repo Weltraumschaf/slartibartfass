@@ -17,17 +17,24 @@ final class Reader {
     private List<SlartiNode> read(final PushbackReader input) throws IOException {
         final List<SlartiNode> nodes = new ArrayList<SlartiNode>();
 
-        readWhitespace(input);
-        readComments(input);
-        char c = (char) input.read();
-
-        while (isNotEof(c)) {
-            input.unread(c);
-            nodes.add(readNode(input));
+        do {
             readWhitespace(input);
-            readComments(input);
-            c = (char) input.read();
-        }
+            char c = (char) input.read();
+            input.unread(c);
+
+
+            if (c == ';') {
+                readComments(input);
+                c = (char) input.read();
+                input.unread(c);
+            }
+
+            if (isEof(c)) {
+                break;
+            }
+
+            nodes.add(readNode(input));
+        } while (true);
 
         return nodes;
     }
@@ -49,11 +56,7 @@ final class Reader {
 
     private  void readComments(final PushbackReader input) throws IOException {
         char c = (char) input.read();
-
-        if (';' != c) {
-            input.unread(c);
-            return;
-        }
+        assertCharacter(c, ';', "Reading a comment must start with ';'");
 
         do {
             c = (char) input.read();
@@ -69,8 +72,8 @@ final class Reader {
     }
 
     private SlartiNode readNode(final PushbackReader input) throws IOException {
-        char c = (char) input.read();
-        input.unread(c);
+        final char c = (char) input.read();
+        input.unread(c) ;
 
         if (c == '(') {
             return readList(input);
