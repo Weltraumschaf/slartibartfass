@@ -10,7 +10,7 @@ import java.util.Collection;
 public class Application {
     private final PrintStream out = System.out;
     private final PrintStream err = System.err;
-    private final Reader reader = new Reader();
+    private final Parser parser = new Parser();
     private final Environment env = new Environment();
     private final String[] args;
 
@@ -56,7 +56,7 @@ public class Application {
                 break;
             }
 
-            final Object result = eval(reader.read(new ByteArrayInputStream(data.getBytes())));
+            final Object result = eval(parser.read(new ByteArrayInputStream(data.getBytes())));
 
             if (result != SlartiList.EMPTY) {
                 out.println(result);
@@ -65,7 +65,7 @@ public class Application {
     }
 
     private void runInterpreter(String filename) throws IOException {
-        eval(reader.read(new FileInputStream(filename)));
+        eval(parser.read(new FileInputStream(filename)));
     }
 
     Object eval(Collection<SlartiNode> nodes) {

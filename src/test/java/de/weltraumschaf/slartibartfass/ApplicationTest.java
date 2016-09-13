@@ -14,10 +14,10 @@ import static org.junit.Assert.assertThat;
 
 public class ApplicationTest {
     private final Application sut = new Application(new String[0]);
-    private final Reader reader = new Reader();
+    private final Parser parser = new Parser();
 
     private List<SlartiNode> readSource(final String src) throws IOException {
-        return reader.read(new ByteArrayInputStream(src.getBytes()));
+        return parser.read(new ByteArrayInputStream(src.getBytes()));
     }
 
     @Test

@@ -16,8 +16,8 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
-public class ReaderTest {
-    private final Reader sut = new Reader();
+public class ParserTest {
+    private final Parser sut = new Parser();
 
     private InputStream stream(final String input) {
         return new ByteArrayInputStream(input.getBytes());

@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-final class Reader {
+final class Parser {
 
     List<SlartiNode> read(final InputStream input) throws IOException {
         return read(new PushbackReader(new InputStreamReader(input)));
