@@ -4,6 +4,7 @@ import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm;
 import de.weltraumschaf.slartibartfass.node.special.QuoteSpecialForm;
 import de.weltraumschaf.slartibartfass.node.type.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;

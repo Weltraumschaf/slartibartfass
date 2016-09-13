@@ -11,26 +11,26 @@ import java.util.List;
 final class Parser {
 
     List<SlartiNode> read(final InputStream input) throws IOException {
-        return read(new PushbackReader(new InputStreamReader(input)));
+        return read(new Reader(input));
     }
 
-    private List<SlartiNode> read(final PushbackReader input) throws IOException {
+    private List<SlartiNode> read(final Reader input) throws IOException {
         final List<SlartiNode> nodes = new ArrayList<SlartiNode>();
 
         do {
             readWhitespace(input);
-            char c = (char) input.read();
-            input.unread(c);
 
-
-            if (c == ';') {
+            if (input.peek() == ';') {
                 readComments(input);
-                c = (char) input.read();
-                input.unread(c);
             }
 
-            if (isEof(c)) {
+            if (input.isEof()) {
                 break;
+            }
+
+            if (input.peek() == ';') {
+                // Catch multi line comments.
+                continue;
             }
 
             nodes.add(readNode(input));
@@ -39,41 +39,37 @@ final class Parser {
         return nodes;
     }
 
-    private  void readWhitespace(final PushbackReader input) throws IOException {
+    private  void readWhitespace(final Reader input) throws IOException {
         do {
-            final char c = (char) input.read();
-
-            if (isEof(c)) {
+            if (input.isEof()) {
                 break;
             }
 
-            if (!Character.isWhitespace(c)) {
-                input.unread(c);
+            if (Character.isWhitespace(input.peek())) {
+                input.next(); // Consume the whitespace.
+            } else {
                 break;
             }
         } while (true);
     }
 
-    private  void readComments(final PushbackReader input) throws IOException {
-        char c = (char) input.read();
-        assertCharacter(c, ';', "Reading a comment must start with ';'");
+    private  void readComments(final Reader input) throws IOException {
+        assertCharacter(input.next(), ';', "Reading a comment must start with ';'");
 
         do {
-            c = (char) input.read();
-
-            if (isEof(c)) {
+            if (input.isEof()) {
                 break;
             }
 
-            if ('\n' == c) {
+            if ('\n' == input.next()) {
                 break;
             }
         } while (true);
     }
 
-    private SlartiNode readNode(final PushbackReader input) throws IOException {
-        final char c = (char) input.read();
-        input.unread(c) ;
+    private SlartiNode readNode(final Reader input) throws IOException {
+        readWhitespace(input);
+        final char c = input.peek();
 
         if (c == '(') {
             return readList(input);
@@ -90,22 +86,21 @@ final class Parser {
         }
     }
 
-    private SlartiNode readList(final PushbackReader input) throws IOException {
-        final char first = (char) input.read();
+    private SlartiNode readList(final Reader input) throws IOException {
+        final char first = input.next();
         assertCharacter(first, '(', "Reading a list must start with '('");
         final List<SlartiNode> list = new ArrayList<>();
 
         do {
             readWhitespace(input);
-            char c = (char) input.read();
+            char c = input.peek();
 
             if (c == ')') {
-                // end of list
+                input.next(); // Consume ')', end of list.
                 break;
-            } else if (isEof(c)) {
+            } else if (input.isEof()) {
                 throw syntaxError("EOF reached before closing of list.");
             } else {
-                input.unread(c);
                 list.add(readNode(input));
             }
         } while (true);
@@ -113,20 +108,17 @@ final class Parser {
         return SlartiSpecialForm.check(new SlartiList(list));
     }
 
-    private SlartiNode readNumber(final PushbackReader input) throws IOException {
+    private SlartiNode readNumber(final Reader input) throws IOException {
         final StringBuilder buffer = new StringBuilder();
 
         do {
-            final char c = (char) input.read();
-
-            if (isEof(c)) {
+            if (input.isEof()) {
                 break;
             }
 
-            if (Character.isDigit(c)) {
-                buffer.append(c);
+            if (Character.isDigit(input.peek())) {
+                buffer.append(input.next());
             } else {
-                input.unread(c);
                 break;
             }
         } while (true);
@@ -134,22 +126,21 @@ final class Parser {
         return new SlartiNumber(Long.parseLong(buffer.toString()));
     }
 
-    private SlartiNode readBoolean(final PushbackReader input) throws IOException {
-        final char first = (char) input.read();
+    private SlartiNode readBoolean(final Reader input) throws IOException {
+        final char first = (char) input.next();
         assertCharacter(first, '#', "Reading a boolean must start with '#'");
         final StringBuilder buffer = new StringBuilder();
 
         do {
-            final char c = (char) input.read();
-
-            if (isEof(c)) {
+            if (input.isEof()) {
                 break;
             }
 
+            final char c = input.peek();
+
             if (c == '#' || Character.isAlphabetic(c)) {
-                buffer.append(c);
+                buffer.append(input.next());
             } else {
-                input.unread(c);
                 break;
             }
         } while (true);
@@ -161,54 +152,43 @@ final class Parser {
         }
     }
 
-    private SlartiNode readSymbol(final PushbackReader input) throws IOException {
+    private SlartiNode readSymbol(final Reader input) throws IOException {
         final StringBuilder buffer = new StringBuilder();
 
         do {
-            final char c = (char) input.read();
-
-            if (isEof(c)) {
+            if (input.isEof()) {
                 break;
             }
 
+            final char c = (char) input.peek();
+
             if (Character.isWhitespace(c) || c == ')') {
-                input.unread(c);
                 break;
             } else {
-                buffer.append(c);
+                buffer.append(input.next());
             }
         } while (true);
 
         return new SlartiSymbol(buffer.toString());
     }
 
-    private SlartiNode readString(final PushbackReader input) throws IOException {
-        final char first = (char) input.read();
+    private SlartiNode readString(final Reader input) throws IOException {
+        final char first = (char) input.next();
         assertCharacter(first, '"', "Reading a list must start with '\"'");
         final StringBuilder buffer = new StringBuilder();
 
         do {
-            char c = (char) input.read();
-
-            if (c == '"') {
-                // end of string
+            if (input.peek() == '"') {
+                input.next(); // End of string, consume ".
                 break;
-            } else if (isEof(c)) {
+            } else if (input.isEof()) {
                 throw syntaxError("EOF reached before closing of string.");
             } else {
-                buffer.append(c);
+                buffer.append(input.next());
             }
         } while (true);
 
         return new SlartiString(buffer.toString());
-    }
-
-    private boolean isNotEof(final char c) {
-        return !isEof(c);
-    }
-
-    private boolean isEof(final char c) {
-        return (byte) c == -1;
     }
 
     private SyntaxError unexpectedTokenError(final String token) {
