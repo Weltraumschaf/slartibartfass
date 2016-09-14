@@ -18,9 +18,22 @@
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
         <project.build.mainClass>de.weltraumschaf.slartibartfass.Application</project.build.mainClass>
-        <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>        
+        <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>
+
+        <generated.source.dir>src/generated/java</generated.source.dir>
+
+        <antlr.outputdir>de/weltraumschaf/slartibartfass/frontend</antlr.outputdir>
+        <antlr.version>4.5.1-1</antlr.version>
     </properties>
-    
+
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>${project.artifactId}</finalName>
             
@@ -42,12 +55,60 @@
             </plugin>
 
             <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.version}</version>
+
+                <configuration>
+                    <listener>true</listener>
+                    <visitor>true</visitor>
+                    <indentSize>4</indentSize>
+                    <lineLength>120</lineLength>
+                    <outputDirectory>${generated.source.dir}/${antlr.outputdir}</outputDirectory>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>generate-grammar</id>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.10</version>
+
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+
+                        <configuration>
+                            <sources>
+                                <source>${generated.source.dir}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
 
                 <executions>
                     <execution>
                         <id>make-assembly</id>
                         <phase>package</phase>
+
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -60,9 +121,11 @@
                             <mainClass>${project.build.mainClass}</mainClass>
                         </manifest>
                     </archive>
+
                     <descriptorRefs>
                         <descriptorRefs>jar-with-dependencies</descriptorRefs>
                     </descriptorRefs>
+
                     <finalName>${project.build.finalName}</finalName>
                     <outputDirectory>${project.build.binDirectory}</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
