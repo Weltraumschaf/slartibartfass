@@ -5,10 +5,10 @@ import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Objects;
 
-public final class SlartiNumber implements SlartiNode {
-    private final Long value;
+public final class SlartiReal implements SlartiNode {
+    private final Double value;
 
-    public SlartiNumber(Long value) {
+    public SlartiReal(final Double value) {
         super();
         this.value = value;
     }
@@ -20,11 +20,11 @@ public final class SlartiNumber implements SlartiNode {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof SlartiNumber)) {
+        if (!(o instanceof SlartiReal)) {
             return false;
         }
 
-        final SlartiNumber that = (SlartiNumber) o;
+        final SlartiReal that = (SlartiReal) o;
         return Objects.equals(value, that.value);
     }
 

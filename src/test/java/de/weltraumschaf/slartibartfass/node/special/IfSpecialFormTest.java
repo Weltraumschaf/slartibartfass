@@ -2,7 +2,7 @@ package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 
@@ -18,8 +18,8 @@ public class IfSpecialFormTest {
         env.putValue("cond", Boolean.TRUE);
         final SlartiSpecialForm sut = new IfSpecialForm(new SlartiList(
             new SlartiSymbol("cond"),
-            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiNumber(42L))),
-            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiNumber(23L)))
+            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiInteger(42L))),
+            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiInteger(23L)))
         ));
 
         sut.eval(env);
@@ -32,8 +32,8 @@ public class IfSpecialFormTest {
         env.putValue("cond", Boolean.FALSE);
         final SlartiSpecialForm sut = new IfSpecialForm(new SlartiList(
             new SlartiSymbol("cond"),
-            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiNumber(42L))),
-            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiNumber(23L)))
+            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiInteger(42L))),
+            new DefineSpecialForm(new SlartiList(new SlartiSymbol("res"), new SlartiInteger(23L)))
         ));
 
         sut.eval(env);

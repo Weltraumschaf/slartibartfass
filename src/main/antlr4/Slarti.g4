@@ -8,16 +8,23 @@ file : form* ;
 
 form : '(' form* ')'            # list
     | '\'' form                 # quote
-    | INT                       # number
+    | INTEGER                   # integer
+    | REAL                      # real
     | BOOLEAN                   # bool
     | STRING                    # string
     | SYMBOL                    # symbol
     ;
 
-INT : [0-9]+ ;
-BOOLEAN : ('#f'|'#t') ;
-STRING : '"' ( ~'"' | '\\' '"')* '"' ;
-SYMBOL : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
+INTEGER : DIGIT+ ;
+REAL    : (DIGIT)+ '.' (DIGIT)* EXPONENT?
+        | '.' (DIGIT)+ EXPONENT?
+        | (DIGIT)+ EXPONENT ;
+fragment
+EXPONENT        : ('e'|'E') ('+' | '-') ? ? DIGIT+ ;
+BOOLEAN : ( '#false' | '#true' ) ;
+STRING  : '"' ( ~'"' | '\\' '"')* '"' ;
+SYMBOL  : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
 
+DIGIT   : [0-9] ;
 COMMENT : ';' .*? '\n' -> skip ;
-WS : [ \t\r\n] -> skip ;
+WS      : [ \t\r\n] -> skip ;

@@ -123,7 +123,7 @@ final class Parser {
             }
         } while (true);
 
-        return new SlartiNumber(Long.parseLong(buffer.toString()));
+        return new SlartiInteger(Long.parseLong(buffer.toString()));
     }
 
     private SlartiNode readBoolean(final Reader input) throws IOException {

@@ -4,7 +4,7 @@ import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunction;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class LambdaSpecialFormTest {
 
         final SlartiFunction function = (SlartiFunction) sut.eval(env);
 
-        final Object result = function.apply(Arrays.asList(new SlartiNumber(10L)));
+        final Object result = function.apply(Arrays.asList(new SlartiInteger(10L)));
 
         assertThat(result, is(100L));
     }

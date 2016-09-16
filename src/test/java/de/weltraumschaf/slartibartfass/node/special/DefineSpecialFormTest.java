@@ -2,7 +2,7 @@ package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class DefineSpecialFormTest {
     public void eval() {
         final Environment env = new Environment();
         final SlartiSpecialForm sut = new DefineSpecialForm(new SlartiList(
-            Arrays.asList(new SlartiSymbol("foo"), new SlartiNumber(42L))
+            Arrays.asList(new SlartiSymbol("foo"), new SlartiInteger(42L))
         ));
 
         assertThat(sut.eval(env), is(SlartiList.EMPTY));

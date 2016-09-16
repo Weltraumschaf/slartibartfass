@@ -60,7 +60,7 @@
                 <version>${antlr.version}</version>
 
                 <configuration>
-                    <listener>true</listener>
+                    <listener>false</listener>
                     <visitor>true</visitor>
                     <indentSize>4</indentSize>
                     <lineLength>120</lineLength>

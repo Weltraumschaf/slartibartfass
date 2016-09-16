@@ -6,6 +6,7 @@ import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.io.*;
 import java.util.Collection;
+import java.util.List;
 
 public class Application {
     private final PrintStream out = System.out;
@@ -31,6 +32,8 @@ public class Application {
         }
 
         try {
+            loadStdLib();
+
             if (args.length == 0) {
                 startRepl();
             } else {
@@ -43,6 +46,12 @@ public class Application {
         }
 
         return 0;
+    }
+
+    private void loadStdLib() throws IOException {
+        final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/slartibartfass/std-lib.sl");
+        final List<SlartiNode> lib = parser.read(src);
+        lib.stream().forEach(n -> n.eval(env));
     }
 
     private void startRepl() throws IOException {

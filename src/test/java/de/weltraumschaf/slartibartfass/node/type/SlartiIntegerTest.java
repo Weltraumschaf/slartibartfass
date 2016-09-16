@@ -7,20 +7,20 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
-public class SlartiNumberTest {
+public class SlartiIntegerTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(SlartiNumber.class).verify();
+        EqualsVerifier.forClass(SlartiInteger.class).verify();
     }
 
     @Test
     public void eval() {
-        assertThat(new SlartiNumber(42L).eval(new Environment()), is(42L));
+        assertThat(new SlartiInteger(42L).eval(new Environment()), is(42L));
     }
 
     @Test
     public void string() {
-        assertThat(new SlartiNumber(42L).toString(), is("42"));
+        assertThat(new SlartiInteger(42L).toString(), is("42"));
     }
 }

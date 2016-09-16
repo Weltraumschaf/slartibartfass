@@ -4,7 +4,6 @@ import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm;
 import de.weltraumschaf.slartibartfass.node.special.QuoteSpecialForm;
 import de.weltraumschaf.slartibartfass.node.type.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -36,14 +35,14 @@ public class ParserTest {
 
     @Test
     public void read_oneNumber() throws IOException {
-        assertThat(sut.read(stream("42")), contains(new SlartiNumber(42L)));
+        assertThat(sut.read(stream("42")), contains(new SlartiInteger(42L)));
     }
 
     @Test
     public void read_threeNumbers() throws IOException {
         assertThat(
             sut.read(stream(" 42   23  3  ")),
-            contains(new SlartiNumber(42L), new SlartiNumber(23L), new SlartiNumber(3L)));
+            contains(new SlartiInteger(42L), new SlartiInteger(23L), new SlartiInteger(3L)));
     }
 
     @Test
@@ -146,7 +145,7 @@ public class ParserTest {
         assertThat(
             nodes,
             contains(
-                new DefineSpecialForm(new SlartiList(new SlartiSymbol("n"), new SlartiNumber(10L))),
+                new DefineSpecialForm(new SlartiList(new SlartiSymbol("n"), new SlartiInteger(10L))),
                 new SlartiList(new SlartiSymbol("foo"), new SlartiSymbol("n"))
             ));
     }

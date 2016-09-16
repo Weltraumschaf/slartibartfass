@@ -1,7 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiNumber;
+import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Ignore;
@@ -27,28 +27,28 @@ public class SlartiSpecialFormTest {
     @Test
     public void check_define() {
         assertThat(
-            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("define"), new SlartiNumber(23L), new SlartiSymbol("foo")))),
-            is(new DefineSpecialForm(new SlartiList(Arrays.asList(new SlartiNumber(23L), new SlartiSymbol("foo"))))));
+            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("define"), new SlartiInteger(23L), new SlartiSymbol("foo")))),
+            is(new DefineSpecialForm(new SlartiList(Arrays.asList(new SlartiInteger(23L), new SlartiSymbol("foo"))))));
     }
 
     @Test
     public void check_lambda() {
         assertThat(
-            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("lambda"), new SlartiNumber(23L), new SlartiSymbol("foo")))),
-            is(new LambdaSpecialForm(new SlartiList(Arrays.asList(new SlartiNumber(23L), new SlartiSymbol("foo"))))));
+            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("lambda"), new SlartiInteger(23L), new SlartiSymbol("foo")))),
+            is(new LambdaSpecialForm(new SlartiList(Arrays.asList(new SlartiInteger(23L), new SlartiSymbol("foo"))))));
     }
 
     @Test
     public void check_if() {
         assertThat(
-            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("if"), new SlartiNumber(23L), new SlartiSymbol("foo")))),
-            is(new IfSpecialForm(new SlartiList(Arrays.asList(new SlartiNumber(23L), new SlartiSymbol("foo"))))));
+            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("if"), new SlartiInteger(23L), new SlartiSymbol("foo")))),
+            is(new IfSpecialForm(new SlartiList(Arrays.asList(new SlartiInteger(23L), new SlartiSymbol("foo"))))));
     }
 
     @Test
     public void check_quote() {
         assertThat(
-            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("quote"), new SlartiNumber(23L), new SlartiSymbol("foo")))),
-            is(new QuoteSpecialForm(new SlartiList(Arrays.asList(new SlartiNumber(23L), new SlartiSymbol("foo"))))));
+            SlartiSpecialForm.check(new SlartiList(Arrays.asList(new SlartiSymbol("quote"), new SlartiInteger(23L), new SlartiSymbol("foo")))),
+            is(new QuoteSpecialForm(new SlartiList(Arrays.asList(new SlartiInteger(23L), new SlartiSymbol("foo"))))));
     }
 }
