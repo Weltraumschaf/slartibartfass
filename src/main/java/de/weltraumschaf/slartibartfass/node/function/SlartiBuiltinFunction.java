@@ -119,6 +119,38 @@ public enum SlartiBuiltinFunction {
             return left.equals(right);
         }
     }),
+    AND(new SlartiFunction("and") {
+        @Override
+        public Object apply(final List<Object> args) {
+            if (args == null || args.isEmpty()) {
+                return Boolean.FALSE;
+            }
+
+            for (final Object arg : args) {
+                if (!Boolean.parseBoolean(arg.toString())) {
+                    return Boolean.FALSE;
+                }
+            }
+
+            return Boolean.TRUE;
+        }
+    }),
+    OR(new SlartiFunction("or") {
+        @Override
+        public Object apply(final List<Object> args) {
+            if (args == null || args.isEmpty()) {
+                return Boolean.FALSE;
+            }
+
+            for (final Object arg : args) {
+                if (Boolean.parseBoolean(arg.toString())) {
+                    return Boolean.TRUE;
+                }
+            }
+
+            return Boolean.FALSE;
+        }
+    }),
     PRINTLN(new SlartiFunction("println") {
         @Override
         public final Object apply(final List<Object> args) {

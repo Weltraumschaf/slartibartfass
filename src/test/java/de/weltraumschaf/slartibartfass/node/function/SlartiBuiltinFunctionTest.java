@@ -217,4 +217,85 @@ public class SlartiBuiltinFunctionTest {
         final InOrder inOrder = inOrder(out);
         inOrder.verify(out, times(1)).println("foobarbaz");
     }
+
+    @Test
+    public void and_zeroArgs() {
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Collections.emptyList()),
+            is(Boolean.FALSE));
+    }
+
+    @Test
+    public void and_oneArgs() {
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Collections.singletonList(Boolean.TRUE)),
+            is(Boolean.TRUE));
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Collections.singletonList(Boolean.FALSE)),
+            is(Boolean.FALSE));
+    }
+
+    @Test
+    public void and_twoArgs() {
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE)),
+            is(Boolean.FALSE));
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.TRUE)),
+            is(Boolean.TRUE));
+    }
+
+    @Test
+    public void and_threeArgs() {
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)),
+            is(Boolean.FALSE));
+        assertThat(
+            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE)),
+            is(Boolean.TRUE));
+    }
+
+    @Test
+    public void or_zeroArgs() {
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Collections.emptyList()),
+            is(Boolean.FALSE));
+    }
+
+    @Test
+    public void or_oneArgs() {
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Collections.singletonList(Boolean.TRUE)),
+            is(Boolean.TRUE));
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Collections.singletonList(Boolean.FALSE)),
+            is(Boolean.FALSE));
+    }
+
+    @Test
+    public void or_twoArgs() {
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE)),
+            is(Boolean.TRUE));
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.TRUE)),
+            is(Boolean.TRUE));
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE)),
+            is(Boolean.FALSE));
+    }
+
+    @Test
+    public void or_threeArgs() {
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)),
+            is(Boolean.TRUE));
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE, Boolean.TRUE)),
+            is(Boolean.TRUE));
+        assertThat(
+            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE)),
+            is(Boolean.FALSE));
+    }
+
 }
