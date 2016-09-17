@@ -15,7 +15,7 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
         this(Arrays.asList(data));
     }
 
-    public SlartiList(List<SlartiNode> data) {
+    public SlartiList(Collection<SlartiNode> data) {
         this(new InternalList<>(data));
     }
 

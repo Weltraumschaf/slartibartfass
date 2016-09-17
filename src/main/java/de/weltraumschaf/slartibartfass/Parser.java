@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 final class Parser {
 
     List<SlartiNode> read(final InputStream input) throws IOException {

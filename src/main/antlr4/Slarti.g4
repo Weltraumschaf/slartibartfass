@@ -4,7 +4,7 @@ grammar Slarti;
 package de.weltraumschaf.slartibartfass.frontend;
 }
 
-file : form* ;
+file : form* EOF ;
 
 form : '(' form* ')'            # list
     | '\'' form                 # quote
@@ -20,10 +20,10 @@ REAL    : (DIGIT)+ '.' (DIGIT)* EXPONENT?
         | '.' (DIGIT)+ EXPONENT?
         | (DIGIT)+ EXPONENT ;
 fragment
-EXPONENT        : ('e'|'E') ('+' | '-') ? ? DIGIT+ ;
+EXPONENT: ('e'|'E') ('+' | '-') ? ? DIGIT+ ;
 BOOLEAN : ( '#false' | '#true' ) ;
 STRING  : '"' ( ~'"' | '\\' '"')* '"' ;
-SYMBOL  : ~('#'|'"'|'\''|[()]|[ \t\r\n]) ~('"'|'\''|[()]|[ \t\r\n])* ;
+SYMBOL  : ~( '#' | '"' | '\'' | [()] | [ \t\r\n] ) ~( '"' | '\'' | [()] | [ \t\r\n] )* ;
 
 DIGIT   : [0-9] ;
 COMMENT : ';' .*? '\n' -> skip ;
