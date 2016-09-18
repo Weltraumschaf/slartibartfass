@@ -32,6 +32,24 @@
             <artifactId>antlr4-runtime</artifactId>
             <version>${antlr.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>application</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>validate</artifactId>
+            <version>2.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
