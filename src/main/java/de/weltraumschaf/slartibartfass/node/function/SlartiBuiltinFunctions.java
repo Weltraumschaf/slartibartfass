@@ -8,8 +8,8 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import java.util.List;
 import java.util.Random;
 
-public enum SlartiBuiltinFunction {
-    PLUS(new SlartiFunction("+") {
+public enum SlartiBuiltinFunctions {
+    PLUS(new SlartiBuiltInfunctio("+") {
         @Override
         public final Object apply(final List<Object> args) {
             long sum = 0;
@@ -21,7 +21,7 @@ public enum SlartiBuiltinFunction {
             return Long.valueOf(sum);
         }
     }),
-    MINUS(new SlartiFunction("-") {
+    MINUS(new SlartiBuiltInfunctio("-") {
         @Override
         public final Object apply(final List<Object> args) {
             if (args.size() < 1) {
@@ -39,7 +39,7 @@ public enum SlartiBuiltinFunction {
             }
         }
     }),
-    MULTIPLY(new SlartiFunction("*") {
+    MULTIPLY(new SlartiBuiltInfunctio("*") {
         @Override
         public final Object apply(final List<Object> args) {
             long result = 1;
@@ -51,7 +51,7 @@ public enum SlartiBuiltinFunction {
             return Long.valueOf(result);
         }
     }),
-    DIVISION(new SlartiFunction("/") {
+    DIVISION(new SlartiBuiltInfunctio("/") {
         @Override
         public final Object apply(final List<Object> args) {
             if (args.size() < 2) {
@@ -67,7 +67,7 @@ public enum SlartiBuiltinFunction {
             return result;
         }
     }),
-    MODULO(new SlartiFunction("%") {
+    MODULO(new SlartiBuiltInfunctio("%") {
         @Override
         public final Object apply(final List<Object> args) {
             if (args.size() < 2) {
@@ -83,7 +83,7 @@ public enum SlartiBuiltinFunction {
             return result;
         }
     }),
-    LESS_THAN(new SlartiFunction("<") {
+    LESS_THAN(new SlartiBuiltInfunctio("<") {
         @Override
         public Object apply(final List<Object> args) {
             if (args.size() != 2) {
@@ -96,7 +96,7 @@ public enum SlartiBuiltinFunction {
             return left < right;
         }
     }),
-    GREATER_THAN(new SlartiFunction(">") {
+    GREATER_THAN(new SlartiBuiltInfunctio(">") {
         @Override
         public Object apply(List<Object> args) {
             if (args.size() != 2) {
@@ -109,7 +109,7 @@ public enum SlartiBuiltinFunction {
             return left > right;
         }
     }),
-    EQUALS(new SlartiFunction("=") {
+    EQUALS(new SlartiBuiltInfunctio("=") {
         @Override
         public Object apply(List<Object> args) {
             if (args.size() != 2) {
@@ -122,7 +122,7 @@ public enum SlartiBuiltinFunction {
             return left.equals(right);
         }
     }),
-    AND(new SlartiFunction("and") {
+    AND(new SlartiBuiltInfunctio("and") {
         @Override
         public Object apply(final List<Object> args) {
             if (args == null || args.isEmpty()) {
@@ -138,7 +138,7 @@ public enum SlartiBuiltinFunction {
             return Boolean.TRUE;
         }
     }),
-    OR(new SlartiFunction("or") {
+    OR(new SlartiBuiltInfunctio("or") {
         @Override
         public Object apply(final List<Object> args) {
             if (args == null || args.isEmpty()) {
@@ -154,7 +154,7 @@ public enum SlartiBuiltinFunction {
             return Boolean.FALSE;
         }
     }),
-    PRINTLN(new SlartiFunction("println") {
+    PRINTLN(new SlartiBuiltInfunctio("println") {
         @Override
         public final Object apply(final List<Object> args) {
             final StringBuilder buffer = new StringBuilder();
@@ -167,7 +167,7 @@ public enum SlartiBuiltinFunction {
             return SlartiList.EMPTY;
         }
     }),
-    PRINT(new SlartiFunction("print") {
+    PRINT(new SlartiBuiltInfunctio("print") {
         @Override
         public final Object apply(final List<Object> args) {
             final StringBuilder buffer = new StringBuilder();
@@ -180,7 +180,7 @@ public enum SlartiBuiltinFunction {
             return SlartiList.EMPTY;
         }
     }),
-    RANDOM(new SlartiFunction("random") {
+    RANDOM(new SlartiBuiltInfunctio("random") {
         private final Random r = new Random();
 
         @Override
@@ -193,7 +193,7 @@ public enum SlartiBuiltinFunction {
 
     private final SlartiFunction impl;
 
-    SlartiBuiltinFunction(SlartiFunction impl) {
+    SlartiBuiltinFunctions(SlartiFunction impl) {
         this.impl = impl;
     }
 
@@ -202,12 +202,22 @@ public enum SlartiBuiltinFunction {
     }
 
     public static void register(final Environment env) {
-        for (final SlartiBuiltinFunction fn : values()) {
+        for (final SlartiBuiltinFunctions fn : values()) {
             env.putValue(fn.impl.name(), fn.impl);
         }
     }
 
     public static void setIo(final IO io) {
-        SlartiBuiltinFunction.io = io;
+        SlartiBuiltinFunctions.io = io;
+    }
+
+    private static abstract class SlartiBuiltInfunctio extends SlartiFunction {
+        protected SlartiBuiltInfunctio(String name) {
+            super(name);
+        }
+
+        public final boolean isBuiltIn() {
+            return true;
+        }
     }
 }

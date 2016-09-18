@@ -21,6 +21,8 @@ public abstract class SlartiFunction implements SlartiNode {
 
     public abstract Object apply(final List<Object> args);
 
+    public abstract boolean isBuiltIn();
+
     public final String name() {
         return name;
     }

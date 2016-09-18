@@ -4,6 +4,7 @@ import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm;
 
 import java.util.*;
 
@@ -26,6 +27,18 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
 
     @Override
     public Object eval(Environment env) {
+        if (isHeadSymbol()) {
+            return evalHead(env);
+        }
+
+        return evalAll(env);
+    }
+
+    private boolean isHeadSymbol() {
+        return head() instanceof SlartiSymbol;
+    }
+
+    private Object evalHead(final Environment env) {
         final Object headResult = head().eval(env);
 
         if (headResult instanceof SlartiFunction) {
@@ -40,6 +53,22 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
         }
 
         return headResult;
+    }
+
+    private Object evalAll(final Environment env) {
+        final Collection<Object> results = new ArrayList<>();
+
+        for (final SlartiNode node : data()) {
+            final Object result = node.eval(env);
+
+            if (SlartiList.EMPTY.equals(result)) {
+                continue;
+            }
+
+            results.add(result);
+        }
+
+        return results;
     }
 
     public InternalList<SlartiNode> data() {

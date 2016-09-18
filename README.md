@@ -8,6 +8,10 @@ Until now I did lot of parsing/lexing stuff, but no interpretation yet.
 So here I focus on interpretation and the whole parsing is done by 
 [ANTLR4][antlr].
 
+## Other Reading Stuff
+
+- [Lambda Papers](http://library.readscheme.org/page1.html)
+
 [antlr]:    http://www.antlr.org/
 [lisp]:     https://en.wikipedia.org/wiki/Lisp_(programming_language)
 [mumbler]:  http://cesquivias.github.io/blog/2014/10/13/writing-a-language-in-truffle-part-1-a-simple-slow-interpreter/

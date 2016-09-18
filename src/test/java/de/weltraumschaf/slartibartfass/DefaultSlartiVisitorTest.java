@@ -17,9 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -32,8 +30,13 @@ public class DefaultSlartiVisitorTest {
         return new ByteArrayInputStream(input.getBytes());
     }
 
-    private SlartiParser parser(final String inout) throws IOException {
-        return parsers.newParser(stream(inout), false);
+
+    private SlartiParser parser(final String input) throws IOException {
+        return parser(stream(input));
+    }
+
+    private SlartiParser parser(final InputStream input) throws IOException {
+        return parsers.newParser(input, false);
     }
 
     @Test
@@ -209,5 +212,18 @@ public class DefaultSlartiVisitorTest {
                 )
             )
         );
+    }
+
+    @Test
+    public void visit_stdlib() throws IOException {
+        final SlartiParser parser = parser(getClass().getResourceAsStream(Application.BASE_PACKAGE + "/std-lib.sl"));
+
+        final SlartiNode nodes = sut.visit(parser.file());
+
+        assertThat(nodes, is(not(nullValue())));
+        assertThat(nodes, is(instanceOf(SlartiList.class)));
+
+        final SlartiList list = (SlartiList) nodes;
+        assertThat(list.size(), is(5));
     }
 }

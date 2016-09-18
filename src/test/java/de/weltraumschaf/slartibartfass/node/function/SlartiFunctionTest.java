@@ -17,6 +17,11 @@ public class SlartiFunctionTest {
         public Object apply(List<Object> args) {
             return null;
         }
+
+        @Override
+        public boolean isBuiltIn() {
+            return false;
+        }
     };
 
     @Test

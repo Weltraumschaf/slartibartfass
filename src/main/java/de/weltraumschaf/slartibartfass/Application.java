@@ -4,23 +4,19 @@ import de.weltraumschaf.commons.application.*;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
-import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunction;
-import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.io.*;
 import java.util.Collection;
-import java.util.List;
 
 public class Application extends InvokableAdapter {
-    private static final String BASE_PACKAGE = "/de/weltraumschaf/slartibartfass";
+    static final String BASE_PACKAGE = "/de/weltraumschaf/slartibartfass";
 
-    private final Environment env = new Environment();
-    private final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
     private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<>(CliOptions.PROG_NAME, CliOptions.class);
     private final Parsers parsers;
 
-    public Application(final String[] args, final IO io) {
+    Application(final String[] args, final IO io) {
         super(args);
         this.parsers = new Parsers(io);
     }
@@ -47,13 +43,15 @@ public class Application extends InvokableAdapter {
         }
 
         try {
-            loadBuiltInFunctions();
-            loadStdLib();
+            final Environment env = new Environment();
+            final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
+            loadBuiltInFunctions(env);
+            loadStdLib(visitor, env);
 
             if (opts.getFiles().isEmpty()) {
-                startRepl();
+                startRepl(visitor, env);
             } else {
-                runInterpreter(opts.getFiles());
+                runInterpreter(visitor, env, opts.getFiles());
             }
         } catch (final Exception e) {
             throw new ApplicationException(ExitCodeImpl.FATAL, e.getMessage(), e);
@@ -66,19 +64,20 @@ public class Application extends InvokableAdapter {
         }
     }
 
-    private void loadBuiltInFunctions() {
-        SlartiBuiltinFunction.setIo(getIoStreams());
+    void loadBuiltInFunctions(final Environment env) {
         printDebug("Load built in function ...");
-        SlartiBuiltinFunction.register(env);
+        SlartiBuiltinFunctions.setIo(getIoStreams());
+        SlartiBuiltinFunctions.register(env);
     }
 
-    private void loadStdLib() throws IOException {
+    public void loadStdLib(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Load STD lib ...");
         final InputStream src = getClass().getResourceAsStream(BASE_PACKAGE + "/std-lib.sl");
-        visitor.visit(parsers.newParser(src, isDebugEnabled()).file()).eval(env);
+        final SlartiNode node = visitor.visit(parsers.newParser(src, isDebugEnabled()).file());
+        node.eval(env);
     }
 
-    private void startRepl() throws IOException {
+    private void startRepl(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Start REPL ...");
         final Console console = System.console();
 
@@ -90,16 +89,22 @@ public class Application extends InvokableAdapter {
                 break;
             }
 
-            final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), isDebugEnabled());
-            final Object result = visitor.visit(parser.file()).eval(env);
+            if ("!env".equals(data)) {
+                env.print(getIoStreams().getStdout());
+                continue;
+            }
 
-            if (result != SlartiList.EMPTY) {
+            try {
+                final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), isDebugEnabled());
+                final Object result = visitor.visit(parser.file()).eval(env);
                 getIoStreams().println(result.toString());
+            } catch (final SlartiError e) {
+                getIoStreams().errorln("[E] " + e.getMessage());
             }
         }
     }
 
-    private void runInterpreter(final Collection<String> filenames) throws IOException {
+    private void runInterpreter(final SlartiVisitor<SlartiNode> visitor, final Environment env, final Collection<String> filenames) throws IOException {
         for (final String filename : filenames) {
             printDebug(String.format("Interpret file %s  ...", filename));
             final SlartiParser parser = parsers.newParser(new FileInputStream(filename), isDebugEnabled());

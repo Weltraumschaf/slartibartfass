@@ -46,6 +46,7 @@ public class SlartiListTest {
     }
 
     @Test
+    @Ignore
     public void eval() {
         final Environment env = new Environment();
         final SlartiFunction fn = mock(SlartiFunction.class);

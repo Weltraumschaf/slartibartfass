@@ -34,6 +34,11 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
                 return functionBody.eval(localScope);
             }
 
+            @Override
+            public boolean isBuiltIn() {
+                return false;
+            }
+
             private void mapParametersIntoLocalScope(List<Object> args, Environment localScope) {
                 int i = 0;
                 for (final SlartiNode param : formalParams) {

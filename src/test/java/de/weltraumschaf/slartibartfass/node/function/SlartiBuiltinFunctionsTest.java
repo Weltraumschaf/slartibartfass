@@ -1,7 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -14,192 +13,192 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-public class SlartiBuiltinFunctionTest {
+public class SlartiBuiltinFunctionsTest {
     private final IO io = mock(IO.class);
     private PrintStream outBackup;
 
     @Before
     public void setIo() {
-        SlartiBuiltinFunction.setIo(io);
+        SlartiBuiltinFunctions.setIo(io);
     }
 
     @Test
     public void plus_name() {
-        assertThat(SlartiBuiltinFunction.PLUS.impl().name(), is("+"));
+        assertThat(SlartiBuiltinFunctions.PLUS.impl().name(), is("+"));
     }
 
     @Test
     public void plus_zeroArgs() {
-        final Object result = SlartiBuiltinFunction.PLUS.impl().apply(Collections.emptyList());
+        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Collections.emptyList());
 
         assertThat(result, is(0L));
     }
 
     @Test
     public void plus_oneArgs() {
-        final Object result = SlartiBuiltinFunction.PLUS.impl().apply(Arrays.asList(23L));
+        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Arrays.asList(23L));
 
         assertThat(result, is(23L));
     }
 
     @Test
     public void plus_twoArgs() {
-        final Object result = SlartiBuiltinFunction.PLUS.impl().apply(Arrays.asList(23L, 42L));
+        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Arrays.asList(23L, 42L));
 
         assertThat(result, is(65L));
     }
 
     @Test
     public void plus_threeArgs() {
-        final Object result = SlartiBuiltinFunction.PLUS.impl().apply(Arrays.asList(23L, 42L, 2L));
+        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Arrays.asList(23L, 42L, 2L));
 
         assertThat(result, is(67L));
     }
 
     @Test
     public void minus_name() {
-        assertThat(SlartiBuiltinFunction.MINUS.impl().name(), is("-"));
+        assertThat(SlartiBuiltinFunctions.MINUS.impl().name(), is("-"));
     }
 
     @Test(expected = RuntimeException.class)
     public void minus_zeroArgs() {
-        SlartiBuiltinFunction.MINUS.impl().apply(Collections.emptyList());
+        SlartiBuiltinFunctions.MINUS.impl().apply(Collections.emptyList());
     }
 
     @Test
     public void minus_oneArgs() {
-        final Object result = SlartiBuiltinFunction.MINUS.impl().apply(Arrays.asList(23L));
+        final Object result = SlartiBuiltinFunctions.MINUS.impl().apply(Arrays.asList(23L));
 
         assertThat(result, is(-23L));
     }
 
     @Test
     public void minus_twoArgs() {
-        final Object result = SlartiBuiltinFunction.MINUS.impl().apply(Arrays.asList(23L, 42L));
+        final Object result = SlartiBuiltinFunctions.MINUS.impl().apply(Arrays.asList(23L, 42L));
 
         assertThat(result, is(-19L));
     }
 
     @Test
     public void minus_threeArgs() {
-        final Object result = SlartiBuiltinFunction.MINUS.impl().apply(Arrays.asList(23L, 42L, 2L));
+        final Object result = SlartiBuiltinFunctions.MINUS.impl().apply(Arrays.asList(23L, 42L, 2L));
 
         assertThat(result, is(-21L));
     }
 
     @Test
     public void multiply_name() {
-        assertThat(SlartiBuiltinFunction.MULTIPLY.impl().name(), is("*"));
+        assertThat(SlartiBuiltinFunctions.MULTIPLY.impl().name(), is("*"));
     }
 
     @Test
     public void multiply_zeroArgs() {
-        final Object result = SlartiBuiltinFunction.MULTIPLY.impl().apply(Collections.emptyList());
+        final Object result = SlartiBuiltinFunctions.MULTIPLY.impl().apply(Collections.emptyList());
 
         assertThat(result, is(1L));
     }
 
     @Test
     public void multiply_oneArgs() {
-        final Object result = SlartiBuiltinFunction.MULTIPLY.impl().apply(Arrays.asList(23L));
+        final Object result = SlartiBuiltinFunctions.MULTIPLY.impl().apply(Arrays.asList(23L));
 
         assertThat(result, is(23L));
     }
 
     @Test
     public void multiply_twoArgs() {
-        final Object result = SlartiBuiltinFunction.MULTIPLY.impl().apply(Arrays.asList(10L, 23L));
+        final Object result = SlartiBuiltinFunctions.MULTIPLY.impl().apply(Arrays.asList(10L, 23L));
 
         assertThat(result, is(230L));
     }
 
     @Test
     public void multiply_threeArgs() {
-        final Object result = SlartiBuiltinFunction.MULTIPLY.impl().apply(Arrays.asList(10L, 23L, 2L));
+        final Object result = SlartiBuiltinFunctions.MULTIPLY.impl().apply(Arrays.asList(10L, 23L, 2L));
 
         assertThat(result, is(460L));
     }
 
     @Test
     public void division_name() {
-        assertThat(SlartiBuiltinFunction.DIVISION.impl().name(), is("/"));
+        assertThat(SlartiBuiltinFunctions.DIVISION.impl().name(), is("/"));
     }
 
     @Test(expected = RuntimeException.class)
     public void division_zeroArgs() {
-        SlartiBuiltinFunction.DIVISION.impl().apply(Collections.emptyList());
+        SlartiBuiltinFunctions.DIVISION.impl().apply(Collections.emptyList());
     }
 
     @Test(expected = RuntimeException.class)
     public void division_oneArgs() {
-        SlartiBuiltinFunction.DIVISION.impl().apply(Arrays.asList(23L));
+        SlartiBuiltinFunctions.DIVISION.impl().apply(Arrays.asList(23L));
     }
 
     @Test
     public void division_twoArgs() {
-        final Object result = SlartiBuiltinFunction.DIVISION.impl().apply(Arrays.asList(55L, 10L));
+        final Object result = SlartiBuiltinFunctions.DIVISION.impl().apply(Arrays.asList(55L, 10L));
 
         assertThat(result, is(5L));
     }
 
     @Test
     public void division_threeArgs() {
-        final Object result = SlartiBuiltinFunction.DIVISION.impl().apply(Arrays.asList(55L, 10L, 2L));
+        final Object result = SlartiBuiltinFunctions.DIVISION.impl().apply(Arrays.asList(55L, 10L, 2L));
 
         assertThat(result, is(2L));
     }
 
     @Test
     public void modulo_name() {
-        assertThat(SlartiBuiltinFunction.MODULO.impl().name(), is("%"));
+        assertThat(SlartiBuiltinFunctions.MODULO.impl().name(), is("%"));
     }
 
     @Test(expected = RuntimeException.class)
     public void modulo_zeroArgs() {
-        SlartiBuiltinFunction.MODULO.impl().apply(Collections.emptyList());
+        SlartiBuiltinFunctions.MODULO.impl().apply(Collections.emptyList());
     }
 
     @Test(expected = RuntimeException.class)
     public void modulo_oneArgs() {
-        SlartiBuiltinFunction.MODULO.impl().apply(Arrays.asList());
+        SlartiBuiltinFunctions.MODULO.impl().apply(Arrays.asList());
     }
 
     @Test
     public void modulo_twoArgs() {
-        final Object result = SlartiBuiltinFunction.MODULO.impl().apply(Arrays.asList(55L, 10L));
+        final Object result = SlartiBuiltinFunctions.MODULO.impl().apply(Arrays.asList(55L, 10L));
 
         assertThat(result, is(5L));
     }
 
     @Test
     public void modulo_threeArgs() {
-        final Object result = SlartiBuiltinFunction.MODULO.impl().apply(Arrays.asList(55L, 10L, 2L));
+        final Object result = SlartiBuiltinFunctions.MODULO.impl().apply(Arrays.asList(55L, 10L, 2L));
 
         assertThat(result, is(1L));
     }
 
     @Test
     public void println_name() {
-        assertThat(SlartiBuiltinFunction.PRINTLN.impl().name(), is("println"));
+        assertThat(SlartiBuiltinFunctions.PRINTLN.impl().name(), is("println"));
     }
 
     @Test
     public void println_zeroArgs() {
-        SlartiBuiltinFunction.PRINTLN.impl().apply(Collections.emptyList());
+        SlartiBuiltinFunctions.PRINTLN.impl().apply(Collections.emptyList());
 
         verify(io, times(1)).println("");
     }
 
     @Test
     public void println_oneArgs() {
-        SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo"));
+        SlartiBuiltinFunctions.PRINTLN.impl().apply(Arrays.asList("foo"));
 
         verify(io, times(1)).println("foo");
     }
 
     @Test
     public void println_twoArgs() {
-        SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo", "bar"));
+        SlartiBuiltinFunctions.PRINTLN.impl().apply(Arrays.asList("foo", "bar"));
 
         final InOrder inOrder = inOrder(io);
         inOrder.verify(io, times(1)).println("foobar");
@@ -207,7 +206,7 @@ public class SlartiBuiltinFunctionTest {
 
     @Test
     public void println_threeArgs() {
-        SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo", "bar", "baz"));
+        SlartiBuiltinFunctions.PRINTLN.impl().apply(Arrays.asList("foo", "bar", "baz"));
 
         final InOrder inOrder = inOrder(io);
         inOrder.verify(io, times(1)).println("foobarbaz");
@@ -216,80 +215,80 @@ public class SlartiBuiltinFunctionTest {
     @Test
     public void and_zeroArgs() {
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Collections.emptyList()),
+            SlartiBuiltinFunctions.AND.impl().apply(Collections.emptyList()),
             is(Boolean.FALSE));
     }
 
     @Test
     public void and_oneArgs() {
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Collections.singletonList(Boolean.TRUE)),
+            SlartiBuiltinFunctions.AND.impl().apply(Collections.singletonList(Boolean.TRUE)),
             is(Boolean.TRUE));
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Collections.singletonList(Boolean.FALSE)),
+            SlartiBuiltinFunctions.AND.impl().apply(Collections.singletonList(Boolean.FALSE)),
             is(Boolean.FALSE));
     }
 
     @Test
     public void and_twoArgs() {
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE)),
+            SlartiBuiltinFunctions.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE)),
             is(Boolean.FALSE));
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.TRUE)),
+            SlartiBuiltinFunctions.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.TRUE)),
             is(Boolean.TRUE));
     }
 
     @Test
     public void and_threeArgs() {
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)),
+            SlartiBuiltinFunctions.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)),
             is(Boolean.FALSE));
         assertThat(
-            SlartiBuiltinFunction.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE)),
+            SlartiBuiltinFunctions.AND.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE)),
             is(Boolean.TRUE));
     }
 
     @Test
     public void or_zeroArgs() {
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Collections.emptyList()),
+            SlartiBuiltinFunctions.OR.impl().apply(Collections.emptyList()),
             is(Boolean.FALSE));
     }
 
     @Test
     public void or_oneArgs() {
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Collections.singletonList(Boolean.TRUE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Collections.singletonList(Boolean.TRUE)),
             is(Boolean.TRUE));
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Collections.singletonList(Boolean.FALSE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Collections.singletonList(Boolean.FALSE)),
             is(Boolean.FALSE));
     }
 
     @Test
     public void or_twoArgs() {
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE)),
             is(Boolean.TRUE));
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.TRUE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.TRUE)),
             is(Boolean.TRUE));
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE)),
             is(Boolean.FALSE));
     }
 
     @Test
     public void or_threeArgs() {
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Arrays.asList(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)),
             is(Boolean.TRUE));
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE, Boolean.TRUE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE, Boolean.TRUE)),
             is(Boolean.TRUE));
         assertThat(
-            SlartiBuiltinFunction.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE)),
+            SlartiBuiltinFunctions.OR.impl().apply(Arrays.asList(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE)),
             is(Boolean.FALSE));
     }
 
