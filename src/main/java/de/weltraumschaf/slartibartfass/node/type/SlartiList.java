@@ -26,14 +26,20 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
 
     @Override
     public Object eval(Environment env) {
-        final SlartiFunction function = (SlartiFunction) head().eval(env);
-        final List<Object> args = new ArrayList<>();
+        final Object headResult = head().eval(env);
 
-        for (final SlartiNode node : this.tail()) {
-            args.add(node.eval(env));
+        if (headResult instanceof SlartiFunction) {
+            final SlartiFunction function = (SlartiFunction) headResult;
+            final List<Object> args = new ArrayList<>();
+
+            for (final SlartiNode node : this.tail()) {
+                args.add(node.eval(env));
+            }
+
+            return function.apply(args);
         }
 
-        return function.apply(args);
+        return headResult;
     }
 
     public InternalList<SlartiNode> data() {
