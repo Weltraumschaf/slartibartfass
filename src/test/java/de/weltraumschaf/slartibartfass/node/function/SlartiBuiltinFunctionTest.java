@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
+import de.weltraumschaf.commons.application.IO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,18 +15,12 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class SlartiBuiltinFunctionTest {
-    private final PrintStream out = mock(PrintStream.class);
+    private final IO io = mock(IO.class);
     private PrintStream outBackup;
 
     @Before
-    public void setOut() {
-        outBackup = System.out;
-        System.setOut(out);
-    }
-
-    @After
-    public void restoreOut() {
-        System.setOut(outBackup);
+    public void setIo() {
+        SlartiBuiltinFunction.setIo(io);
     }
 
     @Test
@@ -192,30 +187,30 @@ public class SlartiBuiltinFunctionTest {
     public void println_zeroArgs() {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Collections.emptyList());
 
-        verify(out, times(1)).println("");
+        verify(io, times(1)).println("");
     }
 
     @Test
     public void println_oneArgs() {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo"));
 
-        verify(out, times(1)).println("foo");
+        verify(io, times(1)).println("foo");
     }
 
     @Test
     public void println_twoArgs() {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo", "bar"));
 
-        final InOrder inOrder = inOrder(out);
-        inOrder.verify(out, times(1)).println("foobar");
+        final InOrder inOrder = inOrder(io);
+        inOrder.verify(io, times(1)).println("foobar");
     }
 
     @Test
     public void println_threeArgs() {
         SlartiBuiltinFunction.PRINTLN.impl().apply(Arrays.asList("foo", "bar", "baz"));
 
-        final InOrder inOrder = inOrder(out);
-        inOrder.verify(out, times(1)).println("foobarbaz");
+        final InOrder inOrder = inOrder(io);
+        inOrder.verify(io, times(1)).println("foobarbaz");
     }
 
     @Test

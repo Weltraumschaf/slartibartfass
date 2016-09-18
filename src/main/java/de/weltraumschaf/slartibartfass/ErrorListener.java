@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.commons.application.IO;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
@@ -16,8 +17,8 @@ import java.util.Objects;
 
 public final  class ErrorListener implements ANTLRErrorListener {
 
-    private final PrintStream out;
-    private final PrintStream err;
+    private final IO io;
+
     /**
      * If {@code false} only {@link #error(java.lang.String) errors} are printed out, if {@code true} everything is
      * printed out.
@@ -29,10 +30,9 @@ public final  class ErrorListener implements ANTLRErrorListener {
      *
      * @param io must not be {@code null}
      */
-    public ErrorListener(final PrintStream out, final PrintStream err, final boolean debugEnabled) {
+    public ErrorListener(final IO io, final boolean debugEnabled) {
         super();
-        this.out = Objects.requireNonNull(out, "Parameter 'out' must not be null!");
-        this.err = Objects.requireNonNull(err, "Parameter 'out' must not be null!");
+        this.io = Objects.requireNonNull(io, "Parameter 'io' must not be null!");
         this.debugEnabled = debugEnabled;
     }
 
@@ -42,8 +42,8 @@ public final  class ErrorListener implements ANTLRErrorListener {
      * @param msg must not be {@code null} or empty
      */
     private void error(final String msg) {
-        err.print("[E] ");
-        err.println(msg);
+        io.error("[E] ");
+        io.errorln(msg);
     }
 
     /**
@@ -53,8 +53,8 @@ public final  class ErrorListener implements ANTLRErrorListener {
      */
     private void information(final String msg) {
         if (debugEnabled) {
-            out.print("[I] ");
-            out.println(msg);
+            io.print("[I] ");
+            io.println(msg);
         }
     }
 

@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 
+import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.frontend.SlartiLexer;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import org.antlr.v4.runtime.*;
@@ -14,13 +15,11 @@ import java.util.Objects;
 
 public final class Parsers {
 
-    private final PrintStream out;
-    private final PrintStream err;
+    private final IO io;
 
-    public Parsers(final PrintStream out, final PrintStream err) {
+    public Parsers(final IO io) {
         super();
-        this.out = Objects.requireNonNull(out, "Parameter 'out' must not be null!");
-        this.err = Objects.requireNonNull(err, "Parameter 'out' must not be null!");
+        this.io = Objects.requireNonNull(io, "Parameter 'io' must not be null!");
     }
 
     public SlartiParser newParser(final InputStream src, final boolean debugEnabled) throws IOException {
@@ -31,7 +30,7 @@ public final class Parsers {
         final SlartiParser parser = new SlartiParser(tokens);
 
         parser.removeErrorListeners();
-        parser.addErrorListener(new ErrorListener(out, err, debugEnabled));
+        parser.addErrorListener(new ErrorListener(io, debugEnabled));
 //        parser.setErrorHandler(new BailErrorStrategy());
 
         return parser;

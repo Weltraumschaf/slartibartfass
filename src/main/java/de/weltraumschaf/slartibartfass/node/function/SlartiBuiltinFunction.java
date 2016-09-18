@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
+import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 
@@ -160,7 +161,7 @@ public enum SlartiBuiltinFunction {
                 buffer.append(arg.toString());
             }
 
-            System.out.println(buffer.toString());
+            io.println(buffer.toString());
             return SlartiList.EMPTY;
         }
     }),
@@ -173,10 +174,12 @@ public enum SlartiBuiltinFunction {
                 buffer.append(arg.toString());
             }
 
-            System.out.print(buffer.toString());
+            io.print(buffer.toString());
             return SlartiList.EMPTY;
         }
     });
+
+    private static IO io;
 
     private final SlartiFunction impl;
 
@@ -192,5 +195,9 @@ public enum SlartiBuiltinFunction {
         for (final SlartiBuiltinFunction fn : values()) {
             env.putValue(fn.impl.name(), fn.impl);
         }
+    }
+
+    public static void setIo(final IO io) {
+        SlartiBuiltinFunction.io = io;
     }
 }

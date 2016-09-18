@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class ApplicationTest {
-    private final Application sut = new Application(new String[0]);
+//    private final Application sut = new Application(new String[0]);
 
     @Test
     public void eval_simpleAddition() throws IOException {

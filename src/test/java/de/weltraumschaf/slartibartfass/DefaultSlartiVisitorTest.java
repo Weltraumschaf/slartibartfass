@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("unchecked")
 public class DefaultSlartiVisitorTest {
-    private final Parsers parsers = new Parsers(mock(PrintStream.class), mock(PrintStream.class));
+    private final Parsers parsers = new Parsers(mock(IO.class));
     private final DefaultSlartiVisitor sut = new DefaultSlartiVisitor();
 
     private InputStream stream(final String input) {
