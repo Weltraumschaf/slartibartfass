@@ -1,5 +1,8 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.commons.application.ApplicationException;
+import de.weltraumschaf.commons.application.IOStreams;
+import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunction;
@@ -10,7 +13,7 @@ import java.io.*;
 import java.util.Collection;
 import java.util.List;
 
-public class Application {
+public class Application extends InvokableAdapter {
     private static final boolean DEBUG = true;
     private final PrintStream out = System.out;
     private final PrintStream err = System.err;
@@ -20,20 +23,22 @@ public class Application {
     private final String[] args;
 
     public Application(final String[] args) {
-        super();
+        super(args);
         this.args = args;
         this.parsers = new Parsers(out, err);
         SlartiBuiltinFunction.register(env);
     }
 
     public static void main(final String[] args) {
-        System.exit(new Application(args).run());
+        InvokableAdapter.main(new Application(args));
     }
 
-    private int run() {
+    @Override
+    public void execute() throws Exception {
         if (args.length > 1) {
-            err.println("Slartibartfass only accepts either no argument or one file as argument!");
-            return 255;
+            throw new ApplicationException(
+                ExitCodeImpl.FATAL,
+                "Slartibartfass only accepts either no argument or one file as argument!");
         }
 
         try {
@@ -45,12 +50,8 @@ public class Application {
                 runInterpreter(args[0]);
             }
         } catch (final Exception e) {
-            err.println(e.getMessage());
-            e.printStackTrace(err);
-            return 255;
+            throw new ApplicationException(ExitCodeImpl.FATAL, e.getMessage(), e);
         }
-
-        return 0;
     }
 
     private void loadStdLib() throws IOException {
