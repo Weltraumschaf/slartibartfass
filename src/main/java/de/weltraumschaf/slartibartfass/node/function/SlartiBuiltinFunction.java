@@ -2,9 +2,11 @@ package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 
 import java.util.List;
+import java.util.Random;
 
 public enum SlartiBuiltinFunction {
     PLUS(new SlartiFunction("+") {
@@ -176,6 +178,14 @@ public enum SlartiBuiltinFunction {
 
             io.print(buffer.toString());
             return SlartiList.EMPTY;
+        }
+    }),
+    RANDOM(new SlartiFunction("random") {
+        private final Random r = new Random();
+
+        @Override
+        public Object apply(final List<Object> args) {
+            return new SlartiInteger(r.nextLong());
         }
     });
 
