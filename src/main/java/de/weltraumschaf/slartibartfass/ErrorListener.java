@@ -153,10 +153,7 @@ public final  class ErrorListener implements ANTLRErrorListener {
         }
 
         final BitSet result = new BitSet();
-        configs.stream().forEach((config) -> {
-            result.set(config.alt);
-        });
-
+        configs.forEach(config -> result.set(config.alt));
         return result;
     }
 

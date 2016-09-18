@@ -30,9 +30,9 @@ public final class Parsers {
         final TokenStream tokens = new CommonTokenStream(lexer);
         final SlartiParser parser = new SlartiParser(tokens);
 
-        parser.removeErrorListeners();
-        parser.addErrorListener(new ErrorListener(out, err, debugEnabled));
-        parser.setErrorHandler(new BailErrorStrategy());
+//        parser.removeErrorListeners();
+//        parser.addErrorListener(new ErrorListener(out, err, debugEnabled));
+//        parser.setErrorHandler(new BailErrorStrategy());
 
         return parser;
     }

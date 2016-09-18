@@ -1,5 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
+import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunction;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
@@ -9,15 +11,18 @@ import java.util.Collection;
 import java.util.List;
 
 public class Application {
+    private static final boolean DEBUG = true;
     private final PrintStream out = System.out;
     private final PrintStream err = System.err;
-    private final Parser parser = new Parser();
     private final Environment env = new Environment();
+    private final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
+    private final Parsers parsers;
     private final String[] args;
 
     public Application(final String[] args) {
         super();
         this.args = args;
+        this.parsers = new Parsers(out, err);
         SlartiBuiltinFunction.register(env);
     }
 
@@ -49,12 +54,19 @@ public class Application {
     }
 
     private void loadStdLib() throws IOException {
+        if (DEBUG) {
+            out.println("[d] Load STD lib ...");
+        }
+
         final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/slartibartfass/std-lib.sl");
-        final List<SlartiNode> lib = parser.read(src);
-        lib.stream().forEach(n -> n.eval(env));
+        visitor.visit(parsers.newParser(src, DEBUG).file()).eval(env);
     }
 
     private void startRepl() throws IOException {
+        if (DEBUG) {
+            out.println("[d] Start REPL ...");
+        }
+
         final Console console = System.console();
 
         while (true) {
@@ -65,7 +77,8 @@ public class Application {
                 break;
             }
 
-            final Object result = eval(parser.read(new ByteArrayInputStream(data.getBytes())));
+            final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), DEBUG);
+            final Object result = visitor.visit(parser.file()).eval(env);
 
             if (result != SlartiList.EMPTY) {
                 out.println(result);
@@ -73,18 +86,13 @@ public class Application {
         }
     }
 
-    private void runInterpreter(String filename) throws IOException {
-        eval(parser.read(new FileInputStream(filename)));
-    }
-
-    Object eval(Collection<SlartiNode> nodes) {
-        Object result = SlartiList.EMPTY;
-
-        for (final SlartiNode node : nodes) {
-            result = node.eval(env);
+    private void runInterpreter(final String filename) throws IOException {
+        if (DEBUG) {
+            out.println(String.format("[d] Interpret file %s  ...", filename));
         }
 
-        return result;
+        final SlartiParser parser = parsers.newParser(new FileInputStream(filename), DEBUG);
+        visitor.visit(parser.file()).eval(env);
     }
 
 }
