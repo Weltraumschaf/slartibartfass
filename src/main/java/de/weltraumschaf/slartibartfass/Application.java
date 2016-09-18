@@ -6,6 +6,9 @@ import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import jline.console.ConsoleReader;
+import jline.console.completer.Completer;
+import jline.console.completer.NullCompleter;
 
 import java.io.*;
 import java.util.Collection;
@@ -79,29 +82,7 @@ public class Application extends InvokableAdapter {
 
     private void startRepl(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Start REPL ...");
-        final Console console = System.console();
-
-        while (true) {
-            final String data = console.readLine("~> ");
-
-            if (data == null) {
-                // EOF sent
-                break;
-            }
-
-            if ("!env".equals(data)) {
-                env.print(getIoStreams().getStdout());
-                continue;
-            }
-
-            try {
-                final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), isDebugEnabled());
-                final Object result = visitor.visit(parser.file()).eval(env);
-                getIoStreams().println(result.toString());
-            } catch (final SlartiError e) {
-                getIoStreams().errorln("[E] " + e.getMessage());
-            }
-        }
+        new Repl(getIoStreams(), visitor, env).start(isDebugEnabled());
     }
 
     private void runInterpreter(final SlartiVisitor<SlartiNode> visitor, final Environment env, final Collection<String> filenames) throws IOException {

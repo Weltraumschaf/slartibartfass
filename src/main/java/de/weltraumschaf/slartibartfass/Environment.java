@@ -47,13 +47,13 @@ public final class Environment {
 
         final List<String> symbols = new ArrayList<>(store.keySet());
         Collections.sort(symbols);
-        symbols.forEach(symbol -> out.println(symbol + " -> " + format(store.get(symbol))));
+        symbols.forEach(symbol -> out.println(String.format("  %1$-8s", symbol) + " -> " + format(store.get(symbol))));
     }
 
     private String format(final Object o) {
         if (o instanceof SlartiFunction) {
             final SlartiFunction fn = (SlartiFunction) o;
-            return fn.isBuiltIn() ? "builtin fn" : "defined fn";
+            return fn.isBuiltIn() ? "builtin" : "defined";
         }
 
         return o.toString();
