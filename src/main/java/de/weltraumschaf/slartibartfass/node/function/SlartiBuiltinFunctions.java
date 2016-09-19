@@ -240,7 +240,6 @@ public enum SlartiBuiltinFunctions {
         }
     });
 
-    private static IO io;
 
     private final SlartiFunction impl;
 
@@ -266,26 +265,29 @@ public enum SlartiBuiltinFunctions {
      * Register all built in functions in the given environment.
      *
      * @param env must not be {@code null}
+     * @param io must not be {@code null}
      */
-    public static void register(final Environment env) {
+    public static void register(final Environment env, final IO io) {
         Validate.notNull(env, "env");
 
         for (final SlartiBuiltinFunctions fn : values()) {
+            ((SlartiBuiltInFunctio) fn.impl()).setIo(io);
             env.putValue(fn.impl.name(), fn.impl);
         }
     }
 
-    public static void setIo(final IO io) {
-        SlartiBuiltinFunctions.io = io;
-    }
-
     private static abstract class SlartiBuiltInFunctio extends SlartiFunction {
+        protected IO io;
         protected SlartiBuiltInFunctio(String name) {
             super(name);
         }
 
         public final boolean isBuiltIn() {
             return true;
+        }
+
+        protected void setIo(final IO io) {
+            this.io = Validate.notNull(io, "io");
         }
     }
 }

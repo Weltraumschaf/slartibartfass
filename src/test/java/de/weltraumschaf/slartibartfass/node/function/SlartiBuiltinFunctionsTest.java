@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
+import de.weltraumschaf.slartibartfass.Environment;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -15,11 +16,10 @@ import static org.mockito.Mockito.*;
 
 public class SlartiBuiltinFunctionsTest {
     private final IO io = mock(IO.class);
-    private PrintStream outBackup;
 
     @Before
     public void setIo() {
-        SlartiBuiltinFunctions.setIo(io);
+        SlartiBuiltinFunctions.register(new Environment(), io);
     }
 
     @Test
