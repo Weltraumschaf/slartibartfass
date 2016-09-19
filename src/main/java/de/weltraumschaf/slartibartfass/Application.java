@@ -13,17 +13,44 @@ import jline.console.completer.NullCompleter;
 import java.io.*;
 import java.util.Collection;
 
+/**
+ * Main application class.
+ * <p>
+ *     This class provides the {@link #main(String[])} main entry point}.
+ * </p>
+ */
 public class Application extends InvokableAdapter {
+    /**
+     * Base for accessing bundled resources.
+     */
     static final String BASE_PACKAGE = "/de/weltraumschaf/slartibartfass";
 
+    /**
+     * Helper for CLI argument parsing.
+     */
     private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<>(CliOptions.PROG_NAME, CliOptions.class);
+    /**
+     * Factory to create parsers.
+     */
     private final Parsers parsers;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param args CLI arguments from JVM
+     * @param io must not be {@code null}
+     */
     Application(final String[] args, final IO io) {
         super(args);
         this.parsers = new Parsers(io);
     }
 
+    /**
+     * Main entry point for the JVM.
+     *
+     * @param args CLI arguments from the JVM
+     * @throws UnsupportedEncodingException if the default IO streams can't be created
+     */
     public static void main(final String[] args) throws UnsupportedEncodingException {
         InvokableAdapter.main(new Application(args, IOStreams.newDefault()));
     }
@@ -73,7 +100,7 @@ public class Application extends InvokableAdapter {
         SlartiBuiltinFunctions.register(env);
     }
 
-    public void loadStdLib(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
+    void loadStdLib(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Load STD lib ...");
         final InputStream src = getClass().getResourceAsStream(BASE_PACKAGE + "/std-lib.sl");
         final SlartiNode node = visitor.visit(parsers.newParser(src, isDebugEnabled()).file());
