@@ -1,16 +1,28 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
+import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Objects;
 
+/**
+ * Integer type of the language.
+ * <p>
+ *     {@link #eval(Environment) Evaluating} this node will return its bare long representation.
+ * </p>
+ */
 public final class SlartiInteger implements SlartiNode {
     private final Long value;
 
-    public SlartiInteger(Long value) {
+    /**
+     * Dedicated constructor.
+     *
+     * @param value must not be {@code null}
+     */
+    public SlartiInteger(final Long value) {
         super();
-        this.value = value;
+        this.value = Validate.notNull(value, "value");
     }
 
     @Override

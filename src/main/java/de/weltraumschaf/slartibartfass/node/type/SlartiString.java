@@ -1,16 +1,28 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
+import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Objects;
 
+/**
+ * String type of the language.
+ * <p>
+ *     {@link #eval(Environment) Evaluating} this node will return its bare string representation.
+ * </p>
+ */
 public final class SlartiString implements SlartiNode {
     private final String value;
 
-    public SlartiString(String value) {
+    /**
+     * Dedicated constructor.
+     *
+     * @param value must not be {@code null}
+     */
+    public SlartiString(final String value) {
         super();
-        this.value = value;
+        this.value = Validate.notNull(value, "value");
     }
 
     @Override

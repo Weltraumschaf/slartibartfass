@@ -1,16 +1,28 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
+import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Objects;
 
+/**
+ * Real type of the language.
+ * <p>
+ *     {@link #eval(Environment) Evaluating} this node will return its bare double representation.
+ * </p>
+ */
 public final class SlartiReal implements SlartiNode {
     private final Double value;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param value must not be {@code null}
+     */
     public SlartiReal(final Double value) {
         super();
-        this.value = value;
+        this.value = Validate.notNull(value, "value");
     }
 
     @Override

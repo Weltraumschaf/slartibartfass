@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
+import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
@@ -8,10 +9,17 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * All provided built in functions.
+ */
 public enum SlartiBuiltinFunctions {
-    PLUS(new SlartiBuiltInfunctio("+") {
+    /**
+     * Number addition.
+     */
+    ADD(new SlartiBuiltInFunctio("+") {
         @Override
         public final Object apply(final List<Object> args) {
+            // FIXME Deal with real numbers.
             long sum = 0;
 
             for (final Object arg : args) {
@@ -21,9 +29,13 @@ public enum SlartiBuiltinFunctions {
             return Long.valueOf(sum);
         }
     }),
-    MINUS(new SlartiBuiltInfunctio("-") {
+    /**
+     * Number subtraction.
+     */
+    SUBTRACT(new SlartiBuiltInFunctio("-") {
         @Override
         public final Object apply(final List<Object> args) {
+            // FIXME Deal with real numbers.
             if (args.size() < 1) {
                 throw new RuntimeException(String.format("Function %s requires at least one argument!", this.name()));
             } else if (args.size() == 1) {
@@ -39,9 +51,13 @@ public enum SlartiBuiltinFunctions {
             }
         }
     }),
-    MULTIPLY(new SlartiBuiltInfunctio("*") {
+    /**
+     * Number multiplication.
+     */
+    MULTIPLY(new SlartiBuiltInFunctio("*") {
         @Override
         public final Object apply(final List<Object> args) {
+            // FIXME Deal with real numbers.
             long result = 1;
 
             for (final Object arg : args) {
@@ -51,9 +67,13 @@ public enum SlartiBuiltinFunctions {
             return Long.valueOf(result);
         }
     }),
-    DIVISION(new SlartiBuiltInfunctio("/") {
+    /**
+     * Number division.
+     */
+    DIVISION(new SlartiBuiltInFunctio("/") {
         @Override
         public final Object apply(final List<Object> args) {
+            // FIXME Deal with real numbers.
             if (args.size() < 2) {
                 throw new RuntimeException(String.format("Function %s requires at least two arguments!", this.name()));
             }
@@ -67,9 +87,13 @@ public enum SlartiBuiltinFunctions {
             return result;
         }
     }),
-    MODULO(new SlartiBuiltInfunctio("%") {
+    /**
+     * Integer modulo.
+     */
+    MODULO(new SlartiBuiltInFunctio("%") {
         @Override
         public final Object apply(final List<Object> args) {
+            // FIXME Deal with real numbers.
             if (args.size() < 2) {
                 throw new RuntimeException(String.format("Function %s requires at least two arguments!", this.name()));
             }
@@ -83,9 +107,13 @@ public enum SlartiBuiltinFunctions {
             return result;
         }
     }),
-    LESS_THAN(new SlartiBuiltInfunctio("<") {
+    /**
+     * Less than number comparison.
+     */
+    LESS_THAN(new SlartiBuiltInFunctio("<") {
         @Override
         public Object apply(final List<Object> args) {
+            // FIXME Deal with real numbers.
             if (args.size() != 2) {
                 throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
             }
@@ -96,7 +124,11 @@ public enum SlartiBuiltinFunctions {
             return left < right;
         }
     }),
-    GREATER_THAN(new SlartiBuiltInfunctio(">") {
+    /**
+     * Greater than number comparison.
+     */
+    GREATER_THAN(new SlartiBuiltInFunctio(">") {
+        // FIXME Deal with real numbers.
         @Override
         public Object apply(List<Object> args) {
             if (args.size() != 2) {
@@ -109,9 +141,13 @@ public enum SlartiBuiltinFunctions {
             return left > right;
         }
     }),
-    EQUALS(new SlartiBuiltInfunctio("=") {
+    /**
+     * Equals comparison.
+     */
+    EQUALS(new SlartiBuiltInFunctio("=") {
         @Override
         public Object apply(List<Object> args) {
+            // FIXME Deal with real numbers.
             if (args.size() != 2) {
                 throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
             }
@@ -122,7 +158,10 @@ public enum SlartiBuiltinFunctions {
             return left.equals(right);
         }
     }),
-    AND(new SlartiBuiltInfunctio("and") {
+    /**
+     * Logical and of booleans.
+     */
+    AND(new SlartiBuiltInFunctio("and") {
         @Override
         public Object apply(final List<Object> args) {
             if (args == null || args.isEmpty()) {
@@ -138,7 +177,10 @@ public enum SlartiBuiltinFunctions {
             return Boolean.TRUE;
         }
     }),
-    OR(new SlartiBuiltInfunctio("or") {
+    /**
+     * Logical or of booleans.
+     */
+    OR(new SlartiBuiltInFunctio("or") {
         @Override
         public Object apply(final List<Object> args) {
             if (args == null || args.isEmpty()) {
@@ -154,7 +196,10 @@ public enum SlartiBuiltinFunctions {
             return Boolean.FALSE;
         }
     }),
-    PRINTLN(new SlartiBuiltInfunctio("println") {
+    /**
+     * Prints the given arguments appended with a newline.
+     */
+    PRINTLN(new SlartiBuiltInFunctio("println") {
         @Override
         public final Object apply(final List<Object> args) {
             final StringBuilder buffer = new StringBuilder();
@@ -167,7 +212,10 @@ public enum SlartiBuiltinFunctions {
             return SlartiList.EMPTY;
         }
     }),
-    PRINT(new SlartiBuiltInfunctio("print") {
+    /**
+     * Prints the given arguments.
+     */
+    PRINT(new SlartiBuiltInFunctio("print") {
         @Override
         public final Object apply(final List<Object> args) {
             final StringBuilder buffer = new StringBuilder();
@@ -180,7 +228,10 @@ public enum SlartiBuiltinFunctions {
             return SlartiList.EMPTY;
         }
     }),
-    RANDOM(new SlartiBuiltInfunctio("random") {
+    /**
+     * Generates a random integer.
+     */
+    RANDOM(new SlartiBuiltInFunctio("random") {
         private final Random r = new Random();
 
         @Override
@@ -193,15 +244,32 @@ public enum SlartiBuiltinFunctions {
 
     private final SlartiFunction impl;
 
-    SlartiBuiltinFunctions(SlartiFunction impl) {
-        this.impl = impl;
+    /**
+     * Dedicated constructor.
+     *
+     * @param impl must not be {@code null}
+     */
+    SlartiBuiltinFunctions(final SlartiFunction impl) {
+        this.impl = Validate.notNull(impl, "impl");
     }
 
+    /**
+     * Returns the implementation of the built in function.
+     *
+     * @return never {@code null} always same instance
+     */
     public SlartiFunction impl() {
         return impl;
     }
 
+    /**
+     * Register all built in functions in the given environment.
+     *
+     * @param env must not be {@code null}
+     */
     public static void register(final Environment env) {
+        Validate.notNull(env, "env");
+
         for (final SlartiBuiltinFunctions fn : values()) {
             env.putValue(fn.impl.name(), fn.impl);
         }
@@ -211,8 +279,8 @@ public enum SlartiBuiltinFunctions {
         SlartiBuiltinFunctions.io = io;
     }
 
-    private static abstract class SlartiBuiltInfunctio extends SlartiFunction {
-        protected SlartiBuiltInfunctio(String name) {
+    private static abstract class SlartiBuiltInFunctio extends SlartiFunction {
+        protected SlartiBuiltInFunctio(String name) {
             super(name);
         }
 

@@ -24,64 +24,64 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void plus_name() {
-        assertThat(SlartiBuiltinFunctions.PLUS.impl().name(), is("+"));
+        assertThat(SlartiBuiltinFunctions.ADD.impl().name(), is("+"));
     }
 
     @Test
     public void plus_zeroArgs() {
-        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Collections.emptyList());
+        final Object result = SlartiBuiltinFunctions.ADD.impl().apply(Collections.emptyList());
 
         assertThat(result, is(0L));
     }
 
     @Test
     public void plus_oneArgs() {
-        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Arrays.asList(23L));
+        final Object result = SlartiBuiltinFunctions.ADD.impl().apply(Arrays.asList(23L));
 
         assertThat(result, is(23L));
     }
 
     @Test
     public void plus_twoArgs() {
-        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Arrays.asList(23L, 42L));
+        final Object result = SlartiBuiltinFunctions.ADD.impl().apply(Arrays.asList(23L, 42L));
 
         assertThat(result, is(65L));
     }
 
     @Test
     public void plus_threeArgs() {
-        final Object result = SlartiBuiltinFunctions.PLUS.impl().apply(Arrays.asList(23L, 42L, 2L));
+        final Object result = SlartiBuiltinFunctions.ADD.impl().apply(Arrays.asList(23L, 42L, 2L));
 
         assertThat(result, is(67L));
     }
 
     @Test
     public void minus_name() {
-        assertThat(SlartiBuiltinFunctions.MINUS.impl().name(), is("-"));
+        assertThat(SlartiBuiltinFunctions.SUBTRACT.impl().name(), is("-"));
     }
 
     @Test(expected = RuntimeException.class)
     public void minus_zeroArgs() {
-        SlartiBuiltinFunctions.MINUS.impl().apply(Collections.emptyList());
+        SlartiBuiltinFunctions.SUBTRACT.impl().apply(Collections.emptyList());
     }
 
     @Test
     public void minus_oneArgs() {
-        final Object result = SlartiBuiltinFunctions.MINUS.impl().apply(Arrays.asList(23L));
+        final Object result = SlartiBuiltinFunctions.SUBTRACT.impl().apply(Arrays.asList(23L));
 
         assertThat(result, is(-23L));
     }
 
     @Test
     public void minus_twoArgs() {
-        final Object result = SlartiBuiltinFunctions.MINUS.impl().apply(Arrays.asList(23L, 42L));
+        final Object result = SlartiBuiltinFunctions.SUBTRACT.impl().apply(Arrays.asList(23L, 42L));
 
         assertThat(result, is(-19L));
     }
 
     @Test
     public void minus_threeArgs() {
-        final Object result = SlartiBuiltinFunctions.MINUS.impl().apply(Arrays.asList(23L, 42L, 2L));
+        final Object result = SlartiBuiltinFunctions.SUBTRACT.impl().apply(Arrays.asList(23L, 42L, 2L));
 
         assertThat(result, is(-21L));
     }
