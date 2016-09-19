@@ -97,6 +97,7 @@ final class Repl {
     }
 
     private ConsoleReader createReader() throws IOException {
+        System.setProperty("jline.expandevents", Boolean.FALSE.toString());
         final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
@@ -119,9 +120,9 @@ final class Repl {
         HELP("Shows this help.");
 
         /**
-         * Escape the command to ddistinguishthem from usual syntax.
+         * Escape the command to distinguish them from usual syntax.
          */
-        private static final char PREFIX = '$';
+        private static final char PREFIX = '!';
         private static final Map<String, Command> LOOKUP = new HashMap<>();
         static {
             Arrays.stream(Command.values()).forEach(c -> LOOKUP.put(c.toString(), c));
