@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
+/**
+ * Default implementation which converts the parsed tree into {@link SlartiNode nodes}.
+ */
+final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
 
     @Override
     protected SlartiNode defaultResult() {

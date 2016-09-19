@@ -18,19 +18,38 @@ import java.util.Map;
 
 import static jline.internal.Preconditions.checkNotNull;
 
-public final class Repl {
+/**
+ * Provides a read eval print loop.
+ */
+final class Repl {
     private final IO io;
     private final SlartiVisitor<SlartiNode> visitor;
     private final Environment env;
 
-    public Repl(final IO io, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
+    /**
+     * Dedicated constructor.
+     *
+     * @param io must not be {@code null}
+     * @param visitor must not be {@code null}
+     * @param env must not be {@code null}
+     */
+    Repl(final IO io, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
         super();
         this.io = Validate.notNull(io, "io");
         this.visitor = Validate.notNull(visitor, "visitor");
         this.env = Validate.notNull(env, "env");
     }
 
-    public void start(final boolean isDebugEnabled) throws IOException {
+    /**
+     * Starts the REPL.
+     * <p>
+     *     The REPL ends if {@code null} is read as input.
+     * </p>
+     *
+     * @param isDebugEnabled whether to print debug output
+     * @throws IOException if the REPL can't read from the console
+     */
+    void start(final boolean isDebugEnabled) throws IOException {
         final Parsers parsers = new Parsers(io);
         final ConsoleReader reader = createReader();
 
@@ -89,10 +108,19 @@ public final class Repl {
         return new CommandEnumCompleter(Command.class);
     }
 
+    /**
+     * Special commands in the REPL.
+     * <p>
+     *     These commands are not part of the language itself.
+     * </p>
+     */
     private enum Command {
         ENV("Shows the environment from the current scope up to the root."),
         HELP("Shows this help.");
 
+        /**
+         * Escape the command to ddistinguishthem from usual syntax.
+         */
         private static final char PREFIX = '$';
         private static final Map<String, Command> LOOKUP = new HashMap<>();
         static {
@@ -124,6 +152,9 @@ public final class Repl {
         }
     }
 
+    /**
+     * Provides tab completion for the REPL commands to the console reader.
+     */
     private static final class CommandEnumCompleter extends StringsCompleter {
         CommandEnumCompleter(Class<? extends Enum> source) {
             checkNotNull(source);
