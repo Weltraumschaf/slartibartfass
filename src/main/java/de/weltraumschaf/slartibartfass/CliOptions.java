@@ -9,8 +9,13 @@ import java.util.Objects;
 public final class CliOptions {
     static final String PROG_NAME = "slarti";
     static final String USAGE = PROG_NAME + " [-d|--debug] [-h|--help] [-v|--version] [<file1> <file2> ... <fileN>]";
-    static final String DESCRIPTION = "A simple LISP interpreter. The syntax is like Scheme.";
-    static final String EXAMPLES = "TODO";
+    static final String DESCRIPTION =
+        "A simple LISP interpreter. The syntax is like Scheme.\n\n" +
+        "You can either start a REPL by invoking this command without any arguments\n" +
+        "or you can pass as many files to interpret to the command.";
+    static final String EXAMPLES =
+        "$> slarti                   Start the REPL. Stop it with ctrl + c. Get some help with `!help` in the REPL.\n" +
+        "  $> slarti hello_world.sl  Interpret the file hello_world.sl.";
 
     @Parameter(names = {"-d", "--debug"}, description = "Enables debug output to STDOUT.")
     private boolean debug;
