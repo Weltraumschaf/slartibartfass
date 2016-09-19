@@ -102,11 +102,11 @@ public final class InternalList<T> implements Iterable<T> {
         return buffer.toString();
     }
 
-    private static final class Pair<V> {
+    static final class Pair<V> {
         private final V value;
         private Pair<V> next;
 
-        private Pair(final V value) {
+        Pair(final V value) {
             super();
             this.value = value;
         }

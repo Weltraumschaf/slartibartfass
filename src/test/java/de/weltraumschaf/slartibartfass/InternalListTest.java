@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -17,9 +18,11 @@ public class InternalListTest {
     private final InternalList<String> sut = new InternalList<>();
 
     @Test
-    @Ignore
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(InternalList.class).verify();
+        EqualsVerifier.forClass(InternalList.class)
+            .withPrefabValues(InternalList.Pair.class, new InternalList.Pair<>("foo"), new InternalList.Pair<>("bar"))
+            .suppress(Warning.NONFINAL_FIELDS)
+            .verify();
     }
 
     @Test
