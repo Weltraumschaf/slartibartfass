@@ -19,6 +19,7 @@ import java.util.Objects;
  */
 
 public final class SlartiSymbol implements SlartiNode {
+
     private final String name;
 
     /**

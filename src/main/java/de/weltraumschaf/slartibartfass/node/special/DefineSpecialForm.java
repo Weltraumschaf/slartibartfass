@@ -5,12 +5,14 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 /**
- * Syntax: {@code (define name (VALUE) )}.
+ * Syntax: {@code (define symbol (VALUE) )}.
  */
 public final class DefineSpecialForm extends SlartiSpecialForm {
 
+    static final SlartiSymbol SYMBOL = new SlartiSymbol("define");
+
     public DefineSpecialForm(final SlartiList list) {
-        super(DEFINE, list);
+        super(SYMBOL, list);
     }
 
     @Override
