@@ -6,20 +6,22 @@ import java.util.Objects;
 
 public final class InternalList<T> implements Iterable<T> {
 
+    public static final InternalList<?> EMPTY = new InternalList<>();
+
     private int size;
     private Pair<T> head;
     private Pair<T> last;
 
     public InternalList(final Collection<T> elements) {
         this();
-        elements.forEach(e -> add(e));
+        elements.forEach(this::add);
     }
 
-    public InternalList() {
+    InternalList() {
         super();
     }
 
-    public void add(T element) {
+    void add(T element) {
         Objects.requireNonNull(element, "Parameter 'element' must not be null!");
 
         if (null == head) {

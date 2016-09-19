@@ -4,7 +4,6 @@ import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm;
 
 import java.util.*;
 
@@ -66,6 +65,14 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
             }
 
             results.add(result);
+        }
+
+        return unwrapResult(new InternalList<>(results));
+    }
+
+    private Object unwrapResult(final InternalList<Object> results) {
+        if (results.size() == 1) {
+            return results.head();
         }
 
         return results;

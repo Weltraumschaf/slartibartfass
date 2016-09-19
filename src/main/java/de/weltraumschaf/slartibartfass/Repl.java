@@ -48,7 +48,14 @@ public final class Repl {
 
             try {
                 final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), isDebugEnabled);
-                final Object result = visitor.visit(parser.file()).eval(env);
+                final SlartiNode node = visitor.visit(parser.file());
+                final Object result = node.eval(env);
+
+                if (InternalList.EMPTY.equals(result)) {
+                    // Do not print empty list results.
+                    continue;
+                }
+
                 io.println(result.toString());
             } catch (final SlartiError e) {
                 io.errorln("[E] " + e.getMessage());
