@@ -61,7 +61,13 @@ final class Repl {
             }
 
             if (Command.isCmd(data)) {
-                execute(Command.getCmd(data));
+                try {
+                    execute(Command.getCmd(data));
+                } catch (final ExitRepl e) {
+                    io.println("Bye bye :-)");
+                    break;
+                }
+
                 continue;
             }
 
@@ -87,6 +93,8 @@ final class Repl {
             case ENV:
                 env.print(io.getStdout());
                 break;
+            case EXIT:
+                throw new ExitRepl();
             case HELP:
                 Command.printHelp(io.getStdout());
                 break;
@@ -117,6 +125,7 @@ final class Repl {
      */
     private enum Command {
         ENV("Shows the environment from the current scope up to the root."),
+        EXIT("Stops the REPL and exits."),
         HELP("Shows this help.");
 
         /**
@@ -164,5 +173,9 @@ final class Repl {
                 this.getStrings().add(n.toString().toLowerCase());
             }
         }
+    }
+
+    private static final class ExitRepl extends RuntimeException {
+
     }
 }
