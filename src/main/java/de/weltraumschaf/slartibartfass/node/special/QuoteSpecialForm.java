@@ -15,7 +15,7 @@ public final class QuoteSpecialForm extends SlartiSpecialForm {
         final StringBuilder buffer = new StringBuilder();
         String sep = "";
 
-        for (final SlartiNode node : data) {
+        for (final SlartiNode node : data()) {
             buffer.append(sep).append(node.toString());
             sep = " ";
         }

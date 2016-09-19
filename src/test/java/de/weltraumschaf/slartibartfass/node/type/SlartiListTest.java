@@ -1,8 +1,10 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.InternalList;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Before;
@@ -10,6 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -30,9 +33,11 @@ public class SlartiListTest {
     }
 
     @Test
-    @Ignore
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(SlartiList.class).suppress(Warning.STRICT_INHERITANCE).verify();
+        EqualsVerifier.forClass(SlartiList.class)
+            .withPrefabValues(InternalList.class, new InternalList<>(Collections.singletonList("foo")), new InternalList<>(Collections.singletonList("bar")))
+            .withRedefinedSubclass(SlartiSpecialForm.class)
+            .verify();
     }
 
     @Test

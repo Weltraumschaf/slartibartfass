@@ -9,7 +9,7 @@ import java.util.*;
 
 public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
     public static final SlartiList EMPTY = new SlartiList(Collections.emptyList());
-    protected final InternalList<SlartiNode> data;
+    private final InternalList<SlartiNode> data;
 
     public SlartiList(final SlartiNode ... data) {
         this(Arrays.asList(data));
@@ -91,13 +91,18 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (!(o instanceof SlartiList)) {
             return false;
         }
 
-        final SlartiList list = (SlartiList) o;
-        return Objects.equals(data, list.data);
+        final SlartiList other = (SlartiList) o;
+        return other.canEqual(this)
+            && Objects.equals(data, other.data);
+    }
+
+    public boolean canEqual(final Object other) {
+        return other instanceof SlartiList;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
+import de.weltraumschaf.slartibartfass.InternalList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
@@ -8,15 +9,18 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class SlartiSpecialFormTest {
     @Test
-    @Ignore
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(SlartiSpecialForm.class).verify();
+        EqualsVerifier.forClass(SlartiSpecialForm.class)
+            .withRedefinedSuperclass()
+            .withPrefabValues(InternalList.class, new InternalList<>(Collections.singletonList("foo")), new InternalList<>(Collections.singletonList("bar")))
+            .verify();
     }
 
     @Test

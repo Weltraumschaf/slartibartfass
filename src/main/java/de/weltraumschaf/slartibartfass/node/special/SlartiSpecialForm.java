@@ -49,17 +49,23 @@ public abstract class SlartiSpecialForm extends SlartiList {
         }
 
         final SlartiSpecialForm that = (SlartiSpecialForm) o;
-        return Objects.equals(name, that.name) &&
-            Objects.equals(data, that.data);
+        return that.canEqual(this) &&
+            Objects.equals(name, that.name) &&
+            super.equals(that);
+    }
+
+    @Override
+    public final boolean canEqual(final Object other) {
+        return other instanceof SlartiSpecialForm;
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hash(name, data);
+        return Objects.hash(name, super.hashCode());
     }
 
     @Override
     public final String toString() {
-        return '(' + name.toString() + ' ' + data.itemsAsString() + ')';
+        return '(' + name.toString() + ' ' + data().itemsAsString() + ')';
     }
 }
