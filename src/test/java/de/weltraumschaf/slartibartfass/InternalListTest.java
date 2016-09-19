@@ -26,7 +26,7 @@ public class InternalListTest {
     }
 
     @Test
-    public void foo() {
+    public void add_size_head_tail() {
         assertThat(sut.size(), is(0));
         assertThat(sut.head(), is(nullValue()));
         assertThat(sut.tail(), is(new InternalList<>()));
