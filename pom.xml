@@ -10,7 +10,6 @@
 
     <groupId>de.weltraumschaf.experiments</groupId>
     <artifactId>slartibartfass</artifactId>
-    <name>Slartibartfass</name>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -223,31 +222,48 @@
 
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
+                        <id>make-executable-jar</id>
                         <phase>package</phase>
 
                         <goals>
                             <goal>single</goal>
                         </goals>
+
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${project.build.mainClass}</mainClass>
+                                </manifest>
+                            </archive>
+
+                            <descriptorRefs>
+                                <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                            </descriptorRefs>
+
+                            <finalName>${project.build.finalName}</finalName>
+                            <outputDirectory>${project.build.binDirectory}</outputDirectory>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>false</attach>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>make-final-zip-with-wrapper-scripts</id>
+                        <phase>install</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.basedir}/src/assembly/distribution.xml</descriptor>
+                            </descriptors>
+
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
                     </execution>
                 </executions>
-
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${project.build.mainClass}</mainClass>
-                        </manifest>
-                    </archive>
-
-                    <descriptorRefs>
-                        <descriptorRefs>jar-with-dependencies</descriptorRefs>
-                    </descriptorRefs>
-
-                    <finalName>${project.build.finalName}</finalName>
-                    <outputDirectory>${project.build.binDirectory}</outputDirectory>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <attach>false</attach>
-                </configuration>
             </plugin>
 
             <plugin>
