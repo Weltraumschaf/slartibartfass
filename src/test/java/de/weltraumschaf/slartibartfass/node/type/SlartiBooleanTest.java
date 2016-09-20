@@ -25,4 +25,14 @@ public class SlartiBooleanTest {
         assertThat(SlartiBoolean.FALSE.toString(), is("#false"));
         assertThat(SlartiBoolean.TRUE.toString(), is("#true"));
     }
+
+    @Test
+    public void isOf() {
+        assertThat(SlartiBoolean.TRUE.isOf(SlartiBoolean.class), is(true));
+        assertThat(SlartiBoolean.TRUE.isOf(SlartiInteger.class), is(false));
+        assertThat(SlartiBoolean.TRUE.isOf(SlartiList.class), is(false));
+        assertThat(SlartiBoolean.TRUE.isOf(SlartiReal.class), is(false));
+        assertThat(SlartiBoolean.TRUE.isOf(SlartiString.class), is(false));
+        assertThat(SlartiBoolean.TRUE.isOf(SlartiSymbol.class), is(false));
+    }
 }

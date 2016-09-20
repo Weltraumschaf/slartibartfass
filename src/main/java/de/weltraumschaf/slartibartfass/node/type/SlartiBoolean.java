@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.SlartiType;
 
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will return its bare boolean representation.
  * </p>
  */
-public final class SlartiBoolean implements SlartiNode {
+public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
     /**
      * Represents the {@code #true} value.
      * <p>

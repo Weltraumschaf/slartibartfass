@@ -28,4 +28,14 @@ public class SlartiSymbolTest {
 
         assertThat(sut.eval(env), is("bar"));
     }
+
+    @Test
+    public void isOf() {
+        assertThat(sut.isOf(SlartiBoolean.class), is(false));
+        assertThat(sut.isOf(SlartiInteger.class), is(false));
+        assertThat(sut.isOf(SlartiList.class), is(false));
+        assertThat(sut.isOf(SlartiReal.class), is(false));
+        assertThat(sut.isOf(SlartiString.class), is(false));
+        assertThat(sut.isOf(SlartiSymbol.class), is(true));
+    }
 }

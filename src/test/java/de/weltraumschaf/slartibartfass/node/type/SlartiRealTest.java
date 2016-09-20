@@ -8,6 +8,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class SlartiRealTest {
+    private final SlartiReal sut = new SlartiReal(3.14d);
+
     @Test
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(SlartiReal.class).verify();
@@ -15,11 +17,21 @@ public class SlartiRealTest {
 
     @Test
     public void eval() {
-        assertThat(new SlartiReal(3.14d).eval(new Environment()), is(3.14d));
+        assertThat(sut.eval(new Environment()), is(3.14d));
     }
 
     @Test
     public void string() {
-        assertThat(new SlartiReal(3.14d).toString(), is("3.14"));
+        assertThat(sut.toString(), is("3.14"));
+    }
+
+    @Test
+    public void isOf() {
+        assertThat(sut.isOf(SlartiBoolean.class), is(false));
+        assertThat(sut.isOf(SlartiInteger.class), is(false));
+        assertThat(sut.isOf(SlartiList.class), is(false));
+        assertThat(sut.isOf(SlartiReal.class), is(true));
+        assertThat(sut.isOf(SlartiString.class), is(false));
+        assertThat(sut.isOf(SlartiSymbol.class), is(false));
     }
 }

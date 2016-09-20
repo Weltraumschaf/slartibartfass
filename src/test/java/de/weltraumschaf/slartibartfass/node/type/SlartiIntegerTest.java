@@ -9,6 +9,8 @@ import static org.junit.Assert.*;
 
 public class SlartiIntegerTest {
 
+    private final SlartiInteger sut = new SlartiInteger(42L);
+
     @Test
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(SlartiInteger.class).verify();
@@ -16,11 +18,21 @@ public class SlartiIntegerTest {
 
     @Test
     public void eval() {
-        assertThat(new SlartiInteger(42L).eval(new Environment()), is(42L));
+        assertThat(sut.eval(new Environment()), is(42L));
     }
 
     @Test
     public void string() {
-        assertThat(new SlartiInteger(42L).toString(), is("42"));
+        assertThat(sut.toString(), is("42"));
+    }
+
+    @Test
+    public void isOf() {
+        assertThat(sut.isOf(SlartiBoolean.class), is(false));
+        assertThat(sut.isOf(SlartiInteger.class), is(true));
+        assertThat(sut.isOf(SlartiList.class), is(false));
+        assertThat(sut.isOf(SlartiReal.class), is(false));
+        assertThat(sut.isOf(SlartiString.class), is(false));
+        assertThat(sut.isOf(SlartiSymbol.class), is(false));
     }
 }

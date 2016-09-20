@@ -25,4 +25,14 @@ public class SlartiStringTest {
     public void eval() {
         assertThat(sut.eval(new Environment()), is("foo"));
     }
+
+    @Test
+    public void isOf() {
+        assertThat(sut.isOf(SlartiBoolean.class), is(false));
+        assertThat(sut.isOf(SlartiInteger.class), is(false));
+        assertThat(sut.isOf(SlartiList.class), is(false));
+        assertThat(sut.isOf(SlartiReal.class), is(false));
+        assertThat(sut.isOf(SlartiString.class), is(true));
+        assertThat(sut.isOf(SlartiSymbol.class), is(false));
+    }
 }

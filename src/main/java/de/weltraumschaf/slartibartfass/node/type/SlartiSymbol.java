@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.SlartiType;
 
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
  * </p>
  */
 
-public final class SlartiSymbol implements SlartiNode {
+public final class SlartiSymbol implements SlartiNode, SlartiType<Void> {
 
     private final String name;
 
