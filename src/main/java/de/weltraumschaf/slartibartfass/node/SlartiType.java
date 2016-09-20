@@ -10,5 +10,5 @@ public interface SlartiType<T> {
         return this.getClass().isAssignableFrom(other);
     }
 
-//    T rawValue();
+    T value();
 }

@@ -50,4 +50,9 @@ public final class SlartiReal implements SlartiNode, SlartiType<Double> {
     public String toString() {
         return "" + value;
     }
+
+    @Override
+    public Double value() {
+        return value;
+    }
 }

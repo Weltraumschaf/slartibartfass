@@ -65,4 +65,9 @@ public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
     public String toString() {
         return value ? "#true" : "#false";
     }
+
+    @Override
+    public Boolean value() {
+        return value;
+    }
 }

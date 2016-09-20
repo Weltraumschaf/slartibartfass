@@ -50,4 +50,9 @@ public final class SlartiString implements SlartiNode, SlartiType<String> {
     public String toString() {
         return '"' + value + '"';
     }
+
+    @Override
+    public String value() {
+        return value;
+    }
 }

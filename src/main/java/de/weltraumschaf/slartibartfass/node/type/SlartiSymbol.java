@@ -66,4 +66,9 @@ public final class SlartiSymbol implements SlartiNode, SlartiType<Void> {
     public String toString() {
         return name;
     }
+
+    @Override
+    public Void value() {
+        return null;
+    }
 }

@@ -13,7 +13,7 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will return its bare long representation.
  * </p>
  */
-public final class SlartiInteger implements SlartiNode, SlartiType<Integer> {
+public final class SlartiInteger implements SlartiNode, SlartiType<Long> {
     private final Long value;
 
     /**
@@ -49,5 +49,10 @@ public final class SlartiInteger implements SlartiNode, SlartiType<Integer> {
     @Override
     public String toString() {
         return "" + value;
+    }
+
+    @Override
+    public Long value() {
+        return value;
     }
 }
