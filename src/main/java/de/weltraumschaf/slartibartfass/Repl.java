@@ -25,19 +25,21 @@ final class Repl {
     private final IO io;
     private final SlartiVisitor<SlartiNode> visitor;
     private final Environment env;
+    private final boolean isDebugEnabled;
 
     /**
      * Dedicated constructor.
-     *
-     * @param io must not be {@code null}
+     *  @param io must not be {@code null}
      * @param visitor must not be {@code null}
      * @param env must not be {@code null}
+     * @param isDebugEnabled whether to print debug output
      */
-    Repl(final IO io, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
+    Repl(final IO io, final SlartiVisitor<SlartiNode> visitor, final Environment env, boolean isDebugEnabled) {
         super();
         this.io = Validate.notNull(io, "io");
         this.visitor = Validate.notNull(visitor, "visitor");
         this.env = Validate.notNull(env, "env");
+        this.isDebugEnabled = isDebugEnabled;
     }
 
     /**
@@ -46,10 +48,9 @@ final class Repl {
      *     The REPL ends if {@code null} is read as input.
      * </p>
      *
-     * @param isDebugEnabled whether to print debug output
      * @throws IOException if the REPL can't read from the console
      */
-    void start(final boolean isDebugEnabled) throws IOException {
+    void start() throws IOException {
         final Parsers parsers = new Parsers(io);
         final ConsoleReader reader = createReader();
 
@@ -84,8 +85,17 @@ final class Repl {
                 io.println(result.toString());
             } catch (final SlartiError e) {
                 io.errorln("[E] " + e.getMessage());
+                printStackTraceOnDebug(e);
+
+            } catch (RuntimeException e) {
+                io.errorln("[F] " + e.getMessage());
+                printStackTraceOnDebug(e);
             }
         }
+    }
+
+    private void printStackTraceOnDebug(final Throwable e) {
+        e.printStackTrace(io.getStderr());
     }
 
     private void execute(final Command cmd) {

@@ -102,7 +102,7 @@ public class Application extends InvokableAdapter {
 
     private void startRepl(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Start REPL ...");
-        new Repl(getIoStreams(), visitor, env).start(isDebugEnabled());
+        new Repl(getIoStreams(), visitor, env, isDebugEnabled()).start();
     }
 
     private void runInterpreter(final SlartiVisitor<SlartiNode> visitor, final Environment env, final Collection<String> filenames) throws IOException {
