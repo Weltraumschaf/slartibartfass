@@ -52,7 +52,7 @@ public abstract class SlartiSpecialForm extends SlartiList {
             return new LambdaSpecialForm(list.tail());
         } else if (IfSpecialForm.SYMBOL.equals(head)) {
             return new IfSpecialForm(list.tail());
-        } else if (QuoteSpecialForm.SYMBOL.equals(head)) {
+        } else if (QuoteSpecialForm.SYMBOL.equals(head) || QuoteSpecialForm.ALIAS.equals(head)) {
             return new QuoteSpecialForm(list.tail());
         } else {
             return list;

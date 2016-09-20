@@ -8,6 +8,7 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 public final class QuoteSpecialForm extends SlartiSpecialForm {
 
     static final SlartiSymbol SYMBOL = new SlartiSymbol("quote");
+    static final SlartiSymbol ALIAS = new SlartiSymbol("'");
 
     public QuoteSpecialForm(final SlartiList list) {
         super(SYMBOL, list);
