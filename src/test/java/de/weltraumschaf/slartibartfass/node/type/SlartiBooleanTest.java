@@ -37,6 +37,7 @@ public class SlartiBooleanTest {
 
         assertThat(SlartiBoolean.FALSE.isBoolean(), is(true));
         assertThat(SlartiBoolean.FALSE.isInteger(), is(false));
+        assertThat(SlartiBoolean.FALSE.isList(), is(false));
         assertThat(SlartiBoolean.FALSE.isReal(), is(false));
         assertThat(SlartiBoolean.FALSE.isString(), is(false));
         assertThat(SlartiBoolean.FALSE.isSymbol(), is(false));
@@ -70,5 +71,10 @@ public class SlartiBooleanTest {
     public void castToString() {
         assertThat(SlartiBoolean.TRUE.castToString(), is(new SlartiString("#true")));
         assertThat(SlartiBoolean.FALSE.castToString(), is(new SlartiString("#false")));
+    }
+
+    @Test
+    public void castToList() {
+        assertThat(SlartiBoolean.TRUE.castToList(), is(new SlartiList(SlartiBoolean.TRUE)));
     }
 }

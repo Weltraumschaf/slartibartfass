@@ -27,6 +27,10 @@ public interface SlartiType<T> {
         return isOf(SlartiInteger.class);
     }
 
+    default boolean isList() {
+        return isOf(SlartiList.class);
+    }
+
     default boolean isReal() {
         return isOf(SlartiReal.class);
     }
@@ -45,5 +49,6 @@ public interface SlartiType<T> {
     SlartiInteger castToInteger();
     SlartiReal castToReal();
     SlartiString castToString();
+    SlartiList castToList();
 
 }

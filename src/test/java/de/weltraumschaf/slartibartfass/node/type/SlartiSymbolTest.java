@@ -1,14 +1,20 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class SlartiSymbolTest {
 
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
     private final SlartiSymbol sut = new SlartiSymbol("foo");
 
     @Test
@@ -40,6 +46,7 @@ public class SlartiSymbolTest {
 
         assertThat(sut.isBoolean(), is(false));
         assertThat(sut.isInteger(), is(false));
+        assertThat(sut.isList(), is(false));
         assertThat(sut.isReal(), is(false));
         assertThat(sut.isString(), is(false));
         assertThat(sut.isSymbol(), is(true));
@@ -47,23 +54,40 @@ public class SlartiSymbolTest {
 
     @Test
     public void value() {
-
+        assertThat(sut.value(), is("foo"));
     }
 
     @Test
     public void castToBoolean() {
+        thrown.expect(SlartiError.class);
+        thrown.expectMessage("SlartiSymbol does not support cast to SlartiBoolean!");
+
+        sut.castToBoolean();
     }
 
     @Test
     public void castToInteger() {
+        thrown.expect(SlartiError.class);
+        thrown.expectMessage("SlartiSymbol does not support cast to SlartiInteger!");
+
+        sut.castToInteger();
     }
 
     @Test
     public void castToReal() {
+        thrown.expect(SlartiError.class);
+        thrown.expectMessage("SlartiSymbol does not support cast to SlartiReal!");
+
+        sut.castToReal();
     }
 
     @Test
     public void castToString() {
+        assertThat(sut.castToString(), is(new SlartiString("foo")));
+    }
 
+    @Test
+    public void castToList() {
+        assertThat(sut.castToList(), is(new SlartiList(sut)));
     }
 }

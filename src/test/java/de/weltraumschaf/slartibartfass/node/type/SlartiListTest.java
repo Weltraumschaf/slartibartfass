@@ -2,6 +2,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
@@ -75,5 +76,37 @@ public class SlartiListTest {
         assertThat(sut.toString(), is("(a, b, c)"));
     }
 
+    @Test
+    public void value() {
+        assertThat(sut.value(), is(new InternalList<SlartiNode>(Arrays.asList(a, b, c))));
+    }
 
+    @Test
+    public void castToBoolean() {
+        assertThat(sut.castToBoolean(), is(SlartiBoolean.TRUE));
+        assertThat(SlartiList.EMPTY.castToBoolean(), is(SlartiBoolean.FALSE));
+    }
+
+    @Test
+    public void castToInteger() {
+        assertThat(sut.castToInteger(), is(new SlartiInteger(3L)));
+        assertThat(SlartiList.EMPTY.castToInteger(), is(new SlartiInteger(0L)));
+    }
+
+    @Test
+    public void castToReal() {
+        assertThat(sut.castToInteger(), is(new SlartiInteger(3L)));
+        assertThat(SlartiList.EMPTY.castToInteger(), is(new SlartiInteger(0L)));
+    }
+
+    @Test
+    public void castToString() {
+        assertThat(sut.castToString(), is(new SlartiString("(a, b, c)")));
+        assertThat(SlartiList.EMPTY.castToString(), is(new SlartiString("()")));
+    }
+
+    @Test
+    public void castToList() {
+        assertThat(sut.castToList(), is(sut));
+    }
 }

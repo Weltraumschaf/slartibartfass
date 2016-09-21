@@ -2,6 +2,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.SlartiType;
 
@@ -19,7 +20,7 @@ import java.util.Objects;
  * </p>
  */
 
-public final class SlartiSymbol implements SlartiNode, SlartiType<Void> {
+public final class SlartiSymbol implements SlartiNode, SlartiType<String> {
 
     private final String name;
 
@@ -68,27 +69,39 @@ public final class SlartiSymbol implements SlartiNode, SlartiType<Void> {
     }
 
     @Override
-    public Void value() {
-        return null;
+    public String value() {
+        return name();
     }
 
     @Override
     public SlartiBoolean castToBoolean() {
-        return null;
+        throw unsupportedCastError(SlartiBoolean.class);
     }
 
     @Override
     public SlartiInteger castToInteger() {
-        return null;
+        throw unsupportedCastError(SlartiInteger.class);
     }
 
     @Override
     public SlartiReal castToReal() {
-        return null;
+        throw unsupportedCastError(SlartiReal.class);
     }
 
     @Override
     public SlartiString castToString() {
-        return null;
+        return new SlartiString(name());
     }
+
+    @Override
+    public SlartiList castToList() {
+        return new SlartiList(this);
+    }
+
+    private SlartiError unsupportedCastError(final Class<?> wanted) {
+        return new SlartiError(
+            String.format("%s does not support cast to %s!",
+                getClass().getSimpleName(), wanted.getSimpleName()));
+    }
+
 }

@@ -37,6 +37,7 @@ public class SlartiStringTest {
 
         assertThat(sut.isBoolean(), is(false));
         assertThat(sut.isInteger(), is(false));
+        assertThat(sut.isList(), is(false));
         assertThat(sut.isReal(), is(false));
         assertThat(sut.isString(), is(true));
         assertThat(sut.isSymbol(), is(false));
@@ -71,5 +72,10 @@ public class SlartiStringTest {
     @Test
     public void castToString() {
         assertThat(sut.castToString(), is(new SlartiString("foo")));
+    }
+
+    @Test
+    public void castToList() {
+        assertThat(sut.castToList(), is(new SlartiList(sut)));
     }
 }

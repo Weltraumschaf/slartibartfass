@@ -78,4 +78,9 @@ public final class SlartiInteger implements SlartiNode, SlartiType<Long> {
     public SlartiString castToString() {
         return new SlartiString(toString());
     }
+
+    @Override
+    public SlartiList castToList() {
+        return new SlartiList(this);
+    }
 }

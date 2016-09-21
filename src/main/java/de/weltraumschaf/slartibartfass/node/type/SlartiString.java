@@ -83,4 +83,9 @@ public final class SlartiString implements SlartiNode, SlartiType<String> {
     public SlartiString castToString() {
         return this;
     }
+
+    @Override
+    public SlartiList castToList() {
+        return new SlartiList(this);
+    }
 }

@@ -78,4 +78,9 @@ public final class SlartiReal implements SlartiNode, SlartiType<Double> {
     public SlartiString castToString() {
         return new SlartiString(toString());
     }
+
+    @Override
+    public SlartiList castToList() {
+        return new SlartiList(this);
+    }
 }

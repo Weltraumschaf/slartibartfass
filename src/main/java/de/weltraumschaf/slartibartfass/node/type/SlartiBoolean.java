@@ -92,4 +92,10 @@ public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
     public SlartiString castToString() {
         return new SlartiString(toString());
     }
+
+    @Override
+    public SlartiList castToList() {
+        return new SlartiList(this);
+    }
+
 }

@@ -37,6 +37,7 @@ public class SlartiIntegerTest {
 
         assertThat(sut.isBoolean(), is(false));
         assertThat(sut.isInteger(), is(true));
+        assertThat(sut.isList(), is(false));
         assertThat(sut.isReal(), is(false));
         assertThat(sut.isString(), is(false));
         assertThat(sut.isSymbol(), is(false));
@@ -67,5 +68,10 @@ public class SlartiIntegerTest {
     @Test
     public void castToString() {
         assertThat(sut.castToString(), is(new SlartiString("42")));
+    }
+
+    @Test
+    public void castToList() {
+        assertThat(sut.castToList(), is(new SlartiList(sut)));
     }
 }

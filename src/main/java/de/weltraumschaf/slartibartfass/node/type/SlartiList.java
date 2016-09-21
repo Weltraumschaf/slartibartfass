@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
+import de.weltraumschaf.slartibartfass.node.SlartiType;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
@@ -21,7 +22,7 @@ import java.util.*;
  *
  * TODO Add type interface.
  */
-public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
+public class SlartiList implements SlartiNode, SlartiType<InternalList<SlartiNode>>, Iterable<SlartiNode> {
     /**
      * Represents an empty list.
      */
@@ -159,5 +160,39 @@ public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
 
     public final int size() {
         return data.size();
+    }
+
+    public final boolean isEmpty() {
+        return 0 == size();
+    }
+
+    @Override
+    public InternalList<SlartiNode> value() {
+        return data;
+    }
+
+    @Override
+    public SlartiBoolean castToBoolean() {
+        return isEmpty() ? SlartiBoolean.FALSE : SlartiBoolean.TRUE;
+    }
+
+    @Override
+    public SlartiInteger castToInteger() {
+        return new SlartiInteger(Integer.valueOf(size()).longValue());
+    }
+
+    @Override
+    public SlartiReal castToReal() {
+        return new SlartiReal(Integer.valueOf(size()).doubleValue());
+    }
+
+    @Override
+    public SlartiString castToString() {
+        return new SlartiString(toString());
+    }
+
+    @Override
+    public SlartiList castToList() {
+        return this;
     }
 }
