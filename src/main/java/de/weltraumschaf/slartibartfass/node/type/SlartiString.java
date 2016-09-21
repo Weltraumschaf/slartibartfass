@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * String type of the language.
  * <p>
- *     {@link #eval(Environment) Evaluating} this node will return its bare string representation.
+ * {@link #eval(Environment) Evaluating} this node will return its bare string representation.
  * </p>
  */
 public final class SlartiString implements SlartiNode, SlartiType<String> {
@@ -54,5 +54,33 @@ public final class SlartiString implements SlartiNode, SlartiType<String> {
     @Override
     public String value() {
         return value;
+    }
+
+    @Override
+    public SlartiBoolean castToBoolean() {
+        return SlartiBoolean.TRUE_TOKEN.equals(value) ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
+    }
+
+    @Override
+    public SlartiInteger castToInteger() {
+        try {
+            return new SlartiInteger(Double.valueOf(value).longValue());
+        } catch (final NumberFormatException e) {
+            return SlartiInteger.ZERO;
+        }
+    }
+
+    @Override
+    public SlartiReal castToReal() {
+        try {
+            return new SlartiReal(Double.valueOf(value));
+        } catch (final NumberFormatException e) {
+            return SlartiReal.ZERO;
+        }
+    }
+
+    @Override
+    public SlartiString castToString() {
+        return this;
     }
 }

@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+
 public class SlartiListTest {
 
     private final SlartiNode a = mock(SlartiNode.class);
@@ -73,4 +74,6 @@ public class SlartiListTest {
     public void string() {
         assertThat(sut.toString(), is("(a, b, c)"));
     }
+
+
 }

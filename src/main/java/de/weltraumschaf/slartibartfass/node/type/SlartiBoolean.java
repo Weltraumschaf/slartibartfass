@@ -28,6 +28,8 @@ public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
      * </p>
      */
     public static final SlartiBoolean FALSE = new SlartiBoolean(Boolean.FALSE);
+    static final String TRUE_TOKEN = "#true";
+    static final String FALSE_TOKEN = "#false";
 
     private final Boolean value;
 
@@ -63,11 +65,31 @@ public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
 
     @Override
     public String toString() {
-        return value ? "#true" : "#false";
+        return Boolean.TRUE.equals(value) ? TRUE_TOKEN : FALSE_TOKEN;
     }
 
     @Override
     public Boolean value() {
         return value;
+    }
+
+    @Override
+    public SlartiBoolean castToBoolean() {
+        return this;
+    }
+
+    @Override
+    public SlartiInteger castToInteger() {
+        return Boolean.TRUE.equals(value) ? new SlartiInteger(1L) : new SlartiInteger(0L);
+    }
+
+    @Override
+    public SlartiReal castToReal() {
+        return Boolean.TRUE.equals(value) ? new SlartiReal(1d) : new SlartiReal(0d);
+    }
+
+    @Override
+    public SlartiString castToString() {
+        return new SlartiString(toString());
     }
 }

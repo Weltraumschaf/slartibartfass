@@ -18,6 +18,8 @@ import java.util.*;
  *     If the {@link #head() head} is not a symbol then the whole list is evaluated node by node and the aggregated result
  *     will be returned as collection. If the result is a single value then the collection will be unwrapped.
  * </p>
+ *
+ * TODO Add type interface.
  */
 public class SlartiList implements SlartiNode, Iterable<SlartiNode> {
     /**

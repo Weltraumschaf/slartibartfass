@@ -40,4 +40,10 @@ public interface SlartiType<T> {
     }
 
     T value();
+
+    SlartiBoolean castToBoolean();
+    SlartiInteger castToInteger();
+    SlartiReal castToReal();
+    SlartiString castToString();
+
 }

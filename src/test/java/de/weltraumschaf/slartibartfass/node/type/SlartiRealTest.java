@@ -33,5 +33,38 @@ public class SlartiRealTest {
         assertThat(sut.isOf(SlartiReal.class), is(true));
         assertThat(sut.isOf(SlartiString.class), is(false));
         assertThat(sut.isOf(SlartiSymbol.class), is(false));
+
+        assertThat(sut.isBoolean(), is(false));
+        assertThat(sut.isInteger(), is(false));
+        assertThat(sut.isReal(), is(true));
+        assertThat(sut.isString(), is(false));
+        assertThat(sut.isSymbol(), is(false));
+    }
+
+    @Test
+    public void value() {
+        assertThat(sut.value(), is(3.14d));
+    }
+
+    @Test
+    public void castToBoolean() {
+        assertThat(sut.castToBoolean(), is(SlartiBoolean.TRUE));
+        assertThat(new SlartiReal(-3.5d).castToBoolean(), is(SlartiBoolean.TRUE));
+        assertThat(new SlartiReal(0d).castToBoolean(), is(SlartiBoolean.FALSE));
+    }
+
+    @Test
+    public void castToInteger() {
+        assertThat(sut.castToInteger(), is(new SlartiInteger(3L)));
+    }
+
+    @Test
+    public void castToReal() {
+        assertThat(sut.castToReal(), is(new SlartiReal(3.14d)));
+    }
+
+    @Test
+    public void castToString() {
+        assertThat(sut.castToString(), is(new SlartiString("3.14")));
     }
 }

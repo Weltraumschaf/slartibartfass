@@ -71,4 +71,24 @@ public final class SlartiSymbol implements SlartiNode, SlartiType<Void> {
     public Void value() {
         return null;
     }
+
+    @Override
+    public SlartiBoolean castToBoolean() {
+        return null;
+    }
+
+    @Override
+    public SlartiInteger castToInteger() {
+        return null;
+    }
+
+    @Override
+    public SlartiReal castToReal() {
+        return null;
+    }
+
+    @Override
+    public SlartiString castToString() {
+        return null;
+    }
 }

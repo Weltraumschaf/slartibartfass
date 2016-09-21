@@ -14,6 +14,9 @@ import java.util.Objects;
  * </p>
  */
 public final class SlartiInteger implements SlartiNode, SlartiType<Long> {
+    @SuppressWarnings("UnnecessaryBoxing")
+    private static final Long ZERO_VALUE = Long.valueOf(0L);
+    static final SlartiInteger ZERO = new SlartiInteger(ZERO_VALUE);
     private final Long value;
 
     /**
@@ -54,5 +57,25 @@ public final class SlartiInteger implements SlartiNode, SlartiType<Long> {
     @Override
     public Long value() {
         return value;
+    }
+
+    @Override
+    public SlartiBoolean castToBoolean() {
+        return ZERO_VALUE.equals(value) ? SlartiBoolean.FALSE : SlartiBoolean.TRUE;
+    }
+
+    @Override
+    public SlartiInteger castToInteger() {
+        return this;
+    }
+
+    @Override
+    public SlartiReal castToReal() {
+        return new SlartiReal(value.doubleValue());
+    }
+
+    @Override
+    public SlartiString castToString() {
+        return new SlartiString(toString());
     }
 }

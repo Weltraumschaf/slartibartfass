@@ -34,5 +34,41 @@ public class SlartiBooleanTest {
         assertThat(SlartiBoolean.TRUE.isOf(SlartiReal.class), is(false));
         assertThat(SlartiBoolean.TRUE.isOf(SlartiString.class), is(false));
         assertThat(SlartiBoolean.TRUE.isOf(SlartiSymbol.class), is(false));
+
+        assertThat(SlartiBoolean.FALSE.isBoolean(), is(true));
+        assertThat(SlartiBoolean.FALSE.isInteger(), is(false));
+        assertThat(SlartiBoolean.FALSE.isReal(), is(false));
+        assertThat(SlartiBoolean.FALSE.isString(), is(false));
+        assertThat(SlartiBoolean.FALSE.isSymbol(), is(false));
+    }
+
+    @Test
+    public void value() {
+        assertThat(SlartiBoolean.TRUE.value(), is(Boolean.TRUE));
+        assertThat(SlartiBoolean.FALSE.value(), is(Boolean.FALSE));
+    }
+
+    @Test
+    public void castToBoolean() {
+        assertThat(SlartiBoolean.TRUE.castToBoolean(), is(SlartiBoolean.TRUE));
+        assertThat(SlartiBoolean.FALSE.castToBoolean(), is(SlartiBoolean.FALSE));
+    }
+
+    @Test
+    public void castToInteger() {
+        assertThat(SlartiBoolean.TRUE.castToInteger(), is(new SlartiInteger(1L)));
+        assertThat(SlartiBoolean.FALSE.castToInteger(), is(new SlartiInteger(0L)));
+    }
+
+    @Test
+    public void castToReal() {
+        assertThat(SlartiBoolean.TRUE.castToReal(), is(new SlartiReal(1d)));
+        assertThat(SlartiBoolean.FALSE.castToReal(), is(new SlartiReal(0d)));
+    }
+
+    @Test
+    public void castToString() {
+        assertThat(SlartiBoolean.TRUE.castToString(), is(new SlartiString("#true")));
+        assertThat(SlartiBoolean.FALSE.castToString(), is(new SlartiString("#false")));
     }
 }

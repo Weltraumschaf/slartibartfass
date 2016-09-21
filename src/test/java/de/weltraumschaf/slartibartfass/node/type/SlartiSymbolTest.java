@@ -37,5 +37,33 @@ public class SlartiSymbolTest {
         assertThat(sut.isOf(SlartiReal.class), is(false));
         assertThat(sut.isOf(SlartiString.class), is(false));
         assertThat(sut.isOf(SlartiSymbol.class), is(true));
+
+        assertThat(sut.isBoolean(), is(false));
+        assertThat(sut.isInteger(), is(false));
+        assertThat(sut.isReal(), is(false));
+        assertThat(sut.isString(), is(false));
+        assertThat(sut.isSymbol(), is(true));
+    }
+
+    @Test
+    public void value() {
+
+    }
+
+    @Test
+    public void castToBoolean() {
+    }
+
+    @Test
+    public void castToInteger() {
+    }
+
+    @Test
+    public void castToReal() {
+    }
+
+    @Test
+    public void castToString() {
+
     }
 }
