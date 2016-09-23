@@ -23,6 +23,71 @@ After that you can run Slartibartfass:
    
     $> ./bin/slarti -h
 
+## Use the REPL
+
+Slartibartfass provides a Read Eval Print Loop. Just run it without any
+argument to launch the REPL:
+
+    $> ./bin/slarti
+
+The REPL provides some special commands. They all start with a bang (`!`).
+Just type `!help` to get a full list of available commands with explanation.
+
+### The Hello, World! Example
+
+The REPL will great you with the `sl>` prompt. Just type:
+
+    sl> (println "Hello, World!")
+
+and hit return to see it.
+    
+##  The Syntax
+
+The full description of the Slartibartfass syntax is [Scheme][scheme] 
+like and you described [here][syntax] as [ANTLR][antlr] grammar.
+
+The basic syntax is build by lists, obviously:
+
+    (foo bar baz)
+
+Also an important building block are symbols. Symbols are just names
+like the `foo`, `bar` and `baz` in the previous example. The first 
+symbol in a list (the head of the list) is interpreted as function
+name. In the previous example the interpreter looks in the scope for
+a function named `foo` and applys to it the evaluated symbols `bar`
+and `baz`. Evaluating a symbol means it is looked up in the scope
+and that value is used. Here a more complex example:
+
+    (define a 3)
+    (define b 2)
+    (println (+ a b))
+
+This will print: `5`
+
+### Builtin Functions
+
+Builtin functions are directly interpreted in the interpreter (in contrast
+to function provided by the standard lib).
+
+- `+`: Sums up the given arguments. It returns 0 if no argument is given 
+       and the argument itself if only one argument is given. You can pass
+       as many arguments as you want.
+- `-`: Subtracts the givne arguments. Throws an error if no argument is 
+       given. Negates the argument if only one argument is given. You can pass
+       as many arguments as you want.
+- `*`: Multiplies the given arguments. Returns 1 if no argument is given.
+       Return the argument itself if only one is given. You can pass
+       as many arguments as you want.
+- `/`:
+- `%`:
+- `<`:
+- `>`:
+- `=`:
+- `and`:
+- `or`:
+- `println`:
+- `print`:
+
 ## Other Reading Stuff
 
 - [Lambda Papers](http://library.readscheme.org/page1.html)
@@ -35,3 +100,4 @@ After that you can run Slartibartfass:
 [mvn]:      https://maven.apache.org/download.cgi
 [saiocp]:   https://mitpress.mit.edu/sicp/full-text/book/book.html
 [scheme]:   https://en.wikipedia.org/wiki/Scheme_(programming_language)
+[syntax]:   https://github.com/Weltraumschaf/slartibartfass/blob/master/src/main/antlr4/Slarti.g4
