@@ -24,13 +24,13 @@ public enum SlartiBuiltinFunctions {
     ADD(new SlartiBuiltInFunctio("+") {
         @Override
         public final SlartiNode apply(final List<SlartiNode> args) {
-            // FIXME Deal with real numbers.
             long sum = 0;
 
             for (final SlartiNode arg : args) {
                 if  (arg.isInteger()) {
                     sum += arg.castToInteger().value();
                 } else if (arg.isReal()) {
+                    // FIXME Deal with real numbers.
                     throw new UnsupportedOperationException("Not implemented!");
                 } else {
                     throw unsupportedTypeOfArgument(arg);
@@ -47,7 +47,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public final SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 1) {
-                throw new RuntimeException(String.format("Function %s requires at least one argument!", this.name()));
+                throw new SlartiError("Function %s requires at least one argument!", name());
             } else if (args.size() == 1) {
                 final SlartiNode arg = args.get(0);
 
@@ -124,7 +124,7 @@ public enum SlartiBuiltinFunctions {
         public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() < 2) {
-                throw new RuntimeException(String.format("Function %s requires at least two arguments!", this.name()));
+                throw new SlartiError("Function %s requires at least two arguments!", name());
             }
 
             long result = Long.parseLong(args.get(0).toString());
@@ -144,7 +144,7 @@ public enum SlartiBuiltinFunctions {
         public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() < 2) {
-                throw new RuntimeException(String.format("Function %s requires at least two arguments!", this.name()));
+                throw new SlartiError("Function %s requires at least two arguments!", name());
             }
 
             long result = Long.parseLong(args.get(0).toString());
@@ -164,7 +164,7 @@ public enum SlartiBuiltinFunctions {
         public SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() != 2) {
-                throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
+                throw new SlartiError("Function %s requires two arguments!", name());
             }
 
             final long left = Long.parseLong(args.get(0).toString());
@@ -181,7 +181,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(List<SlartiNode> args) {
             if (args.size() != 2) {
-                throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
+                throw new SlartiError("Function %s requires two arguments!", name());
             }
 
             final long left = Long.parseLong(args.get(0).toString());
@@ -198,7 +198,7 @@ public enum SlartiBuiltinFunctions {
         public SlartiNode apply(List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() != 2) {
-                throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
+                throw new SlartiError("Function %s requires two arguments!", name());
             }
 
             final SlartiNode left = args.get(0);
@@ -288,7 +288,6 @@ public enum SlartiBuiltinFunctions {
             return new SlartiInteger(r.nextLong());
         }
     });
-
 
     private final SlartiFunction impl;
 
