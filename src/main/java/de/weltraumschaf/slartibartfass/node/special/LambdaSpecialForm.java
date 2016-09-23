@@ -1,13 +1,16 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.*;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This special form creates a lambda function.
@@ -39,47 +42,7 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
         final SlartiList formalParams = (SlartiList) head();
         final SlartiList functionBody = (SlartiList) tail().head();
 
-        return createFunction(env, symbol().name(), formalParams, functionBody);
+        return SlartiFunction.newFunction(env, symbol().name(), formalParams, functionBody);
     }
 
-    private SlartiFunction createFunction(final Environment parentEnv, final String name, final SlartiList formalParams, final SlartiList functionBody) {
-        return new SlartiFunction(name) {
-
-            @Override
-            public final SlartiNode apply(final List<SlartiNode> actualParameters) {
-                validateParameterCount(actualParameters);
-                final Environment localScope = new Environment(parentEnv);
-                mapParametersIntoLocalScope(actualParameters, localScope);
-
-                return functionBody.eval(localScope);
-            }
-
-            private void mapParametersIntoLocalScope(final List<SlartiNode> args, final Environment localScope) {
-                int i = 0;
-                for (final SlartiNode param : formalParams) {
-                    final SlartiSymbol paramSymbol = (SlartiSymbol) param;
-                    localScope.putValue(paramSymbol.name(), args.get(i));
-                    i++;
-                }
-            }
-
-            private void validateParameterCount(final Collection<SlartiNode> args) {
-                if (args.size() != formalParams.size()) {
-                    throw new RuntimeException(String.format(
-                        "Wrong number of arguments. Expected: %d. Got: %d!",
-                        formalParams.size(), args.size()));
-                }
-            }
-
-            @Override
-            public final boolean isBuiltIn() {
-                return false;
-            }
-
-            @Override
-            public final String toString() {
-                return '(' + super.toString() + ' ' + formalParams.toString() + ' ' + functionBody.toString() + ')';
-            }
-        };
-    }
 }

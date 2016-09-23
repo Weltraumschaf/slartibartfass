@@ -85,11 +85,17 @@ final class Repl {
                 io.println(result.toString());
             } catch (final SlartiError e) {
                 io.errorln("[E] " + e.getMessage());
-                printStackTraceOnDebug(e);
+
+                if (isDebugEnabled) {
+                    printStackTraceOnDebug(e);
+                }
 
             } catch (RuntimeException e) {
                 io.errorln("[F] " + e.getMessage());
-                printStackTraceOnDebug(e);
+
+                if (isDebugEnabled) {
+                    printStackTraceOnDebug(e);
+                }
             }
         }
     }

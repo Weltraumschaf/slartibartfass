@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
@@ -18,8 +19,17 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
 
     @Override
     public SlartiNode eval(final Environment env) {
-        final SlartiSymbol sym = (SlartiSymbol) head();
-        env.putValue(sym.name(), tail().head().eval(env));
+        final SlartiNode head = head();
+
+        if (head.isSymbol()) {
+            final SlartiSymbol sym = (SlartiSymbol) head;
+            env.putValue(sym.name(), tail().head().eval(env));
+        } else if (head.isList()){
+            final SlartiList list = head.castToList();
+        } else {
+            throw new SlartiError("Unsupported value as first argument of define special form: %s!", head);
+        }
+
         return SlartiList.EMPTY;
     }
 

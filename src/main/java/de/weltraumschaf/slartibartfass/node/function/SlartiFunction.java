@@ -2,9 +2,13 @@ package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.SlartiType;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,5 +78,46 @@ public abstract class SlartiFunction implements SlartiNode {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static SlartiFunction newFunction(final Environment parentEnv, final String name, final SlartiList formalParams, final SlartiList functionBody) {
+        return new SlartiFunction(name) {
+
+            @Override
+            public final SlartiNode apply(final List<SlartiNode> actualParameters) {
+                validateParameterCount(actualParameters);
+                final Environment localScope = new Environment(parentEnv);
+                mapParametersIntoLocalScope(actualParameters, localScope);
+
+                return functionBody.eval(localScope);
+            }
+
+            private void mapParametersIntoLocalScope(final List<SlartiNode> args, final Environment localScope) {
+                int i = 0;
+                for (final SlartiNode param : formalParams) {
+                    final SlartiSymbol paramSymbol = (SlartiSymbol) param;
+                    localScope.putValue(paramSymbol.name(), args.get(i));
+                    i++;
+                }
+            }
+
+            private void validateParameterCount(final Collection<SlartiNode> args) {
+                if (args.size() != formalParams.size()) {
+                    throw new SlartiError(
+                        "Wrong number of arguments. Expected: %d. Got: %d!",
+                        formalParams.size(), args.size());
+                }
+            }
+
+            @Override
+            public final boolean isBuiltIn() {
+                return false;
+            }
+
+            @Override
+            public final String toString() {
+                return '(' + super.toString() + ' ' + formalParams.toString() + ' ' + functionBody.toString() + ')';
+            }
+        };
     }
 }
