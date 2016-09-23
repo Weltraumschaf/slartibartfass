@@ -39,10 +39,10 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
 
     @Override
     public SlartiNode eval(final Environment env) {
-        final SlartiList formalParams = (SlartiList) head();
-        final SlartiList functionBody = (SlartiList) tail().head();
+        final SlartiList formalParams = head().castToList();
+        final SlartiList functionBody = tail().head().castToList();
 
-        return SlartiFunction.newFunction(env, symbol().name(), formalParams, functionBody);
+        return SlartiFunction.newFunction(env, symbol(), formalParams, functionBody);
     }
 
 }

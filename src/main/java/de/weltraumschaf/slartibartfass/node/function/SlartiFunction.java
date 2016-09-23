@@ -80,8 +80,8 @@ public abstract class SlartiFunction implements SlartiNode {
         return name;
     }
 
-    public static SlartiFunction newFunction(final Environment parentEnv, final String name, final SlartiList formalParams, final SlartiList functionBody) {
-        return new SlartiFunction(name) {
+    public static SlartiFunction newFunction(final Environment parentEnv, final SlartiSymbol name, final SlartiList formalParams, final SlartiList functionBody) {
+        return new SlartiFunction(name.name()) {
 
             @Override
             public final SlartiNode apply(final List<SlartiNode> actualParameters) {
