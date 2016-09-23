@@ -16,8 +16,8 @@ public class SlartiBooleanTest {
 
     @Test
     public void eval() {
-        assertThat(SlartiBoolean.FALSE.eval(new Environment()), is(Boolean.FALSE));
-        assertThat(SlartiBoolean.TRUE.eval(new Environment()), is(Boolean.TRUE));
+        assertThat(SlartiBoolean.FALSE.eval(new Environment()), is(SlartiBoolean.FALSE));
+        assertThat(SlartiBoolean.TRUE.eval(new Environment()), is(SlartiBoolean.TRUE));
     }
 
     @Test

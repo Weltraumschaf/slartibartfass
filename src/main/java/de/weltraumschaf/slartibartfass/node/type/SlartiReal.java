@@ -13,7 +13,7 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will return its bare double representation.
  * </p>
  */
-public final class SlartiReal implements SlartiNode, SlartiType<Double> {
+public final class SlartiReal implements SlartiNode<Double> {
     @SuppressWarnings("UnnecessaryBoxing")
     private static final Double ZERO_VALUE = Double.valueOf(0d);
     static final SlartiReal ZERO = new SlartiReal(ZERO_VALUE);
@@ -30,8 +30,8 @@ public final class SlartiReal implements SlartiNode, SlartiType<Double> {
     }
 
     @Override
-    public Object eval(final Environment env) {
-        return value;
+    public SlartiNode eval(final Environment env) {
+        return this;
     }
 
     @Override

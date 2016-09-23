@@ -30,7 +30,7 @@ public class LambdaSpecialFormTest {
 
         final Object result = function.apply(Arrays.asList(new SlartiInteger(10L)));
 
-        assertThat(result, is(100L));
+        assertThat(result, is(new SlartiInteger(100L)));
     }
 
 }

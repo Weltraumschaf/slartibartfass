@@ -22,7 +22,7 @@ import java.util.*;
  *
  * TODO Add type interface.
  */
-public class SlartiList implements SlartiNode, SlartiType<InternalList<SlartiNode>>, Iterable<SlartiNode> {
+public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterable<SlartiNode> {
     /**
      * Represents an empty list.
      */
@@ -48,7 +48,7 @@ public class SlartiList implements SlartiNode, SlartiType<InternalList<SlartiNod
     }
 
     @Override
-    public Object eval(final Environment env) {
+    public SlartiNode eval(final Environment env) {
         if (isHeadSymbol()) {
             return evalHead(env);
         }
@@ -60,12 +60,12 @@ public class SlartiList implements SlartiNode, SlartiType<InternalList<SlartiNod
         return head() instanceof SlartiSymbol;
     }
 
-    private Object evalHead(final Environment env) {
-        final Object headResult = head().eval(env);
+    private SlartiNode evalHead(final Environment env) {
+        final SlartiNode headResult = head().eval(env);
 
         if (headResult instanceof SlartiFunction) {
             final SlartiFunction function = (SlartiFunction) headResult;
-            final List<Object> args = new ArrayList<>();
+            final List<SlartiNode> args = new ArrayList<>();
 
             for (final SlartiNode node : this.tail()) {
                 args.add(node.eval(env));
@@ -77,11 +77,11 @@ public class SlartiList implements SlartiNode, SlartiType<InternalList<SlartiNod
         return headResult;
     }
 
-    private Object evalAll(final Environment env) {
-        final Collection<Object> results = new ArrayList<>();
+    private SlartiNode evalAll(final Environment env) {
+        final Collection<SlartiNode> results = new ArrayList<>();
 
         for (final SlartiNode node : data()) {
-            final Object result = node.eval(env);
+            final SlartiNode result = node.eval(env);
 
             if (SlartiList.EMPTY.equals(result)) {
                 continue;
@@ -90,10 +90,10 @@ public class SlartiList implements SlartiNode, SlartiType<InternalList<SlartiNod
             results.add(result);
         }
 
-        return unwrapResult(new InternalList<>(results));
+        return unwrapResult(new SlartiList(results));
     }
 
-    private Object unwrapResult(final InternalList<Object> results) {
+    private SlartiNode unwrapResult(final SlartiList results) {
         if (results.size() == 1) {
             return results.head();
         }

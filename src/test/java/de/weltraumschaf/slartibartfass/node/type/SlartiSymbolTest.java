@@ -30,9 +30,9 @@ public class SlartiSymbolTest {
     @Test
     public void eval() {
         final Environment env = new Environment();
-        env.putValue("foo", "bar");
+        env.putValue("foo", new SlartiString("bar"));
 
-        assertThat(sut.eval(env), is("bar"));
+        assertThat(sut.eval(env), is(new SlartiString("bar")));
     }
 
     @Test

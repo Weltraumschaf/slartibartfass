@@ -21,6 +21,6 @@ public class DefineSpecialFormTest {
 
         assertThat(sut.eval(env), is(SlartiList.EMPTY));
 
-        assertThat(env.getValue("foo"), is(42L));
+        assertThat(env.getValue("foo"), is(new SlartiInteger(42L)));
     }
 }

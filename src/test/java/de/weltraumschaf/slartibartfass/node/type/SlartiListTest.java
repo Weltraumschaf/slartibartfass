@@ -58,12 +58,12 @@ public class SlartiListTest {
         final Environment env = new Environment();
         final SlartiFunction fn = mock(SlartiFunction.class);
         when(a.eval(env)).thenReturn(fn);
-        when(b.eval(env)).thenReturn("foo");
-        when(c.eval(env)).thenReturn("bar");
+        when(b.eval(env)).thenReturn(new SlartiString("foo"));
+        when(c.eval(env)).thenReturn(new SlartiString("bar"));
 
         sut.eval(env);
 
-        verify(fn, times(1)).apply(Arrays.asList("foo", "bar"));
+        verify(fn, times(1)).apply(Arrays.asList(new SlartiString("foo"), new SlartiString("bar")));
     }
 
     @Test

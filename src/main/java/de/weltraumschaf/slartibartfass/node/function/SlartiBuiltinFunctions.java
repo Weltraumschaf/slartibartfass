@@ -3,8 +3,13 @@ package de.weltraumschaf.slartibartfass.node.function;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.SlartiError;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
+import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
+import jdk.nashorn.internal.objects.NativeDebug;
 
 import java.util.List;
 import java.util.Random;
@@ -18,15 +23,21 @@ public enum SlartiBuiltinFunctions {
      */
     ADD(new SlartiBuiltInFunctio("+") {
         @Override
-        public final Object apply(final List<Object> args) {
+        public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             long sum = 0;
 
-            for (final Object arg : args) {
-                sum += Long.parseLong(arg.toString());
+            for (final SlartiNode arg : args) {
+                if  (arg.isInteger()) {
+                    sum += arg.castToInteger().value();
+                } else if (arg.isReal()) {
+                    throw new UnsupportedOperationException("Not implemented!");
+                } else {
+                    throw unsupportedTypeOfArgument(arg);
+                }
             }
 
-            return Long.valueOf(sum);
+            return new SlartiInteger(sum);
         }
     }),
     /**
@@ -34,20 +45,58 @@ public enum SlartiBuiltinFunctions {
      */
     SUBTRACT(new SlartiBuiltInFunctio("-") {
         @Override
-        public final Object apply(final List<Object> args) {
-            // FIXME Deal with real numbers.
+        public final SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 1) {
                 throw new RuntimeException(String.format("Function %s requires at least one argument!", this.name()));
             } else if (args.size() == 1) {
-                return -((Long) args.get(0));
-            } else {
-                long result = (Long) args.get(0);
+                final SlartiNode arg = args.get(0);
 
-                for (int i=1; i<args.size(); i++) {
-                    result -= (Long) args.get(i);
+                if  (arg.isInteger()) {
+                    return new SlartiInteger(- arg.castToInteger().value());
+                } else if (arg.isReal()) {
+                    return new SlartiReal(- arg.castToReal().value());
+                } else {
+                    throw unsupportedTypeOfArgument(arg);
+                }
+            } else {
+                long intResult = 0L;
+                double realResult = 0d;
+                boolean realSeen = false;
+
+                final SlartiNode first = args.get(0);
+
+                if (first.isInteger()) {
+                    intResult = first.castToInteger().value();
+                } else if (first.isReal()) {
+                    realResult = first.castToReal().value();
+                    realSeen = true;
+                } else {
+                    throw unsupportedTypeOfArgument(first);
                 }
 
-                return result;
+
+                for (int i = 1; i < args.size(); i++) {
+                    final SlartiNode arg = args.get(i);
+
+                    if (arg.isInteger()) {
+                        if (realSeen) {
+                            realResult -= arg.castToInteger().value().doubleValue();
+                        } else {
+                            intResult -= arg.castToInteger().value();
+                        }
+                    } else if (arg.isReal()) {
+                        if (realSeen) {
+                            realResult -= arg.castToReal().value();
+                        } else {
+                            realResult = intResult - arg.castToReal().value();
+                            realSeen = true;
+                        }
+                    } else {
+                        throw unsupportedTypeOfArgument(first);
+                    }
+                }
+
+                return realSeen ? new SlartiReal(realResult) : new SlartiInteger(intResult);
             }
         }
     }),
@@ -56,15 +105,15 @@ public enum SlartiBuiltinFunctions {
      */
     MULTIPLY(new SlartiBuiltInFunctio("*") {
         @Override
-        public final Object apply(final List<Object> args) {
+        public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             long result = 1;
 
-            for (final Object arg : args) {
+            for (final SlartiNode arg : args) {
                 result *= Long.parseLong(arg.toString());
             }
 
-            return Long.valueOf(result);
+            return new SlartiInteger(Long.valueOf(result));
         }
     }),
     /**
@@ -72,7 +121,7 @@ public enum SlartiBuiltinFunctions {
      */
     DIVISION(new SlartiBuiltInFunctio("/") {
         @Override
-        public final Object apply(final List<Object> args) {
+        public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() < 2) {
                 throw new RuntimeException(String.format("Function %s requires at least two arguments!", this.name()));
@@ -80,11 +129,11 @@ public enum SlartiBuiltinFunctions {
 
             long result = Long.parseLong(args.get(0).toString());
 
-            for (final Object arg : args.subList(1, args.size())) {
+            for (final SlartiNode arg : args.subList(1, args.size())) {
                 result /= Long.parseLong(arg.toString());
             }
 
-            return result;
+            return new SlartiInteger(result);
         }
     }),
     /**
@@ -92,7 +141,7 @@ public enum SlartiBuiltinFunctions {
      */
     MODULO(new SlartiBuiltInFunctio("%") {
         @Override
-        public final Object apply(final List<Object> args) {
+        public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() < 2) {
                 throw new RuntimeException(String.format("Function %s requires at least two arguments!", this.name()));
@@ -100,11 +149,11 @@ public enum SlartiBuiltinFunctions {
 
             long result = Long.parseLong(args.get(0).toString());
 
-            for (final Object arg : args.subList(1, args.size())) {
+            for (final SlartiNode arg : args.subList(1, args.size())) {
                 result %= Long.parseLong(arg.toString());
             }
 
-            return result;
+            return new SlartiInteger(result);
         }
     }),
     /**
@@ -112,7 +161,7 @@ public enum SlartiBuiltinFunctions {
      */
     LESS_THAN(new SlartiBuiltInFunctio("<") {
         @Override
-        public Object apply(final List<Object> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() != 2) {
                 throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
@@ -121,7 +170,7 @@ public enum SlartiBuiltinFunctions {
             final long left = Long.parseLong(args.get(0).toString());
             final long right = Long.parseLong(args.get(1).toString());
 
-            return left < right;
+            return left < right ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
         }
     }),
     /**
@@ -130,7 +179,7 @@ public enum SlartiBuiltinFunctions {
     GREATER_THAN(new SlartiBuiltInFunctio(">") {
         // FIXME Deal with real numbers.
         @Override
-        public Object apply(List<Object> args) {
+        public SlartiNode apply(List<SlartiNode> args) {
             if (args.size() != 2) {
                 throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
             }
@@ -138,7 +187,7 @@ public enum SlartiBuiltinFunctions {
             final long left = Long.parseLong(args.get(0).toString());
             final long right = Long.parseLong(args.get(1).toString());
 
-            return left > right;
+            return left > right? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
         }
     }),
     /**
@@ -146,16 +195,16 @@ public enum SlartiBuiltinFunctions {
      */
     EQUALS(new SlartiBuiltInFunctio("=") {
         @Override
-        public Object apply(List<Object> args) {
+        public SlartiNode apply(List<SlartiNode> args) {
             // FIXME Deal with real numbers.
             if (args.size() != 2) {
                 throw new RuntimeException(String.format("Function %s requires two arguments!", this.name()));
             }
 
-            final Object left = args.get(0);
-            final Object right = args.get(1);
+            final SlartiNode left = args.get(0);
+            final SlartiNode right = args.get(1);
 
-            return left.equals(right);
+            return left.equals(right) ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
         }
     }),
     /**
@@ -163,18 +212,18 @@ public enum SlartiBuiltinFunctions {
      */
     AND(new SlartiBuiltInFunctio("and") {
         @Override
-        public Object apply(final List<Object> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             if (args == null || args.isEmpty()) {
-                return Boolean.FALSE;
+                return SlartiBoolean.FALSE;
             }
 
-            for (final Object arg : args) {
-                if (!Boolean.parseBoolean(arg.toString())) {
-                    return Boolean.FALSE;
+            for (final SlartiNode arg : args) {
+                if (!arg.castToBoolean().value()) {
+                    return SlartiBoolean.FALSE;
                 }
             }
 
-            return Boolean.TRUE;
+            return SlartiBoolean.TRUE;
         }
     }),
     /**
@@ -182,18 +231,18 @@ public enum SlartiBuiltinFunctions {
      */
     OR(new SlartiBuiltInFunctio("or") {
         @Override
-        public Object apply(final List<Object> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             if (args == null || args.isEmpty()) {
-                return Boolean.FALSE;
+                return SlartiBoolean.FALSE;
             }
 
-            for (final Object arg : args) {
-                if (Boolean.parseBoolean(arg.toString())) {
-                    return Boolean.TRUE;
+            for (final SlartiNode arg : args) {
+                if (arg.castToBoolean().value()) {
+                    return SlartiBoolean.TRUE;
                 }
             }
 
-            return Boolean.FALSE;
+            return SlartiBoolean.FALSE;
         }
     }),
     /**
@@ -201,11 +250,11 @@ public enum SlartiBuiltinFunctions {
      */
     PRINTLN(new SlartiBuiltInFunctio("println") {
         @Override
-        public final Object apply(final List<Object> args) {
+        public final SlartiNode apply(final List<SlartiNode> args) {
             final StringBuilder buffer = new StringBuilder();
 
-            for (final Object arg : args) {
-                buffer.append(arg.toString());
+            for (final SlartiNode arg : args) {
+                buffer.append(arg.castToString().value());
             }
 
             io.println(buffer.toString());
@@ -217,11 +266,11 @@ public enum SlartiBuiltinFunctions {
      */
     PRINT(new SlartiBuiltInFunctio("print") {
         @Override
-        public final Object apply(final List<Object> args) {
+        public final SlartiNode apply(final List<SlartiNode> args) {
             final StringBuilder buffer = new StringBuilder();
 
-            for (final Object arg : args) {
-                buffer.append(arg.toString());
+            for (final SlartiNode arg : args) {
+                buffer.append(arg.castToString().value());
             }
 
             io.print(buffer.toString());
@@ -235,7 +284,7 @@ public enum SlartiBuiltinFunctions {
         private final Random r = new Random();
 
         @Override
-        public Object apply(final List<Object> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             return new SlartiInteger(r.nextLong());
         }
     });
@@ -288,6 +337,12 @@ public enum SlartiBuiltinFunctions {
 
         protected void setIo(final IO io) {
             this.io = Validate.notNull(io, "io");
+        }
+
+        protected SlartiError unsupportedTypeOfArgument(final SlartiNode<?> argument) {
+            return new SlartiError(
+                String.format("Unsupported type %s of argument for function %s!",
+                    argument.getClass().getSimpleName(), name()));
         }
     }
 }

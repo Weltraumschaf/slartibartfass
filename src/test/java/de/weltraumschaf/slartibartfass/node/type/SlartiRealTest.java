@@ -17,7 +17,7 @@ public class SlartiRealTest {
 
     @Test
     public void eval() {
-        assertThat(sut.eval(new Environment()), is(3.14d));
+        assertThat(sut.eval(new Environment()), is(new SlartiReal(3.14d)));
     }
 
     @Test

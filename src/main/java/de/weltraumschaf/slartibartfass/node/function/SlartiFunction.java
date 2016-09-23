@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.node.function;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.SlartiType;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public abstract class SlartiFunction implements SlartiNode {
     }
 
     @Override
-    public final Object eval(final Environment env) {
+    public final SlartiNode eval(final Environment env) {
         return this;
     }
 
@@ -37,7 +38,7 @@ public abstract class SlartiFunction implements SlartiNode {
      * @param args must not be {@code null}
      * @return never {@code null}
      */
-    public abstract Object apply(final List<Object> args);
+    public abstract SlartiNode apply(final List<SlartiNode> args);
 
     /**
      * Whether the function is built in or user defined.

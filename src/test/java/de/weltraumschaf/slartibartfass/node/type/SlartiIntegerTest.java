@@ -18,7 +18,7 @@ public class SlartiIntegerTest {
 
     @Test
     public void eval() {
-        assertThat(sut.eval(new Environment()), is(42L));
+        assertThat(sut.eval(new Environment()), is(new SlartiInteger(42L)));
     }
 
     @Test

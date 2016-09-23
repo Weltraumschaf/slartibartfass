@@ -17,10 +17,10 @@ public final class IfSpecialForm extends SlartiSpecialForm {
     }
 
     @Override
-    public Object eval(final Environment env) {
+    public SlartiNode eval(final Environment env) {
         final SlartiNode condition = head();
 
-        if (Boolean.parseBoolean(condition.eval(env).toString())) {
+        if (condition.eval(env).castToBoolean().value()) {
             final SlartiNode thenBranch = tail().head();
             return thenBranch.eval(env);
         }

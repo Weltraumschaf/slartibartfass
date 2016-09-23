@@ -13,7 +13,7 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will return its bare long representation.
  * </p>
  */
-public final class SlartiInteger implements SlartiNode, SlartiType<Long> {
+public final class SlartiInteger implements SlartiNode<Long> {
     @SuppressWarnings("UnnecessaryBoxing")
     private static final Long ZERO_VALUE = Long.valueOf(0L);
     static final SlartiInteger ZERO = new SlartiInteger(ZERO_VALUE);
@@ -30,8 +30,8 @@ public final class SlartiInteger implements SlartiNode, SlartiType<Long> {
     }
 
     @Override
-    public Object eval(final Environment env) {
-        return value;
+    public SlartiNode eval(final Environment env) {
+        return this;
     }
 
     @Override

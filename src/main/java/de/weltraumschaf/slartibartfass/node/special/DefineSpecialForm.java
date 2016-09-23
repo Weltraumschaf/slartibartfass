@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
@@ -16,7 +17,7 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
     }
 
     @Override
-    public Object eval(final Environment env) {
+    public SlartiNode eval(final Environment env) {
         final SlartiSymbol sym = (SlartiSymbol) head();
         env.putValue(sym.name(), tail().head().eval(env));
         return SlartiList.EMPTY;

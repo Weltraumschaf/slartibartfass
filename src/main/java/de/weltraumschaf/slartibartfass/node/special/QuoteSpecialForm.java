@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.node.special;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.type.SlartiString;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 public final class QuoteSpecialForm extends SlartiSpecialForm {
@@ -15,7 +16,7 @@ public final class QuoteSpecialForm extends SlartiSpecialForm {
     }
 
     @Override
-    public Object eval(final Environment env) {
+    public SlartiNode eval(final Environment env) {
         final StringBuilder buffer = new StringBuilder();
         String sep = "";
 
@@ -24,6 +25,6 @@ public final class QuoteSpecialForm extends SlartiSpecialForm {
             sep = " ";
         }
 
-        return buffer.toString();
+        return new SlartiString(buffer.toString());
     }
 }

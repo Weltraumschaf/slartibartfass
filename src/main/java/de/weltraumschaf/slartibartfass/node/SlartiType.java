@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass.node;
 
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.type.*;
 
 /**
@@ -43,12 +44,18 @@ public interface SlartiType<T> {
         return isOf(SlartiSymbol.class);
     }
 
-    T value();
+    default T value() { return null; }
 
-    SlartiBoolean castToBoolean();
-    SlartiInteger castToInteger();
-    SlartiReal castToReal();
-    SlartiString castToString();
-    SlartiList castToList();
+    default SlartiBoolean castToBoolean() { throw unsupportedCastError(SlartiBoolean.class); }
+    default SlartiInteger castToInteger() { throw unsupportedCastError(SlartiInteger.class); }
+    default SlartiReal castToReal() { throw unsupportedCastError(SlartiReal.class); }
+    default SlartiString castToString() { throw unsupportedCastError(SlartiString.class); }
+    default SlartiList castToList() { throw unsupportedCastError(SlartiList.class); }
+
+    default SlartiError unsupportedCastError(final Class<?> wanted) {
+        return new SlartiError(
+            String.format("%s does not support cast to %s!",
+                getClass().getSimpleName(), wanted.getSimpleName()));
+    }
 
 }

@@ -35,7 +35,7 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
     }
 
     @Override
-    public Object eval(final Environment env) {
+    public SlartiNode eval(final Environment env) {
         final SlartiList formalParams = (SlartiList) head();
         final SlartiList functionBody = (SlartiList) tail().head();
 
@@ -46,7 +46,7 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
         return new SlartiFunction(name) {
 
             @Override
-            public final Object apply(final List<Object> actualParameters) {
+            public final SlartiNode apply(final List<SlartiNode> actualParameters) {
                 validateParameterCount(actualParameters);
                 final Environment localScope = new Environment(parentEnv);
                 mapParametersIntoLocalScope(actualParameters, localScope);
@@ -54,7 +54,7 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
                 return functionBody.eval(localScope);
             }
 
-            private void mapParametersIntoLocalScope(List<Object> args, Environment localScope) {
+            private void mapParametersIntoLocalScope(final List<SlartiNode> args, final Environment localScope) {
                 int i = 0;
                 for (final SlartiNode param : formalParams) {
                     final SlartiSymbol paramSymbol = (SlartiSymbol) param;
@@ -63,7 +63,7 @@ public final class LambdaSpecialForm extends SlartiSpecialForm {
                 }
             }
 
-            private void validateParameterCount(final Collection<Object> args) {
+            private void validateParameterCount(final Collection<SlartiNode> args) {
                 if (args.size() != formalParams.size()) {
                     throw new RuntimeException(String.format(
                         "Wrong number of arguments. Expected: %d. Got: %d!",

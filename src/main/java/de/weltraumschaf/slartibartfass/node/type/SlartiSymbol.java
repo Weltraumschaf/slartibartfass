@@ -20,7 +20,7 @@ import java.util.Objects;
  * </p>
  */
 
-public final class SlartiSymbol implements SlartiNode, SlartiType<String> {
+public final class SlartiSymbol implements SlartiNode<String> {
 
     private final String name;
 
@@ -44,7 +44,7 @@ public final class SlartiSymbol implements SlartiNode, SlartiType<String> {
     }
 
     @Override
-    public Object eval(final Environment env) {
+    public SlartiNode eval(final Environment env) {
         return env.getValue(name);
     }
 
@@ -96,12 +96,6 @@ public final class SlartiSymbol implements SlartiNode, SlartiType<String> {
     @Override
     public SlartiList castToList() {
         return new SlartiList(this);
-    }
-
-    private SlartiError unsupportedCastError(final Class<?> wanted) {
-        return new SlartiError(
-            String.format("%s does not support cast to %s!",
-                getClass().getSimpleName(), wanted.getSimpleName()));
     }
 
 }

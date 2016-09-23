@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class SlartiFunctionTest {
 
     private final SlartiFunction sut = new SlartiFunction("name") {
         @Override
-        public Object apply(List<Object> args) {
+        public SlartiNode apply(List<SlartiNode> args) {
             return null;
         }
 

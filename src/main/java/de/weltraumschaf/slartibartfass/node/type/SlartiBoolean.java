@@ -13,7 +13,7 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will return its bare boolean representation.
  * </p>
  */
-public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
+public final class SlartiBoolean implements SlartiNode<Boolean> {
     /**
      * Represents the {@code #true} value.
      * <p>
@@ -44,8 +44,8 @@ public final class SlartiBoolean implements SlartiNode, SlartiType<Boolean> {
     }
 
     @Override
-    public Object eval(final Environment env) {
-        return value;
+    public SlartiNode eval(final Environment env) {
+        return this;
     }
 
     @Override

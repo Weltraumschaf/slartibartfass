@@ -23,7 +23,7 @@ public class SlartiStringTest {
 
     @Test
     public void eval() {
-        assertThat(sut.eval(new Environment()), is("foo"));
+        assertThat(sut.eval(new Environment()), is(new SlartiString("foo")));
     }
 
     @Test

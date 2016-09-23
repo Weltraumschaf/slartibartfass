@@ -13,7 +13,7 @@ import java.util.Objects;
  * {@link #eval(Environment) Evaluating} this node will return its bare string representation.
  * </p>
  */
-public final class SlartiString implements SlartiNode, SlartiType<String> {
+public final class SlartiString implements SlartiNode<String> {
     private final String value;
 
     /**
@@ -27,8 +27,8 @@ public final class SlartiString implements SlartiNode, SlartiType<String> {
     }
 
     @Override
-    public Object eval(final Environment env) {
-        return value;
+    public SlartiNode eval(final Environment env) {
+        return this;
     }
 
     @Override

@@ -1,12 +1,13 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 
 import java.io.PrintStream;
 import java.util.*;
 
 public final class Environment {
-    private final Map<String, Object> store = new HashMap<>();
+    private final Map<String, SlartiNode> store = new HashMap<>();
     private final Environment parent;
 
     public Environment() {
@@ -18,7 +19,7 @@ public final class Environment {
         this.parent = parent;
     }
 
-    public Object getValue(final String name) {
+    public SlartiNode getValue(final String name) {
         if (store.containsKey(name)) {
             return this.store.get(name);
         } else if (hasParent()) {
@@ -28,7 +29,7 @@ public final class Environment {
         }
     }
 
-    public void putValue(final String name, final Object value) {
+    public void putValue(final String name, final SlartiNode value) {
         store.put(name, value);
     }
 

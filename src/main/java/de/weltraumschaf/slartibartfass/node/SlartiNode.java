@@ -5,7 +5,7 @@ import de.weltraumschaf.slartibartfass.Environment;
 /**
  * Base type for AST nodes.
  */
-public interface SlartiNode {
+public interface SlartiNode<T> extends SlartiType<T> {
     /**
      * Interprets the node.
      * <p>
@@ -20,5 +20,5 @@ public interface SlartiNode {
      * @param env must not be {@code null}
      * @return never {@code null}
      */
-    Object eval(Environment env);
+    SlartiNode eval(Environment env);
 }
