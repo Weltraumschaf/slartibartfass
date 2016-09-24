@@ -4,201 +4,207 @@ import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiError;
+import de.weltraumschaf.slartibartfass.node.Slarti;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
-import jdk.nashorn.internal.objects.NativeDebug;
 
 import java.util.List;
 import java.util.Random;
+import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**
  * All provided built in functions.
+ *
+ * TODO list, head, tail functions.
+ *
+ * @author Sven Strittmatter
  */
 public enum SlartiBuiltinFunctions {
     /**
      * Number addition.
      */
-    ADD(new SlartiBuiltInFunctio("+") {
+    ADD(new SlartiBuiltInFunctionBase("+") {
+
+
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
-            long sum = 0;
+        public SlartiNode apply(final List<SlartiNode> args) {
+            final ResultAccumulator accu = new ResultAccumulator(
+                (l, r) -> l + r,
+                (l, r) -> l + r
+            );
 
             for (final SlartiNode arg : args) {
-                if  (arg.isInteger()) {
-                    sum += arg.castToInteger().value();
-                } else if (arg.isReal()) {
-                    // FIXME Deal with real numbers.
-                    throw new UnsupportedOperationException("Not implemented!");
-                } else {
-                    throw unsupportedTypeOfArgument(arg);
-                }
+                errorIfNotNumber(arg);
+                accu.apply(arg);
             }
 
-            return new SlartiInteger(sum);
+            return accu.result();
         }
     }),
     /**
      * Number subtraction.
      */
-    SUBTRACT(new SlartiBuiltInFunctio("-") {
+    SUBTRACT(new SlartiBuiltInFunctionBase("-") {
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 1) {
                 throw new SlartiError("Function %s requires at least one argument!", name());
             } else if (args.size() == 1) {
                 final SlartiNode arg = args.get(0);
+                errorIfNotNumber(arg);
 
                 if  (arg.isInteger()) {
-                    return new SlartiInteger(- arg.castToInteger().value());
+                    return of(- arg.castToInteger().value());
                 } else if (arg.isReal()) {
-                    return new SlartiReal(- arg.castToReal().value());
-                } else {
-                    throw unsupportedTypeOfArgument(arg);
+                    return of(- arg.castToReal().value());
                 }
+
+                return null; // Never eached because error will be thrown if wrong bd above.
             } else {
-                long intResult = 0L;
-                double realResult = 0d;
-                boolean realSeen = false;
+                final ResultAccumulator accu = new ResultAccumulator(
+                    (l, r) -> l - r,
+                    (l, r) -> l - r
+                );
 
-                final SlartiNode first = args.get(0);
+                accu.init(args.get(0));
 
-                if (first.isInteger()) {
-                    intResult = first.castToInteger().value();
-                } else if (first.isReal()) {
-                    realResult = first.castToReal().value();
-                    realSeen = true;
-                } else {
-                    throw unsupportedTypeOfArgument(first);
-                }
-
-
-                for (int i = 1; i < args.size(); i++) {
+                for (int i = 1; i < args.size(); ++i) {
                     final SlartiNode arg = args.get(i);
-
-                    if (arg.isInteger()) {
-                        if (realSeen) {
-                            realResult -= arg.castToInteger().value().doubleValue();
-                        } else {
-                            intResult -= arg.castToInteger().value();
-                        }
-                    } else if (arg.isReal()) {
-                        if (realSeen) {
-                            realResult -= arg.castToReal().value();
-                        } else {
-                            realResult = intResult - arg.castToReal().value();
-                            realSeen = true;
-                        }
-                    } else {
-                        throw unsupportedTypeOfArgument(first);
-                    }
+                    errorIfNotNumber(arg);
+                    accu.apply(arg);
                 }
 
-                return realSeen ? new SlartiReal(realResult) : new SlartiInteger(intResult);
+                return accu.result();
             }
         }
     }),
     /**
      * Number multiplication.
      */
-    MULTIPLY(new SlartiBuiltInFunctio("*") {
+    MULTIPLY(new SlartiBuiltInFunctionBase("*") {
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
-            // FIXME Deal with real numbers.
-            long result = 1;
+        public SlartiNode apply(final List<SlartiNode> args) {
+            final ResultAccumulator accu = new ResultAccumulator(
+                (l, r) -> l * r,
+                (l, r) -> l * r
+            );
+            accu.init(of(1L));
 
             for (final SlartiNode arg : args) {
-                result *= Long.parseLong(arg.toString());
+                errorIfNotNumber(arg);
+                accu.apply(arg);
             }
 
-            return new SlartiInteger(Long.valueOf(result));
+            return accu.result();
         }
     }),
     /**
      * Number division.
      */
-    DIVISION(new SlartiBuiltInFunctio("/") {
+    DIVISION(new SlartiBuiltInFunctionBase("/") {
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
-            // FIXME Deal with real numbers.
-            // FIXME Handle division by 0.
+        public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 2) {
                 throw new SlartiError("Function %s requires at least two arguments!", name());
             }
 
-            long result = Long.parseLong(args.get(0).toString());
+            final ResultAccumulator accu = new ResultAccumulator(
+                (l, r) -> l / r,
+                (l, r) -> l / r
+            );
+            accu.init(args.get(0));
 
             for (final SlartiNode arg : args.subList(1, args.size())) {
-                result /= Long.parseLong(arg.toString());
+                errorIfNotNumber(arg);
+
+                if (isZero(arg)) {
+                    throw new SlartiError("Division by zero!");
+                }
+
+                accu.apply(arg);
             }
 
-            return new SlartiInteger(result);
+            return accu.result();
         }
     }),
     /**
      * Integer modulo.
      */
-    MODULO(new SlartiBuiltInFunctio("%") {
+    MODULO(new SlartiBuiltInFunctionBase("%") {
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
-            // FIXME Deal with real numbers.
-            // FIXME Handle division by 0.
+        public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 2) {
                 throw new SlartiError("Function %s requires at least two arguments!", name());
             }
 
-            long result = Long.parseLong(args.get(0).toString());
+            final ResultAccumulator accu = new ResultAccumulator(
+                (l, r) -> l % r,
+                (l, r) -> l % r
+            );
+            accu.init(args.get(0));
 
             for (final SlartiNode arg : args.subList(1, args.size())) {
-                result %= Long.parseLong(arg.toString());
+                errorIfNotNumber(arg);
+
+                if (isZero(arg)) {
+                    throw new SlartiError("Division by zero!");
+                }
+
+                accu.apply(arg);
             }
 
-            return new SlartiInteger(result);
+            return accu.result();
         }
     }),
     /**
      * Less than number comparison.
      */
-    LESS_THAN(new SlartiBuiltInFunctio("<") {
+    LESS_THAN(new SlartiBuiltInFunctionBase("<") {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
-            // FIXME Deal with real numbers.
             if (args.size() != 2) {
                 throw new SlartiError("Function %s requires two arguments!", name());
             }
 
-            final long left = Long.parseLong(args.get(0).toString());
-            final long right = Long.parseLong(args.get(1).toString());
+            final SlartiNode left = args.get(0);
+            errorIfNotNumber(left);
+            final SlartiNode right = args.get(1);
+            errorIfNotNumber(right);
 
-            return left < right ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
+            return left.castToReal().value() < right.castToReal().value() ?
+                SlartiBoolean.TRUE :
+                SlartiBoolean.FALSE;
         }
     }),
     /**
      * Greater than number comparison.
      */
-    GREATER_THAN(new SlartiBuiltInFunctio(">") {
-        // FIXME Deal with real numbers.
+    GREATER_THAN(new SlartiBuiltInFunctionBase(">") {
         @Override
         public SlartiNode apply(List<SlartiNode> args) {
             if (args.size() != 2) {
                 throw new SlartiError("Function %s requires two arguments!", name());
             }
 
-            final long left = Long.parseLong(args.get(0).toString());
-            final long right = Long.parseLong(args.get(1).toString());
+            final SlartiNode left = args.get(0);
+            errorIfNotNumber(left);
+            final SlartiNode right = args.get(1);
+            errorIfNotNumber(right);
 
-            return left > right? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
+            return left.castToReal().value() > right.castToReal().value() ?
+                SlartiBoolean.TRUE :
+                SlartiBoolean.FALSE;
         }
     }),
     /**
      * Equals comparison.
      */
-    EQUALS(new SlartiBuiltInFunctio("=") {
+    EQUALS(new SlartiBuiltInFunctionBase("=") {
         @Override
         public SlartiNode apply(List<SlartiNode> args) {
-            // FIXME Deal with real numbers.
             if (args.size() != 2) {
                 throw new SlartiError("Function %s requires two arguments!", name());
             }
@@ -212,7 +218,7 @@ public enum SlartiBuiltinFunctions {
     /**
      * Logical and of booleans.
      */
-    AND(new SlartiBuiltInFunctio("and") {
+    AND(new SlartiBuiltInFunctionBase("and") {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
             if (args == null || args.isEmpty()) {
@@ -231,7 +237,7 @@ public enum SlartiBuiltinFunctions {
     /**
      * Logical or of booleans.
      */
-    OR(new SlartiBuiltInFunctio("or") {
+    OR(new SlartiBuiltInFunctionBase("or") {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
             if (args == null || args.isEmpty()) {
@@ -250,9 +256,9 @@ public enum SlartiBuiltinFunctions {
     /**
      * Prints the given arguments appended with a newline.
      */
-    PRINTLN(new SlartiBuiltInFunctio("println") {
+    PRINTLN(new SlartiBuiltInFunctionBase("println") {
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             final StringBuilder buffer = new StringBuilder();
 
             for (final SlartiNode arg : args) {
@@ -266,9 +272,9 @@ public enum SlartiBuiltinFunctions {
     /**
      * Prints the given arguments.
      */
-    PRINT(new SlartiBuiltInFunctio("print") {
+    PRINT(new SlartiBuiltInFunctionBase("print") {
         @Override
-        public final SlartiNode apply(final List<SlartiNode> args) {
+        public SlartiNode apply(final List<SlartiNode> args) {
             final StringBuilder buffer = new StringBuilder();
 
             for (final SlartiNode arg : args) {
@@ -282,7 +288,7 @@ public enum SlartiBuiltinFunctions {
     /**
      * Generates a random integer.
      */
-    RANDOM(new SlartiBuiltInFunctio("random") {
+    RANDOM(new SlartiBuiltInFunctionBase("random") {
         private final Random r = new Random();
 
         @Override
@@ -291,6 +297,9 @@ public enum SlartiBuiltinFunctions {
         }
     });
 
+    /**
+     * Holds the implementation of the built in function.
+     */
     private final SlartiFunction impl;
 
     /**
@@ -321,29 +330,9 @@ public enum SlartiBuiltinFunctions {
         Validate.notNull(env, "env");
 
         for (final SlartiBuiltinFunctions fn : values()) {
-            ((SlartiBuiltInFunctio) fn.impl()).setIo(io);
+            ((SlartiBuiltInFunctionBase) fn.impl()).setIo(io);
             env.putValue(fn.impl.name(), fn.impl);
         }
     }
 
-    private static abstract class SlartiBuiltInFunctio extends SlartiFunction {
-        protected IO io;
-        protected SlartiBuiltInFunctio(String name) {
-            super(name);
-        }
-
-        public final boolean isBuiltIn() {
-            return true;
-        }
-
-        protected void setIo(final IO io) {
-            this.io = Validate.notNull(io, "io");
-        }
-
-        protected SlartiError unsupportedTypeOfArgument(final SlartiNode<?> argument) {
-            return new SlartiError(
-                String.format("Unsupported type %s of argument for function %s!",
-                    argument.getClass().getSimpleName(), name()));
-        }
-    }
 }

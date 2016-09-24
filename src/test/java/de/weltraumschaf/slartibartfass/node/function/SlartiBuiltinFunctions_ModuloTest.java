@@ -1,15 +1,21 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
+import de.weltraumschaf.slartibartfass.SlartiError;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
+import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 public class SlartiBuiltinFunctions_ModuloTest {
+    private static final double DELTA = 0.0001d;
+
     @Test
     public void name() {
         assertThat(SlartiBuiltinFunctions.MODULO.impl().name(), is("%"));
@@ -27,18 +33,35 @@ public class SlartiBuiltinFunctions_ModuloTest {
 
     @Test
     public void eval_twoArgs() {
-        final Object result = SlartiBuiltinFunctions.MODULO.impl()
-            .apply(Arrays.asList(new SlartiInteger(55L), new SlartiInteger(10L)));
+        final SlartiNode result = SlartiBuiltinFunctions.MODULO.impl().apply(of(55L), of(10L));
 
-        assertThat(result, is(new SlartiInteger(5L)));
+        assertThat(result, is(of(5L)));
     }
 
     @Test
     public void eval_threeArgs() {
-        final Object result = SlartiBuiltinFunctions.MODULO.impl()
-            .apply(Arrays.asList(new SlartiInteger(55L), new SlartiInteger(10L), new SlartiInteger(2L)));
+        final SlartiNode result = SlartiBuiltinFunctions.MODULO.impl().apply(of(55L), of(10L), of(2L));
 
-        assertThat(result, is(new SlartiInteger(1L)));
+        assertThat(result, is(of(1L)));
+    }
+
+    @Test
+    public void eavl_real() {
+        final SlartiNode result = SlartiBuiltinFunctions.MODULO.impl().apply(of(3.14), of(2d));
+
+        assertThat(((SlartiReal) result).value(), is(closeTo(1.14d, DELTA)));
+    }
+
+    @Test
+    public void eval_mixed() {
+        final SlartiNode result = SlartiBuiltinFunctions.MODULO.impl().apply(of(3.14), of(2L));
+
+        assertThat(((SlartiReal) result).value(), is(closeTo(1.14d, DELTA)));
+    }
+
+    @Test(expected = SlartiError.class)
+    public void eval_divisionByZero() {
+        SlartiBuiltinFunctions.MODULO.impl().apply(of(3.14), of(0L));
     }
 
 }

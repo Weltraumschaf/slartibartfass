@@ -7,6 +7,7 @@ import de.weltraumschaf.slartibartfass.node.type.*;
  * Capabilities of the languages native types.
  *
  * @param <T> underlying raw Java type
+ * @author Sven Strittmatter
  */
 public interface SlartiType<T> {
 

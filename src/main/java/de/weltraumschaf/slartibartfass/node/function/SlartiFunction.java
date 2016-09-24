@@ -8,6 +8,7 @@ import de.weltraumschaf.slartibartfass.node.SlartiType;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -17,8 +18,13 @@ import java.util.Objects;
  * <p>
  *     {@link #eval(Environment) Evaluating} this node will return the node itself.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
 public abstract class SlartiFunction implements SlartiNode {
+    /**
+     * The name of the function.
+     */
     private final String name;
 
     /**
@@ -37,12 +43,23 @@ public abstract class SlartiFunction implements SlartiNode {
     }
 
     /**
+     * Convenience method.
+     *
+     * @see #apply(List)
+     * @param args must not be {@code null}
+     * @return never {@code null}
+     */
+    public final SlartiNode apply(final SlartiNode ... args) {
+        return apply(Arrays.asList(args));
+    }
+
+    /**
      * Applies the function for the given arguments.
      *
      * @param args must not be {@code null}
      * @return never {@code null}
      */
-    public abstract SlartiNode apply(final List<SlartiNode> args);
+    public abstract SlartiNode apply(List<SlartiNode> args);
 
     /**
      * Whether the function is built in or user defined.
@@ -80,11 +97,20 @@ public abstract class SlartiFunction implements SlartiNode {
         return name;
     }
 
+    /**
+     * Factory method to create anonymous functions.
+     *
+     * @param parentEnv enclosing scope, must not be {@code null}
+     * @param name function name ,must not be {@code null} or empty
+     * @param formalParams must not be {@code null}
+     * @param functionBody must not be {@code null}
+     * @return never {@code null}
+     */
     public static SlartiFunction newFunction(final Environment parentEnv, final SlartiSymbol name, final SlartiList formalParams, final SlartiList functionBody) {
         return new SlartiFunction(name.name()) {
 
             @Override
-            public final SlartiNode apply(final List<SlartiNode> actualParameters) {
+            public SlartiNode apply(final List<SlartiNode> actualParameters) {
                 validateParameterCount(actualParameters);
                 final Environment localScope = new Environment(parentEnv);
                 mapParametersIntoLocalScope(actualParameters, localScope);
@@ -110,12 +136,12 @@ public abstract class SlartiFunction implements SlartiNode {
             }
 
             @Override
-            public final boolean isBuiltIn() {
+            public boolean isBuiltIn() {
                 return false;
             }
 
             @Override
-            public final String toString() {
+            public String toString() {
                 return '(' + super.toString() + ' ' + formalParams.toString() + ' ' + functionBody.toString() + ')';
             }
         };
