@@ -272,7 +272,10 @@
 
                 <configuration>
                     <excludes>
-                        <exclude>**/de/weltraumschaf/slartibartfass/frontend/*.*</exclude>
+                        <exclude>**/SlartiBaseVisitor.*</exclude>
+                        <exclude>**/SlartiLexer.*</exclude>
+                        <exclude>**/SlartiParser.*</exclude>
+                        <exclude>**/SlartiVisitor.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
