@@ -1,10 +1,14 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.InternalList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiString;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class QuoteSpecialForm extends SlartiSpecialForm {
 
@@ -17,14 +21,12 @@ public final class QuoteSpecialForm extends SlartiSpecialForm {
 
     @Override
     public SlartiNode eval(final Environment env) {
-        final StringBuilder buffer = new StringBuilder();
-        String sep = "";
+        final List<SlartiNode> quoted = new ArrayList<>();
 
         for (final SlartiNode node : data()) {
-            buffer.append(sep).append(node.toString());
-            sep = " ";
+            quoted.add(node);
         }
 
-        return new SlartiString(buffer.toString());
+        return new SlartiList(quoted);
     }
 }

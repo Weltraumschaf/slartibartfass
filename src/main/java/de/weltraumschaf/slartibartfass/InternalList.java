@@ -17,7 +17,7 @@ public final class InternalList<T> implements Iterable<T> {
         elements.forEach(this::add);
     }
 
-    InternalList() {
+    public InternalList() {
         super();
     }
 
