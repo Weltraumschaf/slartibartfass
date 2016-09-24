@@ -78,15 +78,18 @@ to function provided by the standard lib).
 - `*`: Multiplies the given arguments. Returns 1 if no argument is given.
        Return the argument itself if only one is given. You can pass
        as many arguments as you want.
-- `/`:
-- `%`:
-- `<`:
-- `>`:
-- `=`:
-- `and`:
-- `or`:
-- `println`:
-- `print`:
+- `/`: Divide numbers. This function requires at least two arguments.
+- `%`: Remainder of numbers. This function requires at least two arguments.
+- `<`: Compares two numbers if the first argument is less than the second. 
+       Requires exactly two arguments.
+- `>`: Compares two numbers if the first argument is greater than the second. 
+       Requires exactly two arguments.
+- `=`: Compares two arguments if the first argument is equal the second. 
+       Requires exactly two arguments.
+- `and`: Boolean and operation. Requires exactly two arguments. 
+- `or`: Boolean or operation. Requires exactly two arguments.
+- `println`: Prints the given arguments concatenated with a newline at the end.
+- `print`: Prints the given arguments concatenated.
 
 ## Other Reading Stuff
 

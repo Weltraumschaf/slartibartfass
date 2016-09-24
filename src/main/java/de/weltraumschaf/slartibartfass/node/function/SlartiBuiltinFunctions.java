@@ -123,6 +123,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
+            // FIXME Handle division by 0.
             if (args.size() < 2) {
                 throw new SlartiError("Function %s requires at least two arguments!", name());
             }
@@ -143,6 +144,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public final SlartiNode apply(final List<SlartiNode> args) {
             // FIXME Deal with real numbers.
+            // FIXME Handle division by 0.
             if (args.size() < 2) {
                 throw new SlartiError("Function %s requires at least two arguments!", name());
             }
