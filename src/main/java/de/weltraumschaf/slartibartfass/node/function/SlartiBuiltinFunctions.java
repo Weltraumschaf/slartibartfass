@@ -295,6 +295,60 @@ public enum SlartiBuiltinFunctions {
         public SlartiNode apply(final List<SlartiNode> args) {
             return new SlartiInteger(r.nextLong());
         }
+    }),
+    /**
+     * Function to create lists.
+     */
+    LIST(new SlartiBuiltInFunctionBase("list") {
+
+        @Override
+        public SlartiNode apply(final List<SlartiNode> args) {
+            return new SlartiList(args);
+        }
+    }),
+    /**
+     * Function to get the head of a list.
+     */
+    HEAD(new SlartiBuiltInFunctionBase("head") {
+
+        @Override
+        public SlartiNode apply(final List<SlartiNode> args) {
+            if (args.size() != 1) {
+                throw new SlartiError("Function %s expects exactly one argument!");
+            }
+
+            final SlartiNode list = args.get(0);
+
+            if (!list.isList()) {
+                throw new SlartiError("Function %s expects a list as argument!");
+            }
+
+            if (list.castToList().isEmpty()) {
+                return SlartiBoolean.FALSE;
+            }
+
+            return list.castToList().head();
+        }
+    }),
+    /**
+     * Function to get the tail of a list.
+     */
+    TAIL(new SlartiBuiltInFunctionBase("tail") {
+
+        @Override
+        public SlartiNode apply(final List<SlartiNode> args) {
+            if (args.size() != 1) {
+                throw new SlartiError("Function %s expects exactly one argument!");
+            }
+
+            final SlartiNode list = args.get(0);
+
+            if (!list.isList()) {
+                throw new SlartiError("Function %s expects a list as argument!");
+            }
+
+            return list.castToList().tail();
+        }
     });
 
     /**

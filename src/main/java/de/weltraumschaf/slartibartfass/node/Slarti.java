@@ -1,9 +1,6 @@
 package de.weltraumschaf.slartibartfass.node;
 
-import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
-import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
-import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
-import de.weltraumschaf.slartibartfass.node.type.SlartiString;
+import de.weltraumschaf.slartibartfass.node.type.*;
 
 /**
  * Factory to create nodes.
@@ -50,7 +47,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create stringss.
+     * Convenience method to create strings.
      *
      * @param value must not be {@code null}
      * @return never {@code null}
@@ -59,4 +56,13 @@ public final class Slarti {
         return new SlartiString(value);
     }
 
+    /**
+     * Convenience method to create a list from nodes.
+     *
+     * @param nodes must not be {@code null}
+     * @return never {@code null}
+     */
+    public static SlartiList of(final SlartiNode ... nodes) {
+        return new SlartiList(nodes);
+    }
 }

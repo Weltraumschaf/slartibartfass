@@ -2,7 +2,9 @@ package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiString;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,4 +92,54 @@ public class SlartiBuiltinFunctionsTest {
         verify(io, times(1)).print("foobarbaz");
     }
 
+    @Test
+    public void list_name() {
+        assertThat(SlartiBuiltinFunctions.LIST.impl().name(), is("list"));
+    }
+
+    @Test
+    public void list_empty() {
+        assertThat(SlartiBuiltinFunctions.LIST.impl().apply(Collections.emptyList()), is(SlartiList.EMPTY));
+    }
+
+    @Test
+    public void list_some() {
+        assertThat(
+            SlartiBuiltinFunctions.LIST.impl().apply(of("foo"), of("bar"), of("baz")),
+            is(of(of("foo"), of("bar"), of("baz"))));
+    }
+
+    @Test
+    public void head_name() {
+        assertThat(SlartiBuiltinFunctions.HEAD.impl().name(), is("head"));
+    }
+
+    @Test
+    public void head_empty() {
+        assertThat(SlartiBuiltinFunctions.HEAD.impl().apply(SlartiList.EMPTY), is(SlartiBoolean.FALSE));
+    }
+
+    @Test
+    public void head_some() {
+        assertThat(
+            SlartiBuiltinFunctions.HEAD.impl().apply(of(of("foo"), of("bar"), of("baz"))),
+            is(of("foo")));
+    }
+
+    @Test
+    public void tail_name() {
+        assertThat(SlartiBuiltinFunctions.TAIL.impl().name(), is("tail"));
+    }
+
+    @Test
+    public void tail_empty() {
+        assertThat(SlartiBuiltinFunctions.TAIL.impl().apply(SlartiList.EMPTY), is(SlartiList.EMPTY));
+    }
+
+    @Test
+    public void tail_some() {
+        assertThat(
+            SlartiBuiltinFunctions.TAIL.impl().apply(of(of("foo"), of("bar"), of("baz"))),
+            is(of(of("bar"), of("baz"))));
+    }
 }
