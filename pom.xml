@@ -272,7 +272,7 @@
 
                 <configuration>
                     <excludes>
-                        <exclude>**/de/weltraumschaf/slartibartfass/frontend/**</exclude>
+                        <exclude>**/de/weltraumschaf/slartibartfass/frontend/*.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
