@@ -62,7 +62,17 @@ public final class Slarti {
      * @param nodes must not be {@code null}
      * @return never {@code null}
      */
-    public static SlartiList of(final SlartiNode ... nodes) {
+    public static SlartiList list(final SlartiNode ... nodes) {
         return new SlartiList(nodes);
+    }
+
+    /**
+     * Convenience method to create a symbol.
+     *
+     * @param name must not be {@code null} or empty
+     * @return never {@code null}
+     */
+    public static SlartiSymbol sym(final String name) {
+        return new SlartiSymbol(name);
     }
 }

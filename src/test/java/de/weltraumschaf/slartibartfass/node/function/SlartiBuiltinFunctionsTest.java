@@ -3,14 +3,10 @@ package de.weltraumschaf.slartibartfass.node.function;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
-import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiString;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.hamcrest.Matchers.is;
@@ -106,7 +102,7 @@ public class SlartiBuiltinFunctionsTest {
     public void list_some() {
         assertThat(
             SlartiBuiltinFunctions.LIST.impl().apply(of("foo"), of("bar"), of("baz")),
-            is(of(of("foo"), of("bar"), of("baz"))));
+            is(list(of("foo"), of("bar"), of("baz"))));
     }
 
     @Test
@@ -122,7 +118,7 @@ public class SlartiBuiltinFunctionsTest {
     @Test
     public void head_some() {
         assertThat(
-            SlartiBuiltinFunctions.HEAD.impl().apply(of(of("foo"), of("bar"), of("baz"))),
+            SlartiBuiltinFunctions.HEAD.impl().apply(list(of("foo"), of("bar"), of("baz"))),
             is(of("foo")));
     }
 
@@ -139,7 +135,7 @@ public class SlartiBuiltinFunctionsTest {
     @Test
     public void tail_some() {
         assertThat(
-            SlartiBuiltinFunctions.TAIL.impl().apply(of(of("foo"), of("bar"), of("baz"))),
-            is(of(of("bar"), of("baz"))));
+            SlartiBuiltinFunctions.TAIL.impl().apply(list(of("foo"), of("bar"), of("baz"))),
+            is(list(of("bar"), of("baz"))));
     }
 }

@@ -12,14 +12,14 @@ public class QuoteSpecialFormTest {
 
     @Test
     public void eval() {
-        final SlartiSpecialForm sut = new QuoteSpecialForm(of(
+        final SlartiSpecialForm sut = new QuoteSpecialForm(list(
             new SlartiSymbol("foo"), of("bar"), of(23L)
         ));
 
         final Environment env = new Environment();
         env.putValue("foo", of(42L));
 
-        assertThat(sut.eval(env), is(of(
+        assertThat(sut.eval(env), is(list(
             new SlartiSymbol("foo"), of("bar"), of(23L)
         )));
     }

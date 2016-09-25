@@ -20,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 @SuppressWarnings("unchecked")
 public class DefaultSlartiVisitorTest {
@@ -63,106 +64,79 @@ public class DefaultSlartiVisitorTest {
 
         assertThat(
             nodes,
-            is(new SlartiList((new SlartiInteger(42L)))));
+            is(list(of(42L))));
     }
 
     @Test
     public void visit_threeNumbers() throws IOException {
         final SlartiNode nodes = sut.visit(parser(" 42   23  3  ").file());
 
-        assertThat(
-            nodes,
-            is(
-                new SlartiList(new SlartiInteger(42L), new SlartiInteger(23L), new SlartiInteger(3L))
-            )
-        );
+        assertThat(nodes, is(list(of(42L), of(23L), of(3L))));
     }
 
     @Test
     public void visit_true() throws IOException {
         final SlartiNode nodes = sut.visit(parser("#true").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList((SlartiBoolean.TRUE))));
+        assertThat(nodes, is(list(of(true))));
     }
 
     @Test
     public void visit_false() throws IOException {
         final SlartiNode nodes = sut.visit(parser("#false").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(SlartiBoolean.FALSE)));
+        assertThat(nodes, is(list(of(false))));
     }
 
     @Test
     public void visit_multipleBooleans() throws IOException {
         final SlartiNode nodes = sut.visit(parser(" #true\n #false \t#true").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(SlartiBoolean.TRUE, SlartiBoolean.FALSE, SlartiBoolean.TRUE)));
+        assertThat(nodes, is(list(of(true), of(false), of(true))));
     }
 
     @Test
     public void visit_oneSymbol() throws IOException {
         final SlartiNode nodes = sut.visit(parser("snafu").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(new SlartiSymbol("snafu"))));
+        assertThat(nodes, is(list(sym("snafu"))));
     }
 
     @Test
     public void visit_threeSymbol() throws IOException {
         final SlartiNode nodes = sut.visit(parser("  foo  \n bar  \t baz  ").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(new SlartiSymbol("foo"), new SlartiSymbol("bar"), new SlartiSymbol("baz"))));
+        assertThat(nodes, is(list(sym("foo"), sym("bar"), sym("baz"))));
     }
 
     @Test
     public void visit_oneString() throws IOException {
         final SlartiNode nodes = sut.visit(parser("\"foobar\"").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(new SlartiString("foobar"))));
+        assertThat(nodes, is(list(of("foobar"))));
     }
 
     @Test
     public void visit_oneStringWithWhitespaces() throws IOException {
         final SlartiNode nodes = sut.visit(parser("\"  foobar\n\"").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(
-                new SlartiString("  foobar\n"))));
+        assertThat(nodes, is(list(of("  foobar\n"))));
     }
 
     @Test
     public void visit_threeStrings() throws IOException {
         final SlartiNode nodes = sut.visit(parser("\"foo\" \"bar\" \"baz\"").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(
-                new SlartiString("foo"), new SlartiString("bar"), new SlartiString("baz"))));
+        assertThat(nodes, is(list(of("foo"), of("bar"), of("baz"))));
     }
 
     @Test
     public void visit_helloWorldQuote() throws IOException {
         final SlartiNode nodes = sut.visit(parser("(println (quote hello-world!))").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(new SlartiList(
-                new SlartiSymbol("println"), new QuoteSpecialForm(
-                    new SlartiList(
-                        new SlartiSymbol("hello-world!")
-                    ))
+        assertThat(nodes,
+            is(list(list(
+                sym("println"), new QuoteSpecialForm(list(sym("hello-world!")))
             )))
         );
     }
@@ -171,10 +145,9 @@ public class DefaultSlartiVisitorTest {
     public void visit_helloWorldString() throws IOException {
         final SlartiNode nodes = sut.visit(parser("(println \"Hello, World!\")").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(new SlartiList(
-                new SlartiSymbol("println"),  new SlartiString("Hello, World!")
+        assertThat(nodes,
+            is(list(list(
+                sym("println"),  of("Hello, World!")
             ))));
     }
 
@@ -182,12 +155,11 @@ public class DefaultSlartiVisitorTest {
     public void visit_helloWorldStringWithComments() throws IOException {
         final SlartiNode nodes = sut.visit(parser(
             " ; One line comment with own line.\n" +
-                "(println \"Hello, World!\") ; Comment at end of line\n").file());
+                "(println \"Hello, World!\") ; Comment at end list line\n").file());
 
-        assertThat(
-            nodes,
-            is(new SlartiList(new SlartiList(
-                new SlartiSymbol("println"),  new SlartiString("Hello, World!")
+        assertThat(nodes,
+            is(list(list(
+                sym("println"),  of("Hello, World!")
             ))));
     }
 
@@ -206,9 +178,9 @@ public class DefaultSlartiVisitorTest {
         assertThat(
             nodes,
             is(
-                new SlartiList(
-                    new DefineSpecialForm(new SlartiList(new SlartiSymbol("n"), new SlartiInteger(10L))),
-                    new SlartiList(new SlartiSymbol("foo"), new SlartiSymbol("n"))
+                list(
+                    new DefineSpecialForm(
+                        list(sym("n"), of(10L))), list(sym("foo"), sym("n"))
                 )
             )
         );
@@ -225,5 +197,23 @@ public class DefaultSlartiVisitorTest {
 
         final SlartiList list = (SlartiList) nodes;
         assertThat(list.size(), is(5));
+    }
+
+    @Test
+    public void visit_literalQuote() throws IOException {
+        final SlartiNode nodes = sut.visit(parser("(define (quote a) (quote b))").file());
+
+        assertThat(nodes, is(list(new DefineSpecialForm(list(
+            new QuoteSpecialForm(list(sym("a"))),
+            new QuoteSpecialForm(list(sym("b"))))))));
+    }
+
+    @Test
+    public void visit_quote() throws IOException {
+        final SlartiNode nodes = sut.visit(parser("(define 'a 'b)").file());
+
+        assertThat(nodes, is(list(new DefineSpecialForm(list(
+            new QuoteSpecialForm(list(sym("a"))),
+            new QuoteSpecialForm(list(sym("b"))))))));
     }
 }

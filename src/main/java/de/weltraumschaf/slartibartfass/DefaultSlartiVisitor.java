@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass;
 import de.weltraumschaf.slartibartfass.frontend.SlartiBaseVisitor;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.special.QuoteSpecialForm;
 import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
 import de.weltraumschaf.slartibartfass.node.type.*;
 
@@ -69,7 +70,7 @@ final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
 
     @Override
     public SlartiNode visitQuote(final SlartiParser.QuoteContext ctx) {
-        return new SlartiList(new SlartiSymbol("quote"), this.visit(ctx.form()));
+        return new QuoteSpecialForm(visit(ctx.form()).castToList());
     }
 
     @Override

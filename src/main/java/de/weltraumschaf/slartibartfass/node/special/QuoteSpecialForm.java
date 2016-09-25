@@ -13,7 +13,6 @@ import java.util.List;
 public final class QuoteSpecialForm extends SlartiSpecialForm {
 
     static final SlartiSymbol SYMBOL = new SlartiSymbol("quote");
-    static final SlartiSymbol ALIAS = new SlartiSymbol("'");
 
     public QuoteSpecialForm(final SlartiList list) {
         super(SYMBOL, list);
@@ -21,6 +20,10 @@ public final class QuoteSpecialForm extends SlartiSpecialForm {
 
     @Override
     public SlartiNode eval(final Environment env) {
+        if (size() == 1) {
+            return head();
+        }
+
         final List<SlartiNode> quoted = new ArrayList<>();
 
         for (final SlartiNode node : data()) {
