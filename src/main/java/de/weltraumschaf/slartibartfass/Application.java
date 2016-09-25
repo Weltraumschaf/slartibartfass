@@ -31,7 +31,7 @@ public final class Application extends InvokableAdapter {
      * Helper for CLI argument parsing.
      */
     private final JCommanderImproved<CliOptions> cliArgs = CliOptions.newCliArgParser();
-
+    private final Version version = new Version(BASE_PACKAGE + "/version.properties");
     /**
      * Dedicated constructor.
      *
@@ -52,6 +52,7 @@ public final class Application extends InvokableAdapter {
 
     @Override
     public void execute() throws Exception {
+        version.load();
         final CliOptions opts = cliArgs.gatherOptions(getArgs());
         debug = opts.isDebug();
 
@@ -61,8 +62,6 @@ public final class Application extends InvokableAdapter {
         }
 
         if (opts.isVersion()) {
-            final Version version = new Version(BASE_PACKAGE + "/version.properties");
-            version.load();
             getIoStreams().println(version.getVersion());
             return;
         }
@@ -104,7 +103,7 @@ public final class Application extends InvokableAdapter {
 
     private void startRepl(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Start REPL ...");
-        new Repl(getIoStreams(), visitor, env, isDebugEnabled()).start();
+        new Repl(getIoStreams(), visitor, env, isDebugEnabled()).start(version);
     }
 
     private void runInterpreter(final SlartiVisitor<SlartiNode> visitor, final Environment env, final Collection<String> filenames) throws IOException {

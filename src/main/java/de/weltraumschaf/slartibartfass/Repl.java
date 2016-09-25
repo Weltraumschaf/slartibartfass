@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.commons.application.IO;
+import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
@@ -22,6 +23,14 @@ import static jline.internal.Preconditions.checkNotNull;
  * Provides a read eval print loop.
  */
 final class Repl {
+    private static final String WELCOME =
+        " ____  _            _   _ _                _    __               \n" +
+        "/ ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n" +
+        "\\___ \\| |/ _` | '__| __| | '_ \\ / _` | '__| __| |_ / _` / __/ __|\n" +
+        " ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
+        "|____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
+        "                                                                 \n";
+    public static final String PROMPT = "sl> ";
     private final IO io;
     private final SlartiVisitor<SlartiNode> visitor;
     private final Environment env;
@@ -48,11 +57,13 @@ final class Repl {
      *     The REPL ends if {@code null} is read as input.
      * </p>
      *
+     * @param version must not be {@code null}
      * @throws IOException if the REPL can't read from the console
      */
-    void start() throws IOException {
+    void start(final Version version) throws IOException {
         final Parsers parsers = new Parsers(io);
         final ConsoleReader reader = createReader();
+        welcome(version);
 
         while (true) {
             final String data = reader.readLine();
@@ -65,7 +76,7 @@ final class Repl {
                 try {
                     execute(Command.getCmd(data));
                 } catch (final ExitRepl e) {
-                    io.println("Bye bye :-)");
+                    io.println(PROMPT + "Bye bye :-)");
                     break;
                 }
 
@@ -100,6 +111,14 @@ final class Repl {
         }
     }
 
+    private void welcome(Version version) {
+        io.print(WELCOME);
+        io.println(String.format("Welcome to Slartibartfass REPL v%s.", version.getVersion()));
+        io.println("");
+        io.println(String.format("  Type %s for help.", Command.HELP));
+        io.println("");
+    }
+
     private void printStackTraceOnDebug(final Throwable e) {
         e.printStackTrace(io.getStderr());
     }
@@ -125,7 +144,7 @@ final class Repl {
         final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
-        reader.setPrompt("sl> ");
+        reader.setPrompt(PROMPT);
         return reader;
     }
 
