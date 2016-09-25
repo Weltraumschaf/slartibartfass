@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 
 /**
  * Default implementation which converts the parsed tree into {@link SlartiNode nodes}.
+ *
+ * @author Sven Strittmatter
  */
 final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
 

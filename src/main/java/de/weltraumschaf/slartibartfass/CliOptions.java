@@ -1,19 +1,25 @@
 package de.weltraumschaf.slartibartfass;
 
 import com.beust.jcommander.Parameter;
+import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Command line options and help.
+ *
+ * @author Sven Strittmatter
+ */
 public final class CliOptions {
-    static final String PROG_NAME = "slarti";
-    static final String USAGE = PROG_NAME + " [-d|--debug] [-h|--help] [-v|--version] [<file1> <file2> ... <fileN>]";
-    static final String DESCRIPTION =
+    private static final String PROG_NAME = "slarti";
+    private static final String USAGE = PROG_NAME + " [-d|--debug] [-h|--help] [-v|--version] [<file1> <file2> ... <fileN>]";
+    private static final String DESCRIPTION =
         "A simple LISP interpreter. The syntax is like Scheme.\n\n" +
         "You can either start a REPL by invoking this command without any arguments\n" +
         "or you can pass as many files to interpret to the command.";
-    static final String EXAMPLES =
+    private static final String EXAMPLES =
         "$> slarti                   Start the REPL. Stop it with ctrl + c. Get some help with `!help` in the REPL.\n" +
         "  $> slarti hello_world.sl  Interpret the file hello_world.sl.";
 
@@ -68,5 +74,13 @@ public final class CliOptions {
             ", version=" + version +
             ", files=" + files +
             '}';
+    }
+
+    static JCommanderImproved<CliOptions> newCliArgParser() {
+        return new JCommanderImproved<>(CliOptions.PROG_NAME, CliOptions.class);
+    }
+
+    String helpMessage(final JCommanderImproved<CliOptions> cliArgs) {
+        return cliArgs.helpMessage(CliOptions.USAGE, CliOptions.DESCRIPTION, CliOptions.EXAMPLES);
     }
 }

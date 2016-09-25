@@ -18,8 +18,10 @@ import java.util.Collection;
  * <p>
  *     This class provides the {@link #main(String[])} main entry point}.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
-public class Application extends InvokableAdapter {
+public final class Application extends InvokableAdapter {
     /**
      * Base for accessing bundled resources.
      */
@@ -28,7 +30,7 @@ public class Application extends InvokableAdapter {
     /**
      * Helper for CLI argument parsing.
      */
-    private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<>(CliOptions.PROG_NAME, CliOptions.class);
+    private final JCommanderImproved<CliOptions> cliArgs = CliOptions.newCliArgParser();
 
     /**
      * Dedicated constructor.
@@ -54,7 +56,7 @@ public class Application extends InvokableAdapter {
         debug = opts.isDebug();
 
         if (opts.isHelp()) {
-            getIoStreams().print(cliArgs.helpMessage(CliOptions.USAGE, CliOptions.DESCRIPTION, CliOptions.EXAMPLES));
+            getIoStreams().print(opts.helpMessage(cliArgs));
             return;
         }
 
