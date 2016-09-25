@@ -272,10 +272,10 @@
 
                 <configuration>
                     <excludes>
-                        <exclude>**/SlartiBaseVisitor.*</exclude>
-                        <exclude>**/SlartiLexer.*</exclude>
-                        <exclude>**/SlartiParser.*</exclude>
-                        <exclude>**/SlartiVisitor.*</exclude>
+                        <exclude>**/SlartiBaseVisitor.class</exclude>
+                        <exclude>**/SlartiLexer.class</exclude>
+                        <exclude>**/SlartiParser.class</exclude>
+                        <exclude>**/SlartiVisitor.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
