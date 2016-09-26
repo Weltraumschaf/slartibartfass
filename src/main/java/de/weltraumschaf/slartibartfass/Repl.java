@@ -6,6 +6,7 @@ import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
@@ -120,7 +121,7 @@ final class Repl {
                 final SlartiNode node = visitor.visit(parser.file());
                 final Object result = node.eval(env);
 
-                if (InternalList.EMPTY.equals(result)) {
+                if (SlartiList.EMPTY.equals(result)) {
                     // Do not print empty list results.
                     continue;
                 }
