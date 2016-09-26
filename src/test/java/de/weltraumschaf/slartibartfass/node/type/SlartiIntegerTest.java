@@ -5,8 +5,13 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link SlartiInteger}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiIntegerTest {
 
     private final SlartiInteger sut = new SlartiInteger(42L);

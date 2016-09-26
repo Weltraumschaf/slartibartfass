@@ -7,6 +7,11 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link SlartiString}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiStringTest {
 
     private final SlartiString sut = new SlartiString("foo");

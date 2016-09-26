@@ -8,9 +8,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link SlartiSymbol}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiSymbolTest {
 
     @Rule

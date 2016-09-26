@@ -7,6 +7,11 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link SlartiReal}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiRealTest {
     private final SlartiReal sut = new SlartiReal(3.14d);
 

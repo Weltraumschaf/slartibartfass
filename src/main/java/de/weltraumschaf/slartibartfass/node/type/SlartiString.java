@@ -3,7 +3,6 @@ package de.weltraumschaf.slartibartfass.node.type;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.SlartiType;
 
 import java.util.Objects;
 
@@ -12,9 +11,10 @@ import java.util.Objects;
  * <p>
  * {@link #eval(Environment) Evaluating} this node will return its bare string representation.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
-public final class SlartiString implements SlartiNode<String> {
-    private final String value;
+public final class SlartiString extends ValueBasedType<String> {
 
     /**
      * Dedicated constructor.
@@ -22,49 +22,18 @@ public final class SlartiString implements SlartiNode<String> {
      * @param value must not be {@code null}
      */
     public SlartiString(final String value) {
-        super();
-        this.value = Validate.notNull(value, "value");
-    }
-
-    @Override
-    public SlartiNode eval(final Environment env) {
-        return this;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof SlartiString)) {
-            return false;
-        }
-
-        final SlartiString that = (SlartiString) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
-    }
-
-    @Override
-    public String toString() {
-        return '"' + value + '"';
-    }
-
-    @Override
-    public String value() {
-        return value;
+        super(value);
     }
 
     @Override
     public SlartiBoolean castToBoolean() {
-        return SlartiBoolean.TRUE_TOKEN.equals(value) ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
+        return SlartiBoolean.TRUE_TOKEN.equals(value()) ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
     }
 
     @Override
     public SlartiInteger castToInteger() {
         try {
-            return new SlartiInteger(Double.valueOf(value).longValue());
+            return new SlartiInteger(Double.valueOf(value()).longValue());
         } catch (final NumberFormatException e) {
             return SlartiInteger.ZERO;
         }
@@ -73,7 +42,7 @@ public final class SlartiString implements SlartiNode<String> {
     @Override
     public SlartiReal castToReal() {
         try {
-            return new SlartiReal(Double.valueOf(value));
+            return new SlartiReal(Double.valueOf(value()));
         } catch (final NumberFormatException e) {
             return SlartiReal.ZERO;
         }
@@ -87,5 +56,10 @@ public final class SlartiString implements SlartiNode<String> {
     @Override
     public SlartiList castToList() {
         return new SlartiList(this);
+    }
+
+    @Override
+    public String toString() {
+        return '"' + value() + '"';
     }
 }

@@ -15,6 +15,11 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 
+/**
+ * Tests for {@link LambdaSpecialForm}.
+ *
+ * @author Sven Strittmatter
+ */
 public class LambdaSpecialFormTest {
 
     @Test

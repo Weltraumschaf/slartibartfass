@@ -5,7 +5,6 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,6 +13,11 @@ import java.util.Collections;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link SlartiSpecialForm}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiSpecialFormTest {
     @Test
     public void equalsAndHashCode() {

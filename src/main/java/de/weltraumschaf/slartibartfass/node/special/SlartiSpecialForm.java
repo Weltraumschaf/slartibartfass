@@ -12,9 +12,14 @@ import java.util.Objects;
  * <p>
  *     Special forms are forms which are the bare minimum to form a turin complete language.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
 public abstract class SlartiSpecialForm extends SlartiList {
 
+    /**
+     * Symbolic name of the form.
+     */
     private final SlartiSymbol symbol;
 
     /**

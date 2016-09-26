@@ -3,9 +3,8 @@ package de.weltraumschaf.slartibartfass.node.type;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
-import de.weltraumschaf.slartibartfass.node.SlartiType;
-import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
+import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 
 import java.util.*;
 
@@ -20,7 +19,7 @@ import java.util.*;
  *     will be returned as collection. If the result is a single value then the collection will be unwrapped.
  * </p>
  *
- * TODO Add type interface.
+ * @author Sven Strittmatter
  */
 public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterable<SlartiNode> {
     /**

@@ -13,7 +13,7 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will return its bare boolean representation.
  * </p>
  */
-public final class SlartiBoolean implements SlartiNode<Boolean> {
+public final class SlartiBoolean extends ValueBasedType<Boolean> {
     /**
      * Represents the {@code #true} value.
      * <p>
@@ -28,10 +28,14 @@ public final class SlartiBoolean implements SlartiNode<Boolean> {
      * </p>
      */
     public static final SlartiBoolean FALSE = new SlartiBoolean(Boolean.FALSE);
+    /**
+     * Literal token for {@code true}.
+     */
     static final String TRUE_TOKEN = "#true";
+    /**
+     * Literal token for {@code false}.
+     */
     static final String FALSE_TOKEN = "#false";
-
-    private final Boolean value;
 
     /**
      * Use either {@link #TRUE} or {@link #FALSE}.
@@ -39,38 +43,7 @@ public final class SlartiBoolean implements SlartiNode<Boolean> {
      * @param value must not be {@code null}
      */
     private SlartiBoolean(final Boolean value) {
-        super();
-        this.value = Validate.notNull(value, "value");
-    }
-
-    @Override
-    public SlartiNode eval(final Environment env) {
-        return this;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof SlartiBoolean)) {
-            return false;
-        }
-
-        final SlartiBoolean that = (SlartiBoolean) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
-    }
-
-    @Override
-    public String toString() {
-        return Boolean.TRUE.equals(value) ? TRUE_TOKEN : FALSE_TOKEN;
-    }
-
-    @Override
-    public Boolean value() {
-        return value;
+        super(value);
     }
 
     @Override
@@ -80,12 +53,12 @@ public final class SlartiBoolean implements SlartiNode<Boolean> {
 
     @Override
     public SlartiInteger castToInteger() {
-        return Boolean.TRUE.equals(value) ? new SlartiInteger(1L) : new SlartiInteger(0L);
+        return Boolean.TRUE.equals(value()) ? new SlartiInteger(1L) : new SlartiInteger(0L);
     }
 
     @Override
     public SlartiReal castToReal() {
-        return Boolean.TRUE.equals(value) ? new SlartiReal(1d) : new SlartiReal(0d);
+        return Boolean.TRUE.equals(value()) ? new SlartiReal(1d) : new SlartiReal(0d);
     }
 
     @Override
@@ -98,4 +71,8 @@ public final class SlartiBoolean implements SlartiNode<Boolean> {
         return new SlartiList(this);
     }
 
+    @Override
+    public String toString() {
+        return value() ? TRUE_TOKEN : FALSE_TOKEN;
+    }
 }

@@ -2,9 +2,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.SlartiType;
 
 import java.util.Objects;
 
@@ -18,10 +16,14 @@ import java.util.Objects;
  *     {@link #eval(Environment) Evaluating} this node will look in the given {@link Environment environment} and all
  *     its parent for the symbol and returns the value of the first match.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
-
 public final class SlartiSymbol implements SlartiNode<String> {
 
+    /**
+     * Literal symbol name.
+     */
     private final String name;
 
     /**

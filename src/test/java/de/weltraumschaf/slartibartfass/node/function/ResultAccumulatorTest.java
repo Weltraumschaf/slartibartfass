@@ -7,6 +7,11 @@ import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link ResultAccumulator}.
+ *
+ * @author Sven Strittmatter
+ */
 public class ResultAccumulatorTest {
     private static final double DELTA = 0.0001d;
 

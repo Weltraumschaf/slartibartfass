@@ -2,17 +2,19 @@ package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiError;
-import de.weltraumschaf.slartibartfass.node.Slarti;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
-import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link IfSpecialForm}.
+ *
+ * @author Sven Strittmatter
+ */
 public class IfSpecialFormTest {
 
     private final Environment env = new Environment();

@@ -11,6 +11,11 @@ import java.util.Arrays;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link DefineSpecialForm}.
+ *
+ * @author Sven Strittmatter
+ */
 public class DefineSpecialFormTest {
     @Test
     public void eval() {
