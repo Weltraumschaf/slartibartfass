@@ -4,6 +4,9 @@ import de.weltraumschaf.slartibartfass.Environment;
 
 /**
  * Base type for AST nodes.
+ *
+ * @param <T> underlying raw Java type
+ * @author Sven Strittmatter
  */
 public interface SlartiNode<T> extends SlartiType<T> {
     /**

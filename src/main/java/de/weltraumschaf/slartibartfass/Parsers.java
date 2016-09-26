@@ -15,6 +15,8 @@ import java.util.Objects;
 
 /**
  * Factory to create parser.
+ *
+ * @author Sven Strittmatter
  */
 final class Parsers {
 

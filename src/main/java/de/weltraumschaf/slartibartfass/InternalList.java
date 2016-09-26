@@ -1,28 +1,70 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.commons.validate.Validate;
+
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 
-public final class InternalList<T> implements Iterable<T> {
+/**
+ * This is a simple list implementation which provides an interface to do Scheme like operations.
+ * <p>
+ *     This list is a simply lonked list which provides {@link #head()} and {@link #tail()} operations.
+ * </p>
+ *
+ * @param <T> type of the elements in the list
+ * @author Sven Strittmatter
+ */
+public class InternalList<T> implements Iterable<T> {
 
-    public static final InternalList<?> EMPTY = new InternalList<>();
+    /**
+     * Reusable empty list.
+     */
+    public static final InternalList<?> EMPTY = new InternalList<Object>() {
+        @Override
+        public void add(final Object element) {
+            throw new UnsupportedOperationException("Adding elements not allowed!");
+        }
+    };
 
+    /**
+     * Number of elements in the list.
+     */
     private int size;
+    /**
+     * The first element.
+     */
     private Pair<T> head;
+    /**
+     * The last element.
+     */
     private Pair<T> last;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param elements must not be {@code null}
+     */
     public InternalList(final Collection<T> elements) {
-        this();
+        super();
         elements.forEach(this::add);
     }
 
+    /**
+     * Convenience constructor for empty list.
+     */
     public InternalList() {
-        super();
+        this(Collections.emptyList());
     }
 
-    void add(T element) {
-        Objects.requireNonNull(element, "Parameter 'element' must not be null!");
+    /**
+     * Add a new element to the end of the list.
+     *
+     * @param element must not be {@code null}
+     */
+    public void add(final T element) {
+        Validate.notNull(element, "element");
 
         if (null == head) {
             head = new Pair<>(element);
@@ -35,11 +77,21 @@ public final class InternalList<T> implements Iterable<T> {
         ++size;
     }
 
-    public int size() {
+    /**
+     * Returns the number of elements in the list.
+     *
+     * @return never negative
+     */
+    public final int size() {
         return size;
     }
 
-    public T head() {
+    /**
+     * Returns the first element of the list.
+     *
+     * @return {@code null} if the list is empty
+     */
+    public final T head() {
         if (null == head) {
             return null;
         }
@@ -47,7 +99,12 @@ public final class InternalList<T> implements Iterable<T> {
         return head.value;
     }
 
-    public InternalList<T> tail() {
+    /**
+     * Return the list except the {@link #head() first element}.
+     *
+     * @return never {@code null}, maybe empty if there are no more elements than the {@link #head()}
+     */
+    public final InternalList<T> tail() {
         final InternalList<T> tail = new InternalList<>();
 
         if (size > 1) {
@@ -60,12 +117,12 @@ public final class InternalList<T> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public final Iterator<T> iterator() {
         return new InternalIterato<>(head);
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public final boolean equals(final Object o) {
         if (!(o instanceof InternalList)) {
             return false;
         }
@@ -77,12 +134,12 @@ public final class InternalList<T> implements Iterable<T> {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(size, head, last);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return new StringBuilder("InternalList{size=")
             .append(size).append(", items=[")
             .append(itemsAsString())
@@ -90,7 +147,12 @@ public final class InternalList<T> implements Iterable<T> {
             .toString();
     }
 
-    public String itemsAsString() {
+    /**
+     * Get the list itmes coma separated.
+     *
+     * @return never {@code null} maybe empty
+     */
+    public final String itemsAsString() {
         final StringBuilder buffer = new StringBuilder();
         String sep = "";
 

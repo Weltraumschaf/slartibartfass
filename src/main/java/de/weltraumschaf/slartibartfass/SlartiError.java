@@ -1,14 +1,19 @@
 package de.weltraumschaf.slartibartfass;
 
 /**
- * USed for any runtime error.
+ * Used for any runtime error.
+ *
+ * @author Sven Strittmatter
  */
 public class SlartiError extends RuntimeException {
+    /**
+     * The message is interpreted as format string.
+     *
+     * @param message format string
+     * @param args optional format arguments
+     */
     public SlartiError(final String message, final Object ... args) {
-        this(String.format(message, args));
+        super(String.format(message, args));
     }
 
-    public SlartiError(final String message) {
-        super(message);
-    }
 }

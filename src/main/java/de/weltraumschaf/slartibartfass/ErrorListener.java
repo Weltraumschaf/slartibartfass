@@ -9,12 +9,16 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.Interval;
 
-import java.io.PrintStream;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Custom error listener for ANTLR.
+ *
+ * @author Sven Strittmatter.
+ */
 public final  class ErrorListener implements ANTLRErrorListener {
 
     private final IO io;

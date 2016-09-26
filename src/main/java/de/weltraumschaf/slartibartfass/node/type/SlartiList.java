@@ -26,13 +26,26 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
      * Represents an empty list.
      */
     public static final SlartiList EMPTY = new SlartiList(Collections.emptyList());
+    /**
+     * Holds the list data.
+     */
     private final InternalList<SlartiNode> data;
 
+    /**
+     * Convenience constructor.
+     *
+     * @param data must not be {@code null}
+     */
     public SlartiList(final SlartiNode ... data) {
         this(Arrays.asList(data));
     }
 
-    public SlartiList(Collection<SlartiNode> data) {
+    /**
+     * Convenience constructor.
+     *
+     * @param data must not be {@code null}
+     */
+    public SlartiList(final Collection<SlartiNode> data) {
         this(new InternalList<>(data));
     }
 
@@ -48,15 +61,11 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
 
     @Override
     public SlartiNode eval(final Environment env) {
-        if (isHeadSymbol()) {
+        if (head().isSymbol()) {
             return evalHead(env);
         }
 
         return evalAll(env);
-    }
-
-    private boolean isHeadSymbol() {
-        return head() instanceof SlartiSymbol;
     }
 
     private SlartiNode evalHead(final Environment env) {

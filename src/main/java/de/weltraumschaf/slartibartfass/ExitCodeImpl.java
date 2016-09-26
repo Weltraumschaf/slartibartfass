@@ -2,6 +2,11 @@ package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.commons.system.ExitCode;
 
+/**
+ * Exit codes of the application.
+ *
+ * @author Sven Strittmatter
+ */
 public enum ExitCodeImpl implements ExitCode {
     /**
      * Any unspecified error.

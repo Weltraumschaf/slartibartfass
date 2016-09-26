@@ -13,6 +13,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link InternalList}.
+ *
+ * @author Sven Strittmatter
+ */
 public class InternalListTest {
 
     private final InternalList<String> sut = new InternalList<>();
