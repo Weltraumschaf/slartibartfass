@@ -5,7 +5,6 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.hamcrest.Matchers.closeTo;
@@ -13,6 +12,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
+/**
+ * Tests for {@link SlartiBuiltinFunctions#SUBTRACT}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiBuiltinFunctions_SubtractTest {
 
     private static final double DELTA = 0.0001d;

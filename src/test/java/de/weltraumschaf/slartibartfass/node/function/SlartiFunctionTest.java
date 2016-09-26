@@ -11,6 +11,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link SlartiFunction}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiFunctionTest {
 
     private final SlartiFunction sut = new SlartiFunction("name") {

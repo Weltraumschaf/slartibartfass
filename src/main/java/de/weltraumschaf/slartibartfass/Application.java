@@ -26,11 +26,13 @@ public final class Application extends InvokableAdapter {
      * Base for accessing bundled resources.
      */
     static final String BASE_PACKAGE = "/de/weltraumschaf/slartibartfass";
-
     /**
      * Helper for CLI argument parsing.
      */
     private final JCommanderImproved<CliOptions> cliArgs = CliOptions.newCliArgParser();
+    /**
+     * USed to show the version from Maven.
+     */
     private final Version version = new Version(BASE_PACKAGE + "/version.properties");
     /**
      * Dedicated constructor.

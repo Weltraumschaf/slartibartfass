@@ -14,6 +14,11 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
+/**
+ * Tests for {@link SlartiBuiltinFunctions}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiBuiltinFunctionsTest {
     private final IO io = mock(IO.class);
 
