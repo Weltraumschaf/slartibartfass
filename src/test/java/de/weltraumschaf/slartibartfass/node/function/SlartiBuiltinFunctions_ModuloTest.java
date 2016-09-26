@@ -13,6 +13,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
+/**
+ * Tests for {@link SlartiBuiltinFunctions#MODULO}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiBuiltinFunctions_ModuloTest {
     private static final double DELTA = 0.0001d;
 
@@ -28,7 +33,7 @@ public class SlartiBuiltinFunctions_ModuloTest {
 
     @Test(expected = RuntimeException.class)
     public void eval_oneArgs() {
-        SlartiBuiltinFunctions.MODULO.impl().apply(Collections.singletonList(new SlartiInteger(23L)));
+        SlartiBuiltinFunctions.MODULO.impl().apply(of(23L));
     }
 
     @Test

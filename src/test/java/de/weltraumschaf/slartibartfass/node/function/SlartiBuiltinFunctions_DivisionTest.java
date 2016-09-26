@@ -12,6 +12,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
+/**
+ * Tests for {@link SlartiBuiltinFunctions#DIVISION}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiBuiltinFunctions_DivisionTest {
     private static final double DELTA = 0.0001d;
 

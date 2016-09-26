@@ -12,6 +12,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
+/**
+ * Tests for {@link SlartiBuiltinFunctions#MULTIPLY}.
+ *
+ * @author Sven Strittmatter
+ */
 public class SlartiBuiltinFunctions_MultiplyTest {
     private static final double DELTA = 0.0001d;
 
