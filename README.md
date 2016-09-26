@@ -114,27 +114,36 @@ type when necessary.
 Builtin functions are directly interpreted in the interpreter (in contrast
 to function provided by the standard lib).
 
-- `+`: Sums up the given arguments. It returns 0 if no argument is given 
-       and the argument itself if only one argument is given. You can pass
-       as many arguments as you want.
-- `-`: Subtracts the givne arguments. Throws an error if no argument is 
-       given. Negates the argument if only one argument is given. You can pass
-       as many arguments as you want.
-- `*`: Multiplies the given arguments. Returns 1 if no argument is given.
-       Return the argument itself if only one is given. You can pass
-       as many arguments as you want.
-- `/`: Divide numbers. This function requires at least two arguments.
-- `%`: Remainder of numbers. This function requires at least two arguments.
-- `<`: Compares two numbers if the first argument is less than the second. 
-       Requires exactly two arguments.
-- `>`: Compares two numbers if the first argument is greater than the second. 
-       Requires exactly two arguments.
-- `=`: Compares two arguments if the first argument is equal the second. 
-       Requires exactly two arguments.
-- `and`: Boolean and operation. Requires exactly two arguments. 
-- `or`: Boolean or operation. Requires exactly two arguments.
-- `println`: Prints the given arguments concatenated with a newline at the end.
-- `print`: Prints the given arguments concatenated.
+- `+`:          Sums up the given arguments. It returns 0 if no argument 
+                is given and the argument itself if only one argument is 
+                given. You can pass as many arguments as you want.
+- `-`:          Subtracts the givne arguments. Throws an error if no 
+                argument is given. Negates the argument if only one 
+                argument is given. You can pass as many arguments as you 
+                want.
+- `*`:          Multiplies the given arguments. Returns 1 if no argument 
+                is given. Return the argument itself if only one is given. 
+                You can pass as many arguments as you want.
+- `/`:          Divide numbers. This function requires at least two arguments.
+- `%`:          Remainder of numbers. This function requires at least two 
+                arguments.
+- `<`:          Compares two numbers if the first argument is less than 
+                the second.  Requires exactly two arguments.
+- `>`:          Compares two numbers if the first argument is greater 
+                than the second. Requires exactly two arguments.
+- `=`:          Compares two arguments if the first argument is equal the 
+                second. Requires exactly two arguments.
+- `and`:        Boolean and operation. Requires exactly two arguments. 
+- `or`:         Boolean or operation. Requires exactly two arguments.
+- `println`:    Prints the given arguments concatenated with a newline at the end.
+- `print`:      Prints the given arguments concatenated.
+- `list`:       Creates a new list with the given arguments as elements 
+                of the list. For no arguments it will return an empty list.
+- `head`:       Returns the first element of a given list. If the list is
+                empty `#false` will be returned.
+- `tail`:       Returns the list except the first element (`head`) from
+                the given list. If the given list has a size less than 
+                two an empty lost will be returned.
 
 ## Other Reading Stuff
 
