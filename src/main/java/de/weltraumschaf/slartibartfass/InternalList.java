@@ -118,7 +118,7 @@ public class InternalList<T> implements Iterable<T> {
 
     @Override
     public final Iterator<T> iterator() {
-        return new InternalIterato<>(head);
+        return new InternalIterator<>(head);
     }
 
     @Override
@@ -128,9 +128,9 @@ public class InternalList<T> implements Iterable<T> {
         }
 
         final InternalList<?> that = (InternalList<?>) o;
-        return size == that.size &&
-            Objects.equals(head, that.head) &&
-            Objects.equals(last, that.last);
+        return size == that.size
+            && Objects.equals(head, that.head)
+            && Objects.equals(last, that.last);
     }
 
     @Override
@@ -164,13 +164,35 @@ public class InternalList<T> implements Iterable<T> {
         return buffer.toString();
     }
 
+    /**
+     * Entry type to link the list values.
+     *
+     * @param <V> type of entry
+     */
     static final class LinkedEntry<V> {
+        /**
+         * The value itself.
+         * <p>
+         *     This value is never {@code null}
+         * </p>
+         */
         private final V value;
+        /**
+         * The next linked value.
+         * <p>
+         *     This value may {@code null} for the last one in the list.
+         * </p>
+         */
         private LinkedEntry<V> next;
 
+        /**
+         * Dedicated constructor.
+         *
+         * @param value must not be {@code null}
+         */
         LinkedEntry(final V value) {
             super();
-            this.value = value;
+            this.value = Validate.notNull(value, "value");
         }
 
         @Override
@@ -180,8 +202,8 @@ public class InternalList<T> implements Iterable<T> {
             }
 
             final LinkedEntry<?> linkedEntry = (LinkedEntry<?>) o;
-            return Objects.equals(value, linkedEntry.value) &&
-                Objects.equals(next, linkedEntry.next);
+            return Objects.equals(value, linkedEntry.value)
+                && Objects.equals(next, linkedEntry.next);
         }
 
         @Override
@@ -190,11 +212,24 @@ public class InternalList<T> implements Iterable<T> {
         }
     }
 
-    private static final class InternalIterato<E> implements Iterator<E> {
+    /**
+     * Implememts iterator for {@link InternalList}.
+     *
+     * @param <E> type of iterated elements
+     */
+    private static final class InternalIterator<E> implements Iterator<E> {
 
+        /**
+         * The current iterated entry.
+         */
         private LinkedEntry<E> current;
 
-        public InternalIterato(final LinkedEntry<E> head) {
+        /**
+         * Dedicated constructor.
+         *
+         * @param head may be {@code null}
+         */
+        private InternalIterator(final LinkedEntry<E> head) {
             super();
             this.current = head;
         }
