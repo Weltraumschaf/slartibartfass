@@ -109,6 +109,17 @@ type when necessary.
     - to String: Simply `(1 2 3)` &rarr; `"(1 2 3)"` 
 - Symbol: Symbols can't be casted to anything!
 
+### Special Forms
+
+Special forms look like functions, but they are special because their
+keyword triggers a special behaviour in the interpreter. As an end user
+you will recognize this distinction. It is more an implementation detail.
+
+- `define`: TODO
+- `if`:     TODO
+- `lambda`: TODO
+- `quote`:  TODO
+
 ### Builtin Functions
 
 Builtin functions are directly interpreted in the interpreter (in contrast
