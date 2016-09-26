@@ -2,7 +2,6 @@ package de.weltraumschaf.slartibartfass;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -25,7 +24,7 @@ public class InternalListTest {
     @Test
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(InternalList.class)
-            .withPrefabValues(InternalList.Pair.class, new InternalList.Pair<>("foo"), new InternalList.Pair<>("bar"))
+            .withPrefabValues(InternalList.LinkedEntry.class, new InternalList.LinkedEntry<>("foo"), new InternalList.LinkedEntry<>("bar"))
             .suppress(Warning.NONFINAL_FIELDS)
             .verify();
     }

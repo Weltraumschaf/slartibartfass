@@ -35,11 +35,11 @@ public class InternalList<T> implements Iterable<T> {
     /**
      * The first element.
      */
-    private Pair<T> head;
+    private LinkedEntry<T> head;
     /**
      * The last element.
      */
-    private Pair<T> last;
+    private LinkedEntry<T> last;
 
     /**
      * Dedicated constructor.
@@ -67,10 +67,10 @@ public class InternalList<T> implements Iterable<T> {
         Validate.notNull(element, "element");
 
         if (null == head) {
-            head = new Pair<>(element);
+            head = new LinkedEntry<>(element);
             last = head;
         } else {
-            last.next = new Pair<>(element);
+            last.next = new LinkedEntry<>(element);
             last = last.next;
         }
 
@@ -164,24 +164,24 @@ public class InternalList<T> implements Iterable<T> {
         return buffer.toString();
     }
 
-    static final class Pair<V> {
+    static final class LinkedEntry<V> {
         private final V value;
-        private Pair<V> next;
+        private LinkedEntry<V> next;
 
-        Pair(final V value) {
+        LinkedEntry(final V value) {
             super();
             this.value = value;
         }
 
         @Override
         public boolean equals(final Object o) {
-            if (!(o instanceof Pair)) {
+            if (!(o instanceof InternalList.LinkedEntry)) {
                 return false;
             }
 
-            final Pair<?> pair = (Pair<?>) o;
-            return Objects.equals(value, pair.value) &&
-                Objects.equals(next, pair.next);
+            final LinkedEntry<?> linkedEntry = (LinkedEntry<?>) o;
+            return Objects.equals(value, linkedEntry.value) &&
+                Objects.equals(next, linkedEntry.next);
         }
 
         @Override
@@ -192,9 +192,9 @@ public class InternalList<T> implements Iterable<T> {
 
     private static final class InternalIterato<E> implements Iterator<E> {
 
-        private Pair<E> current;
+        private LinkedEntry<E> current;
 
-        public InternalIterato(final Pair<E> head) {
+        public InternalIterato(final LinkedEntry<E> head) {
             super();
             this.current = head;
         }
