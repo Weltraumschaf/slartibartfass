@@ -21,8 +21,19 @@ import static jline.internal.Preconditions.checkNotNull;
 
 /**
  * Provides a read eval print loop.
+ * <p>
+ *     The REPL reads a user input line until newline, then parse and interpret it and finally prints the result
+ *     back to the user. It upports the same syntax like the interpreted files. Aso the REPL supports some iternal
+ *     {@link Command commands} to do things not provided by the language itself: E.g. show the allocated memory
+ *     in the  environment.
+ * </p>
+ *
+ * @author Sven Strittmatter
  */
 final class Repl {
+    /**
+     * Greeting to the user.
+     */
     private static final String WELCOME =
         " ____  _            _   _ _                _    __               \n" +
         "/ ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n" +
@@ -30,15 +41,35 @@ final class Repl {
         " ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
         "|____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
         "                                                                 \n";
-    public static final String PROMPT = "sl> ";
+    /**
+     * The REPL prompt to signal that user input is expected.
+     */
+    private static final String PROMPT = "sl> ";
+    /**
+     * Injected I/O streams
+     */
     private final IO io;
+    /**
+     * Visitor to convert the parsed input.
+     */
     private final SlartiVisitor<SlartiNode> visitor;
+    /**
+     * The root scope to allocate memory.
+     */
     private final Environment env;
+    /**
+     * Whether to print debug information.
+     */
     private final boolean isDebugEnabled;
+    /**
+     * Flag to signal that the loop should be exited.
+     */
+    private boolean exit;
 
     /**
      * Dedicated constructor.
-     *  @param io must not be {@code null}
+     *
+     * @param io must not be {@code null}
      * @param visitor must not be {@code null}
      * @param env must not be {@code null}
      * @param isDebugEnabled whether to print debug output
@@ -73,15 +104,16 @@ final class Repl {
             }
 
             if (Command.isCmd(data)) {
-                try {
-                    execute(Command.getCmd(data));
-                } catch (final ExitRepl e) {
+                execute(Command.getCmd(data));
+
+                if (exit) {
                     io.println(PROMPT + "Bye bye :-)");
                     break;
                 }
 
                 continue;
             }
+
 
             try {
                 final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), isDebugEnabled);
@@ -111,7 +143,12 @@ final class Repl {
         }
     }
 
-    private void welcome(Version version) {
+    /**
+     * Show a welcome message to the user.
+     *
+     * @param version must not be {@code null}
+     */
+    private void welcome(final Version version) {
         io.print(WELCOME);
         io.println(String.format("Welcome to Slartibartfass REPL v%s.", version.getVersion()));
         io.println("");
@@ -119,17 +156,28 @@ final class Repl {
         io.println("");
     }
 
+    /**
+     * Print the exception stack trace to the error output stream.
+     *
+     * @param e must not be {@code null}
+     */
     private void printStackTraceOnDebug(final Throwable e) {
         e.printStackTrace(io.getStderr());
     }
 
+    /**
+     * Executes a REPL command.
+     *
+     * @param cmd if {@code null} a error message will be printed to the user.
+     */
     private void execute(final Command cmd) {
         switch (cmd) {
             case ENV:
                 env.print(io.getStdout());
                 break;
             case EXIT:
-                throw new ExitRepl();
+                exit = true;
+                break;
             case HELP:
                 Command.printHelp(io.getStdout());
                 break;
@@ -139,7 +187,14 @@ final class Repl {
         }
     }
 
+    /**
+     * Facotry method to create the interactive console.
+     *
+     * @return never {@code null}, always new instance
+     * @throws IOException if the I/O streams can't be written/read
+     */
     private ConsoleReader createReader() throws IOException {
+        // Disable this so we can use the bang (!) for our commands as prefix.
         System.setProperty("jline.expandevents", Boolean.FALSE.toString());
         final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
@@ -148,6 +203,11 @@ final class Repl {
         return reader;
     }
 
+    /**
+     * Create completion hints for the interactive console.
+     *
+     * @return never {@code null}, always new instance
+     */
     private Completer createCompletionHints() {
         return new CommandEnumCompleter(Command.class);
     }
@@ -155,27 +215,47 @@ final class Repl {
     /**
      * Special commands in the REPL.
      * <p>
-     *     These commands are not part of the language itself.
+     *     These commands are not part of the language itself and are treated case sensitive.
      * </p>
      */
     private enum Command {
+        /**
+         * Shows the allocated  memory.
+         */
         ENV("Shows the environment from the current scope up to the root."),
+        /**
+         * Exits the REPL.
+         */
         EXIT("Stops the REPL and exits."),
+        /**
+         * Shows help about the REPL commands.
+         */
         HELP("Shows this help.");
 
         /**
          * Escape the command to distinguish them from usual syntax.
          */
         private static final char PREFIX = '!';
+        /**
+         * Lookup table to find the command enum by name.
+         */
         private static final Map<String, Command> LOOKUP = new HashMap<>();
         static {
             Arrays.stream(Command.values()).forEach(c -> LOOKUP.put(c.toString(), c));
         }
 
+        /**
+         * Help message of the command.
+         */
         private final String help;
 
+        /**
+         * Dedicated constructor.
+         *
+         * @param help must not be {@code null} or empty
+         */
         Command(final String help) {
-            this.help = help;
+            this.help = Validate.notEmpty(help, "help");
         }
 
         @Override
@@ -183,17 +263,43 @@ final class Repl {
             return PREFIX + name().toLowerCase();
         }
 
+        /**
+         * Whether a given string is a command.
+         *
+         * @param in the tested string
+         * @return {@code true} if it is a command, else {@code false}
+         */
         public static boolean isCmd(final String in) {
+            if (null == in) {
+                return false;
+            }
+
             return LOOKUP.containsKey(in.trim());
         }
 
+
+        /**
+         * Get the command enum for given string.
+         * <p>
+         *     Use {@link #isCmd(String)} to check if there is a command for the givne string.
+         * </p>
+         *
+         * @param in must not be {@code null}
+         * @return never {@code null}
+         */
         public static Command getCmd(final String in) {
-            return LOOKUP.get(in.trim());
+            return LOOKUP.get(Validate.notNull(in, "in").trim());
         }
 
-        public static void printHelp(final PrintStream stdout) {
-            stdout.println("Available commands:");
-            Arrays.stream(values()).forEach( c -> stdout.println(String.format("  %1$-8s", c.toString()) + c.help));
+        /**
+         * Print he help for all commands to the givne output stream.
+         *
+         * @param out must not be {@code null}
+         */
+        public static void printHelp(final PrintStream out) {
+            Validate.notNull(out, "out");
+            out.println("Available commands:");
+            Arrays.stream(values()).forEach( c -> out.println(String.format("  %1$-8s", c.toString()) + c.help));
         }
     }
 
@@ -210,7 +316,4 @@ final class Repl {
         }
     }
 
-    private static final class ExitRepl extends RuntimeException {
-
-    }
 }
