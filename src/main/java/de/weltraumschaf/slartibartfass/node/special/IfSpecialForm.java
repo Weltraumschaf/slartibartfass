@@ -16,6 +16,7 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
  *     If the else branch is omitted and the condition evaluates to false an empty list will be returned.
  * </p>
  *
+ * @author Sven Strittmatter
  */
 public final class IfSpecialForm extends SlartiSpecialForm {
 

@@ -23,18 +23,23 @@ import java.util.stream.Stream;
  *     arguments on the fly. Use this special form in conjunction with the {@link DefineSpecialForm define special form}
  *     to store the function under a name in the environment.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
 public final class LambdaSpecialForm extends SlartiSpecialForm {
 
+    /**
+     * Symbol of the special form.
+     */
     static final SlartiSymbol SYMBOL = new SlartiSymbol("lambda");
 
     /**
      * Dedicated constructor.
      *
-     * @param list must not be {@code null}
+     * @param arguments must not be {@code null}
      */
-    public LambdaSpecialForm(final SlartiList list) {
-        super(SYMBOL, list);
+    public LambdaSpecialForm(final SlartiList arguments) {
+        super(SYMBOL, arguments);
     }
 
     @Override

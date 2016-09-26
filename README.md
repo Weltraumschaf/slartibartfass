@@ -129,7 +129,8 @@ you will recognize this distinction. It is more an implementation detail.
             `(lambda (x) (* x x))`. You can define a function with: 
             `(define square (lambda (x) (* x x)))` or use the shortcut
             `(define (square x) (* x x))`
-- `quote`:  TODO
+- `quote`:  Write complex data structures as textual literals. You can 
+            either use `(quote foo)` or `'foo`. 
 
 ### Builtin Functions
 

@@ -10,12 +10,46 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This special form treats the quoted argument literal instead of evaluate it.
+ * <p>
+ *     Syntax: {@code (quote foo)} or {@code 'foo}
+ * </p>
+ * <p>
+ *     Usually expressions are evaluated directly:
+ * </p>
+ * <pre>
+ *     sl> (define a 2)
+ *     sl> (define b 3)
+ *     sl> (list a b)
+ *     (2 3)
+ * </pre>
+ * <p>
+ *     With quote the quoted expressions ae not evaluated:
+ * </p>
+ * <pre>
+ *     sl> (define a 2)
+ *     sl> (define b 3)
+ *     sl> (list 'a 'b)
+ *     (a b)
+ * </pre>
+ *
+ * @author Sven Strittmatter
+ */
 public final class QuoteSpecialForm extends SlartiSpecialForm {
 
+    /**
+     * Symbol of the special form.
+     */
     static final SlartiSymbol SYMBOL = new SlartiSymbol("quote");
 
-    public QuoteSpecialForm(final SlartiList list) {
-        super(SYMBOL, list);
+    /**
+     * Dedicated constructor.
+     *
+     * @param arguments must not be {@code null}
+     */
+    public QuoteSpecialForm(final SlartiList arguments) {
+        super(SYMBOL, arguments);
     }
 
     @Override

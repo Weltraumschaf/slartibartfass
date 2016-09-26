@@ -10,8 +10,10 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 /**
  * This special form allocates memory either for variables or functions.
  * <p>
- * Syntax: {@code (define var-symbol (VALUE))} or {@code (define (function-symbol <formal-params>) <function-body>)}.
+ *     Syntax: {@code (define var-symbol (VALUE))} or {@code (define (function-symbol <formal-params>) <function-body>)}.
  * </p>
+ *
+ * @author Sven Strittmatter
  */
 public final class DefineSpecialForm extends SlartiSpecialForm {
 
