@@ -8,14 +8,25 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 /**
- * Syntax: {@code (define symbol (VALUE) )}.
+ * This special form allocates memory either for variables or functions.
+ * <p>
+ * Syntax: {@code (define var-symbol (VALUE))} or {@code (define (function-symbol <formal-params>) <function-body>)}.
+ * </p>
  */
 public final class DefineSpecialForm extends SlartiSpecialForm {
 
+    /**
+     * Symbol of the special form.
+     */
     static final SlartiSymbol SYMBOL = new SlartiSymbol("define");
 
-    public DefineSpecialForm(final SlartiList list) {
-        super(SYMBOL, list);
+    /**
+     * Dedicated constructor.
+     *
+     * @param arguments must not be {@code null}
+     */
+    public DefineSpecialForm(final SlartiList arguments) {
+        super(SYMBOL, arguments);
     }
 
     @Override

@@ -115,7 +115,11 @@ Special forms look like functions, but they are special because their
 keyword triggers a special behaviour in the interpreter. As an end user
 you will recognize this distinction. It is more an implementation detail.
 
-- `define`: TODO
+- `define`: Allocates memory either for variables or functions. The memory 
+            is bound to a symbol in the current scope. It is not possible
+            to allocate memory by a symbol without initializing it with a
+            value. Example to define a variable: `(define foo 5)`. Example
+            to define a function: `(define (double x) (* x 2))`.
 - `if`:     TODO
 - `lambda`: TODO
 - `quote`:  TODO
