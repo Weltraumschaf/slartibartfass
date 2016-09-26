@@ -123,9 +123,12 @@ you will recognize this distinction. It is more an implementation detail.
 - `if`:     Branches the execution based on condition. The result of the 
             brnach is returned. If no else branch is given and the condition 
             evaluates to false an empty list is returned. Example with else
-            brnach: `(if <condition> <thenBrnach> <elseBranch>)`. Example
-            without else branch `(if <condition> <thenBrnach>)`.
-- `lambda`: TODO
+            brnach: `(if (< a b) (+ a b) (- a b))`. Example
+            without else branch `(if (< a b) (+ a b))`.
+- `lambda`: Creates new functions which can be  assigned. Example: 
+            `(lambda (x) (* x x))`. You can define a function with: 
+            `(define square (lambda (x) (* x x)))` or use the shortcut
+            `(define (square x) (* x x))`
 - `quote`:  TODO
 
 ### Builtin Functions
