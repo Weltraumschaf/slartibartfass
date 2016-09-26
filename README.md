@@ -120,7 +120,11 @@ you will recognize this distinction. It is more an implementation detail.
             to allocate memory by a symbol without initializing it with a
             value. Example to define a variable: `(define foo 5)`. Example
             to define a function: `(define (double x) (* x 2))`.
-- `if`:     TODO
+- `if`:     Branches the execution based on condition. The result of the 
+            brnach is returned. If no else branch is given and the condition 
+            evaluates to false an empty list is returned. Example with else
+            brnach: `(if <condition> <thenBrnach> <elseBranch>)`. Example
+            without else branch `(if <condition> <thenBrnach>)`.
 - `lambda`: TODO
 - `quote`:  TODO
 
