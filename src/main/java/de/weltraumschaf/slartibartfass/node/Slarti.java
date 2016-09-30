@@ -2,6 +2,8 @@ package de.weltraumschaf.slartibartfass.node;
 
 import de.weltraumschaf.slartibartfass.node.type.*;
 
+import java.util.Collection;
+
 /**
  * Factory to create nodes.
  *
@@ -63,6 +65,10 @@ public final class Slarti {
      * @return never {@code null}
      */
     public static SlartiList list(final SlartiNode ... nodes) {
+        return new SlartiList(nodes);
+    }
+
+    public static SlartiList list(final Collection<SlartiNode> nodes) {
         return new SlartiList(nodes);
     }
 
