@@ -1,21 +1,20 @@
 # Slartibartfass
 
-This project is a simple [Scheme][scheme] like [Lisp][lisp] interpreter.
-It is based on [this tutorial][mumbler]. Also it is influenced by the
-book [Structure and Interpretation of Computer Programs][saiocp].
+This project is  a simple [Scheme][scheme] like [Lisp][lisp]  interpreter. It is
+based on [this tutorial][mumbler]. Also it  is influenced by the book [Structure
+and Interpretation of Computer Programs][saiocp].
 
-Until now I did lot of parsing/lexing stuff, but no interpretation yet.
-So here I focus on interpretation and the whole parsing is done by 
-[ANTLR4][antlr].
+Until now I did lot of parsing/lexing  stuff, but no interpretation yet. So here
+I focus on interpretation and the whole parsing is done by [ANTLR4][antlr].
 
 ## Install And Run
 
-[Here is a prebuilt][dist] version. You only need [Java 8][jdk] installed
-to run it.
+[Here is  a prebuilt][dist] version.  You only  need [Java 8][jdk]  installed to
+run it.
  
-For building it from scratch you need to checkout this repository and 
-build it by your self. You need at least [Java 8][jdk] and [Maven 3.1][mvn].
-To build chnage into the cloned repository and execute Maven:
+For building it from  scratch you need to checkout this  repository and build it
+by your  self. You need  at least [Java 8][jdk]  and [Maven 3.1][mvn].  To build
+chnage into the cloned repository and execute Maven:
 
     $> mvn clean install
 
@@ -25,13 +24,13 @@ After that you can run Slartibartfass:
 
 ## Use the REPL
 
-Slartibartfass provides a Read Eval Print Loop. Just run it without any
+Slartibartfass  provides  a Read  Eval  Print  Loop.  Just  run it  without  any
 argument to launch the REPL:
 
     $> ./bin/slarti
 
-The REPL provides some special commands. They all start with a bang (`!`).
-Just type `!help` to get a full list of available commands with explanation.
+The REPL provides some special commands. They  all start with a bang (`!`). Just
+type `!help` to get a full list of available commands with explanation.
 
 ### The Hello, World! Example
 
@@ -43,20 +42,19 @@ and hit return to see it.
     
 ##  The Syntax
 
-The full description of the Slartibartfass syntax is [Scheme][scheme] 
-like and you described [here][syntax] as [ANTLR][antlr] grammar.
+The full description  of the Slartibartfass syntax is  [Scheme][scheme] like and
+you described [here][syntax] as [ANTLR][antlr] grammar.
 
 The basic syntax is build by lists, obviously:
 
     (foo bar baz)
 
-Also an important building block are symbols. Symbols are just names
-like the `foo`, `bar` and `baz` in the previous example. The first 
-symbol in a list (the head of the list) is interpreted as function
-name. In the previous example the interpreter looks in the scope for
-a function named `foo` and applys to it the evaluated symbols `bar`
-and `baz`. Evaluating a symbol means it is looked up in the scope
-and that value is used. Here a more complex example:
+Also an  important building block are  symbols. Symbols are just  names like the
+`foo`, `bar` and `baz` in the previous  example. The first symbol in a list (the
+head of the list)  is interpreted as function name. In  the previous example the
+interpreter looks in the  scope for a function named `foo` and  applys to it the
+evaluated symbols `bar` and `baz`. Evaluating a  symbol means it is looked up in
+the scope and that value is used. Here a more complex example:
 
     (define a 3)
     (define b 2)
@@ -111,9 +109,9 @@ type when necessary.
 
 ### Special Forms
 
-Special forms look like functions, but they are special because their
-keyword triggers a special behaviour in the interpreter. As an end user
-you will recognize this distinction. It is more an implementation detail.
+Special forms  look like functions, but  they are special because  their keyword
+triggers  a special  behaviour  in the  interpreter.  As an  end  user you  will
+recognize this distinction. It is more an implementation detail.
 
 - `define`: Allocates memory either for variables or functions. The memory 
             is bound to a symbol in the current scope. It is not possible
@@ -134,8 +132,8 @@ you will recognize this distinction. It is more an implementation detail.
 
 ### Builtin Functions
 
-Builtin functions are directly interpreted in the interpreter (in contrast
-to function provided by the standard lib).
+Builtin functions  are directly interpreted  in the interpreter (in  contrast to
+function provided by the standard lib).
 
 - `+`:          Sums up the given arguments. It returns 0 if no argument 
                 is given and the argument itself if only one argument is 
