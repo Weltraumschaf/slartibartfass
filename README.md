@@ -2,7 +2,8 @@
 
 This project is  a simple [Scheme][scheme] like [Lisp][lisp]  interpreter. It is
 based on [this tutorial][mumbler]. Also it  is influenced by the book [Structure
-and Interpretation of Computer Programs][saiocp].
+and Interpretation  of Computer  Programs][sicp] (there is  also the  lecture of
+MIT available at [YouTube][mit-sicp] from 1986).
 
 Until now I did lot of parsing/lexing  stuff, but no interpretation yet. So here
 I focus on interpretation and the whole parsing is done by [ANTLR4][antlr].
@@ -176,6 +177,7 @@ function provided by the standard lib).
 [lisp]:     https://en.wikipedia.org/wiki/Lisp_(programming_language)
 [mumbler]:  http://cesquivias.github.io/blog/2014/10/13/writing-a-language-in-truffle-part-1-a-simple-slow-interpreter/
 [mvn]:      https://maven.apache.org/download.cgi
-[saiocp]:   https://mitpress.mit.edu/sicp/full-text/book/book.html
+[sicp]:     https://github.com/sarabander/sicp-pdf
 [scheme]:   https://en.wikipedia.org/wiki/Scheme_(programming_language)
 [syntax]:   https://github.com/Weltraumschaf/slartibartfass/blob/master/src/main/antlr4/Slarti.g4
+[mit-sicp]: https://www.youtube.com/playlist?list=PLE18841CABEA24090
