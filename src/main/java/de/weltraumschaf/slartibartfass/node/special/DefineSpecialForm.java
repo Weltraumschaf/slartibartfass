@@ -38,7 +38,8 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
         if (head.isSymbol()) {
             final SlartiSymbol name = (SlartiSymbol) head;
             env.putValue(name.name(), tail().head().eval(env));
-        } else if (head.isList()){
+            return name;
+        } else if (head.isList()) {
             final SlartiList list = head.castToList();
 
             if (!list.head().isSymbol()) {
@@ -50,11 +51,10 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
             final SlartiList functionBody = tail();
 
             env.putValue(name.name(), SlartiFunction.newFunction(env, name, formalParams, functionBody));
+            return name;
         } else {
             throw new SlartiError("Unsupported value as first argument of define special form: %s!", head);
         }
-
-        return SlartiList.EMPTY;
     }
 
 }
