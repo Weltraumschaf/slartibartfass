@@ -100,7 +100,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void list_empty() {
-        assertThat(SlartiBuiltinFunctions.LIST.impl().apply(Collections.emptyList()), is(SlartiList.EMPTY));
+        assertThat(SlartiBuiltinFunctions.LIST.impl().apply(Collections.emptyList()), is(SlartiList.NIL));
     }
 
     @Test
@@ -117,7 +117,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void head_empty() {
-        assertThat(SlartiBuiltinFunctions.HEAD.impl().apply(SlartiList.EMPTY), is(SlartiBoolean.FALSE));
+        assertThat(SlartiBuiltinFunctions.HEAD.impl().apply(SlartiList.NIL), is(SlartiBoolean.FALSE));
     }
 
     @Test
@@ -134,7 +134,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void tail_empty() {
-        assertThat(SlartiBuiltinFunctions.TAIL.impl().apply(SlartiList.EMPTY), is(SlartiList.EMPTY));
+        assertThat(SlartiBuiltinFunctions.TAIL.impl().apply(SlartiList.NIL), is(SlartiList.NIL));
     }
 
     @Test

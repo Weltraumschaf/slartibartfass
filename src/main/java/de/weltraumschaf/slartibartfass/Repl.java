@@ -121,7 +121,7 @@ final class Repl {
                 final SlartiNode node = visitor.visit(parser.file());
                 final Object result = node.eval(env);
 
-                if (SlartiList.EMPTY.equals(result)) {
+                if (SlartiList.NIL.equals(result)) {
                     // Do not print empty list results.
                     continue;
                 }

@@ -4,12 +4,10 @@ import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiError;
-import de.weltraumschaf.slartibartfass.node.Slarti;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
-import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
 
 import java.util.List;
 import java.util.Random;
@@ -266,7 +264,7 @@ public enum SlartiBuiltinFunctions {
             }
 
             io.println(buffer.toString());
-            return SlartiList.EMPTY;
+            return SlartiList.NIL;
         }
     }),
     /**
@@ -282,7 +280,7 @@ public enum SlartiBuiltinFunctions {
             }
 
             io.print(buffer.toString());
-            return SlartiList.EMPTY;
+            return SlartiList.NIL;
         }
     }),
     /**

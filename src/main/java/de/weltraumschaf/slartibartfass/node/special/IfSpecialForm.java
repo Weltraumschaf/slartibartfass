@@ -2,7 +2,6 @@ package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiError;
-import de.weltraumschaf.slartibartfass.node.Slarti;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
@@ -53,7 +52,7 @@ public final class IfSpecialForm extends SlartiSpecialForm {
 
         if (size() < 3) {
             // There is no else branch.
-            return SlartiList.EMPTY;
+            return SlartiList.NIL;
         }
 
         final SlartiNode elseBranch = tail().tail().head();

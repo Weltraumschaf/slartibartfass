@@ -25,7 +25,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
     /**
      * Represents an empty list.
      */
-    public static final SlartiList EMPTY = new SlartiList(Collections.emptyList());
+    public static final SlartiList NIL = new SlartiList(Collections.emptyList());
     /**
      * Holds the list data.
      */
@@ -98,7 +98,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
     }
 
     private SlartiNode evalAll(final Environment env) {
-        SlartiNode result = SlartiList.EMPTY;
+        SlartiNode result = SlartiList.NIL;
 
         for (final SlartiNode node : data()) {
             result = node.eval(env);

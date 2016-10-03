@@ -21,7 +21,7 @@ public class IfSpecialFormTest {
 
     @Test(expected = SlartiError.class)
     public void eval_noArguments() {
-        final SlartiSpecialForm sut = new IfSpecialForm(SlartiList.EMPTY);
+        final SlartiSpecialForm sut = new IfSpecialForm(SlartiList.NIL);
 
         sut.eval(env);
     }
@@ -79,7 +79,7 @@ public class IfSpecialFormTest {
     public void eval_noElseBranchConditionIsFalse() {
         final SlartiSpecialForm sut = new IfSpecialForm(list(of(false), of(42L)));
 
-        assertThat(sut.eval(env), is(SlartiList.EMPTY));
+        assertThat(sut.eval(env), is(SlartiList.NIL));
     }
 
 }

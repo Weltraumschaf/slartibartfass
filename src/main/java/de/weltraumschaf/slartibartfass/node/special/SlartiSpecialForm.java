@@ -45,7 +45,7 @@ public abstract class SlartiSpecialForm extends SlartiList {
     public static SlartiNode check(final SlartiList list) {
         Validate.notNull(list, "list");
 
-        if (SlartiList.EMPTY.equals(list)) {
+        if (SlartiList.NIL.equals(list)) {
             return list;
         }
 

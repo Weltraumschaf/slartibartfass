@@ -80,7 +80,8 @@ public final class Application extends InvokableAdapter {
                 runInterpreter(visitor, env, opts.getFiles());
             }
         } catch (final Exception e) {
-            throw new ApplicationException(ExitCodeImpl.FATAL, e.getMessage(), e);
+            final String message = e.getMessage() == null ? "No message!" : e.getMessage();
+            throw new ApplicationException(ExitCodeImpl.FATAL, message, e);
         }
     }
 

@@ -6,7 +6,6 @@ import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -91,7 +90,7 @@ public class SlartiListTest {
 
     @Test
     public void castEMptyToBoolean() {
-        assertThat(SlartiList.EMPTY.castToBoolean(), is(SlartiBoolean.FALSE));
+        assertThat(SlartiList.NIL.castToBoolean(), is(SlartiBoolean.FALSE));
     }
 
     @Test
@@ -103,7 +102,7 @@ public class SlartiListTest {
 
     @Test
     public void castEmptyToInteger() {
-        assertThat(SlartiList.EMPTY.castToInteger(), is(of(0L)));
+        assertThat(SlartiList.NIL.castToInteger(), is(of(0L)));
     }
 
     @Test
@@ -115,7 +114,7 @@ public class SlartiListTest {
 
     @Test
     public void castEmptyToReal() {
-        assertThat(SlartiList.EMPTY.castToReal(), is(of(0d)));
+        assertThat(SlartiList.NIL.castToReal(), is(of(0d)));
     }
 
     @Test
@@ -127,7 +126,7 @@ public class SlartiListTest {
 
     @Test
     public void castEmptyToString() {
-        assertThat(SlartiList.EMPTY.castToString(), is(of("()")));
+        assertThat(SlartiList.NIL.castToString(), is(of("()")));
     }
 
     @Test

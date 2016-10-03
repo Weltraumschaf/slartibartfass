@@ -12,10 +12,6 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -46,7 +42,7 @@ public class DefaultSlartiVisitorTest {
 
         assertThat(
             nodes,
-            is(SlartiList.EMPTY));
+            is(SlartiList.NIL));
     }
 
     @Test
@@ -55,7 +51,7 @@ public class DefaultSlartiVisitorTest {
 
         assertThat(
             nodes,
-            is(SlartiList.EMPTY));
+            is(SlartiList.NIL));
     }
 
     @Test

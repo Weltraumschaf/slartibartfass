@@ -29,7 +29,7 @@ public class SlartiSpecialFormTest {
 
     @Test
     public void check_empty() {
-        assertThat(SlartiSpecialForm.check(SlartiList.EMPTY), is(SlartiList.EMPTY));
+        assertThat(SlartiSpecialForm.check(SlartiList.NIL), is(SlartiList.NIL));
     }
 
     @Test
