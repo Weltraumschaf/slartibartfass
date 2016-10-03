@@ -10,7 +10,7 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 /**
  * This special form allocates memory either for variables or functions.
  * <p>
- *     Syntax: {@code (define var-symbol (VALUE))} or {@code (define (function-symbol <formal-params>) <function-body>)}.
+ * Syntax: {@code (define var-symbol (VALUE))} or {@code (define (function-symbol <formal-params>) <function-body>)}.
  * </p>
  *
  * @author Sven Strittmatter
@@ -36,25 +36,32 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
         final SlartiNode head = head();
 
         if (head.isSymbol()) {
-            final SlartiSymbol name = (SlartiSymbol) head;
-            env.putValue(name.name(), tail().head().eval(env));
-            return name;
+            return defineSymbol(env, (SlartiSymbol) head);
         } else if (head.isList()) {
-            final SlartiList list = head.castToList();
-
-            if (!list.head().isSymbol()) {
-                throw new SlartiError("Symbol expected of first list parameter! Got %s.", list.head());
-            }
-
-            final SlartiSymbol name = (SlartiSymbol) list.head();
-            final SlartiList formalParams = list.tail();
-            final SlartiList functionBody = tail();
-
-            env.putValue(name.name(), SlartiFunction.newFunction(env, name, formalParams, functionBody));
-            return name;
+            return defineFunction(env, head);
         } else {
             throw new SlartiError("Unsupported value as first argument of define special form: %s!", head);
         }
+    }
+
+    private SlartiNode defineSymbol(final Environment env, final SlartiSymbol name) {
+        env.putValue(name.name(), tail().head().eval(env));
+        return name;
+    }
+
+    private SlartiNode defineFunction(final Environment env, final SlartiNode head) {
+        final SlartiList list = head.castToList();
+
+        if (!list.head().isSymbol()) {
+            throw new SlartiError("Symbol expected of first list parameter! Got %s.", list.head());
+        }
+
+        final SlartiSymbol name = (SlartiSymbol) list.head();
+        final SlartiList formalParams = list.tail();
+        final SlartiList functionBody = tail();
+
+        env.putValue(name.name(), SlartiFunction.newFunction(env, name, formalParams, functionBody));
+        return name;
     }
 
 }

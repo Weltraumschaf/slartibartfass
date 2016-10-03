@@ -11,12 +11,12 @@ import java.util.*;
 /**
  * List type of the language.
  * <p>
- *     This is the most complex type which represents a list of nodes. {@link #eval(Environment) Evaluating} this node
- *     will first look if {@link #head() the head} of the list is a {@link SlartiSymbol symbol} and if it is one resolve
- *     it in the {@link Environment environment}. If it is present it is checked if it is a {@link SlartiFunction function}
- *     and if apply it to the {@link #tail() tail} of the list. If it is not a symbol the resolved value will be returned.
- *     If the {@link #head() head} is not a symbol then the whole list is evaluated node by node and the aggregated result
- *     will be returned as collection. If the result is a single value then the collection will be unwrapped.
+ * This is the most complex type which represents a list of nodes. {@link #eval(Environment) Evaluating} this node
+ * will first look if {@link #head() the head} of the list is a {@link SlartiSymbol symbol} and if it is one resolve
+ * it in the {@link Environment environment}. If it is present it is checked if it is a {@link SlartiFunction function}
+ * and if apply it to the {@link #tail() tail} of the list. If it is not a symbol the resolved value will be returned.
+ * If the {@link #head() head} is not a symbol then the whole list is evaluated node by node and the aggregated result
+ * will be returned as collection. If the result is a single value then the collection will be unwrapped.
  * </p>
  *
  * @author Sven Strittmatter
@@ -36,7 +36,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
      *
      * @param data must not be {@code null}
      */
-    public SlartiList(final SlartiNode ... data) {
+    public SlartiList(final SlartiNode... data) {
         this(Arrays.asList(data));
     }
 
@@ -68,6 +68,18 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
         return evalAll(env);
     }
 
+    /**
+     * Evaluates the head if it is as symbol.
+     * <p>
+     * This is the default mechanic to call functions: {@code (fn arg1 arg2 arg3 ... )}.
+     * </p>
+     * <p>
+     * If the evaluated head is not a function then it is returned as value.
+     * </p>
+     *
+     * @param env must not be {@code null}
+     * @return never {@code null}, the result of the function or the value associated with the head symbol.
+     */
     private SlartiNode evalHead(final Environment env) {
         final SlartiNode headResult = head().eval(env);
 
@@ -86,27 +98,13 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
     }
 
     private SlartiNode evalAll(final Environment env) {
-        final Collection<SlartiNode> results = new ArrayList<>();
+        SlartiNode result = SlartiList.EMPTY;
 
         for (final SlartiNode node : data()) {
-            final SlartiNode result = node.eval(env);
-
-            if (SlartiList.EMPTY.equals(result)) {
-                continue;
-            }
-
-            results.add(result);
+            result = node.eval(env);
         }
 
-        return unwrapResult(new SlartiList(results));
-    }
-
-    private SlartiNode unwrapResult(final SlartiList results) {
-        if (results.size() == 1) {
-            return results.head();
-        }
-
-        return results;
+        return result;
     }
 
     /**

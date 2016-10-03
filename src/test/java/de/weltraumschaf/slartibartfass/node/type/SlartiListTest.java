@@ -6,20 +6,16 @@ import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
-import static org.hamcrest.Matchers.contains;
+import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
-import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**
  * Tests for {@link SlartiList}.
@@ -41,7 +37,7 @@ public class SlartiListTest {
         final SlartiSymbol a = sym("a");
         final SlartiSymbol b = sym("b");
         final SlartiSymbol c = sym("c");
-        final SlartiList sut = list(Arrays.asList(a, b, c));
+        final SlartiList sut = list(a, b, c);
 
         assertThat(sut.head(), is(sameInstance(a)));
     }
@@ -51,9 +47,9 @@ public class SlartiListTest {
         final SlartiSymbol a = sym("a");
         final SlartiSymbol b = sym("b");
         final SlartiSymbol c = sym("c");
-        final SlartiList sut = list(Arrays.asList(a, b, c));
+        final SlartiList sut = list(a, b, c);
 
-        assertThat(sut.tail(), is(new SlartiList(Arrays.asList(b, c))));
+        assertThat(sut.tail(), is(list(b, c)));
     }
 
     @Test
@@ -61,7 +57,7 @@ public class SlartiListTest {
         final SlartiSymbol a = sym("a");
         final SlartiSymbol b = sym("b");
         final SlartiSymbol c = sym("c");
-        final SlartiList sut = list(Arrays.asList(a, b, c));
+        final SlartiList sut = list(a, b, c);
 
         assertThat(sut, contains(a, b, c));
     }
@@ -71,7 +67,7 @@ public class SlartiListTest {
         final SlartiSymbol a = sym("a");
         final SlartiSymbol b = sym("b");
         final SlartiSymbol c = sym("c");
-        final SlartiList sut = list(Arrays.asList(a, b, c));
+        final SlartiList sut = list(a, b, c);
 
         assertThat(sut.toString(), is("(a, b, c)"));
     }
@@ -81,14 +77,14 @@ public class SlartiListTest {
         final SlartiSymbol a = sym("a");
         final SlartiSymbol b = sym("b");
         final SlartiSymbol c = sym("c");
-        final SlartiList sut = list(Arrays.asList(a, b, c));
+        final SlartiList sut = list(a, b, c);
 
         assertThat(sut.value(), is(new InternalList<SlartiNode>(Arrays.asList(a, b, c))));
     }
 
     @Test
     public void castToBoolean() {
-        final SlartiList sut = list(Collections.singletonList(sym("a")));
+        final SlartiList sut = list(sym("a"));
 
         assertThat(sut.castToBoolean(), is(SlartiBoolean.TRUE));
     }
@@ -100,7 +96,7 @@ public class SlartiListTest {
 
     @Test
     public void castToInteger() {
-        final SlartiList sut = list(Collections.singletonList(sym("a")));
+        final SlartiList sut = list(sym("a"));
 
         assertThat(sut.castToInteger(), is(of(1L)));
     }
@@ -112,7 +108,7 @@ public class SlartiListTest {
 
     @Test
     public void castToReal() {
-        final SlartiList sut = list(Collections.singletonList(sym("a")));
+        final SlartiList sut = list(sym("a"));
 
         assertThat(sut.castToReal(), is(of(1d)));
     }
@@ -124,7 +120,7 @@ public class SlartiListTest {
 
     @Test
     public void castToString() {
-        final SlartiList sut = list(Arrays.asList(sym("a"), sym("b"), sym("c")));
+        final SlartiList sut = list(sym("a"), sym("b"), sym("c"));
 
         assertThat(sut.castToString(), is(of("(a, b, c)")));
     }
@@ -136,23 +132,32 @@ public class SlartiListTest {
 
     @Test
     public void castToList() {
-        final SlartiList sut = list(Arrays.asList(sym("a"), sym("b"), sym("c")));
+        final SlartiList sut = list(sym("a"), sym("b"), sym("c"));
 
         assertThat(sut.castToList(), is(sut));
     }
 
     @Test
-    @Ignore
-    public void eval() {
-//        final Environment env = new Environment();
-//        final SlartiFunction fn = mock(SlartiFunction.class);
-//        when(a.eval(env)).thenReturn(fn);
-//        when(b.eval(env)).thenReturn(new SlartiString("foo"));
-//        when(c.eval(env)).thenReturn(new SlartiString("bar"));
-//
-//        sut.eval(env);
-//
-//        verify(fn, times(1)).apply(Arrays.asList(new SlartiString("foo"), new SlartiString("bar")));
+    public void eval_headIsSymbolDefiningFunction() {
+        final Environment env = new Environment();
+        final SlartiSymbol a = sym("a");
+        final SlartiList sut = list(a, of(23L), of(42L));
+        final SlartiFunction fn = mock(SlartiFunction.class);
+        when(fn.apply(Arrays.asList(of(23L), of(42L)))).thenReturn(of("result"));
+        env.putValue(a.name(), fn);
+
+        assertThat(sut.eval(env), is(of("result")));
+
+        verify(fn, times(1)).apply(Arrays.asList(of(23L), of(42L)));
     }
 
+    @Test
+    public void eval_headIsSymbolDefiningValue() {
+        final Environment env = new Environment();
+        final SlartiSymbol a = sym("a");
+        env.putValue(a.name(), of(42L));
+        final SlartiList sut = list(a);
+
+        assertThat(sut.eval(env), is(of(42L)));
+    }
 }

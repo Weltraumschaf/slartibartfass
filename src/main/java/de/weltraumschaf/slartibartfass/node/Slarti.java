@@ -68,10 +68,6 @@ public final class Slarti {
         return new SlartiList(nodes);
     }
 
-    public static SlartiList list(final Collection<SlartiNode> nodes) {
-        return new SlartiList(nodes);
-    }
-
     /**
      * Convenience method to create a symbol.
      *
