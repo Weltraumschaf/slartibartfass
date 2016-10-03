@@ -61,6 +61,10 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
 
     @Override
     public SlartiNode eval(final Environment env) {
+        if (isEmpty()) {
+            return NIL;
+        }
+
         if (head().isSymbol()) {
             return evalHead(env);
         }
