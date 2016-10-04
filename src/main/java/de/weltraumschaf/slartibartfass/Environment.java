@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass;
 
+import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
@@ -29,7 +30,7 @@ public final class Environment {
     private final Environment parent;
 
     /**
-     * Convenience constuctor which creates one w/o a parent.
+     * Convenience constructor which creates one w/o a parent.
      */
     public Environment() {
         this(null);
@@ -45,7 +46,19 @@ public final class Environment {
         this.parent = parent;
     }
 
-    public MemoryBox getValue(final SlartiSymbol  name) {
+    /**
+     * Get a stored value.
+     * <p>
+     * This method looks also in the parent environment if it is not found local and there is a parent. If the value is
+     * not found anywhere a {@link SlartiError} will be thrown.
+     * </p>
+     *
+     * @param name must not be {@code null}
+     * @return never {@code null}
+     */
+    public MemoryBox getValue(final SlartiSymbol name) {
+        Validate.notNull(name, "name");
+
         if (store.containsKey(name)) {
             return this.store.get(name);
         } else if (hasParent()) {
@@ -55,35 +68,74 @@ public final class Environment {
         }
     }
 
+    /**
+     * Store a value in the environment.
+     *
+     * @param name  must not be {@code null}
+     * @param value must not be {@code null}
+     */
     public void putValue(final SlartiSymbol name, final SlartiNode value) {
+        Validate.notNull(name, "name");
+        Validate.notNull(value, "value");
         store.put(name, new MemoryBox(name, value));
     }
 
+    /**
+     * Whether the environment has a paent or not.
+     *
+     * @return {@code true} if it has one, else {@code false}
+     */
     public boolean hasParent() {
         return null != parent;
     }
 
+    /**
+     * The number of allocated names.
+     * <p>
+     * This counts only the local allocated names excluding the ones allocated  in parents.
+     * </p>
+     *
+     * @return not negative
+     */
     public int size() {
         return store.size();
     }
 
+    /**
+     * Print all allocated symbols and its memory to the given print stream.
+     * <p>
+     * The printed symbols are sorted lexicographic. Also the dta of parents are printed first.
+     * </p>
+     *
+     * @param out must not be {@code null}
+     */
     public void print(final PrintStream out) {
+        Validate.notNull(out, "out");
+
         if (parent != null) {
             parent.print(out);
         }
 
         final List<SlartiSymbol> symbols = new ArrayList<>(store.keySet());
         Collections.sort(symbols, (o1, o2) -> o1.name().compareTo(o2.name()));
-        symbols.forEach(symbol -> out.println(String.format("  %1$-8s", symbol) + " -> " + format(store.get(symbol))));
+        symbols.stream()
+            .map(symbol -> String.format("  %1$-8s", symbol.name()) + " -> " + format(store.get(symbol).memory()))
+            .forEach(out::println);
     }
 
-    private String format(final Object o) {
-        if (o instanceof SlartiFunction) {
-            final SlartiFunction fn = (SlartiFunction) o;
-            return fn.isBuiltIn() ? "builtin" : "defined";
+    /**
+     * Formats the given nodes.
+     *
+     * @param node must not be {@code null}
+     * @return never {@code null} or empty
+     */
+    private String format(final SlartiNode node) {
+        if (node instanceof SlartiFunction) {
+            final SlartiFunction fn = (SlartiFunction) node;
+            return fn.isBuiltIn() ? "builtin fn" : "defined fn";
         }
 
-        return o.toString();
+        return node.toString();
     }
 
     @Override
