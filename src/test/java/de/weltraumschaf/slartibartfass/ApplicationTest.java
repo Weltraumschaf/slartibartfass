@@ -1,15 +1,11 @@
 package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.commons.application.IO;
-import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -35,8 +31,8 @@ public class ApplicationTest {
         for (final SlartiBuiltinFunctions fn : SlartiBuiltinFunctions.values()) {
             assertThat(String.format(
                 "Built in function %s not in env!", fn),
-                env.getValue(fn.impl().name()),
-                is(fn.impl()));
+                env.getValue(fn.impl().symbol()),
+                is(new MemoryBox(fn.impl().symbol(), fn.impl())));
         }
     }
 

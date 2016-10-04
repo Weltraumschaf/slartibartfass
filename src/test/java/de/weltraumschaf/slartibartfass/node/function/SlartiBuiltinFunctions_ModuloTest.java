@@ -2,7 +2,6 @@ package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class SlartiBuiltinFunctions_ModuloTest {
 
     @Test
     public void name() {
-        assertThat(SlartiBuiltinFunctions.MODULO.impl().name(), is("%"));
+        assertThat(SlartiBuiltinFunctions.MODULO.impl().symbol(), is(sym("%")));
     }
 
     @Test(expected = RuntimeException.class)

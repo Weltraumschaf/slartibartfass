@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.MemoryBox;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
@@ -42,7 +43,7 @@ public class IfSpecialFormTest {
 
     @Test
     public void eval_evalThenBranchIfConditionIsTrue() {
-        env.putValue("cond", SlartiBoolean.TRUE);
+        env.putValue(sym("cond"), SlartiBoolean.TRUE);
         final SlartiSpecialForm sut = new IfSpecialForm(list(
             sym("cond"),
             new DefineSpecialForm(list(sym("res"), of(42L))),
@@ -51,12 +52,12 @@ public class IfSpecialFormTest {
 
         sut.eval(env);
 
-        assertThat(env.getValue("res"), is(of(42L)));
+        assertThat(env.getValue(sym("res")), is(new MemoryBox(sym("res"), of(42L))));
     }
 
     @Test
     public void eval_evalElseBranchIfConditionIsFalse() {
-        env.putValue("cond", SlartiBoolean.FALSE);
+        env.putValue(sym("cond"), SlartiBoolean.FALSE);
         final SlartiSpecialForm sut = new IfSpecialForm(list(
             sym("cond"),
             new DefineSpecialForm(list(sym("res"), of(42L))),
@@ -65,7 +66,7 @@ public class IfSpecialFormTest {
 
         sut.eval(env);
 
-        assertThat(env.getValue("res"), is(of(23L)));
+        assertThat(env.getValue(sym("res")), is(new MemoryBox(sym("res"), of(23L))));
     }
 
     @Test

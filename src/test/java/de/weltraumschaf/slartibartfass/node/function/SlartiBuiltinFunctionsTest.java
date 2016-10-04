@@ -29,7 +29,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void println_name() {
-        assertThat(SlartiBuiltinFunctions.PRINTLN.impl().name(), is("println"));
+        assertThat(SlartiBuiltinFunctions.PRINTLN.impl().symbol(), is(sym("println")));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void print_name() {
-        assertThat(SlartiBuiltinFunctions.PRINT.impl().name(), is("print"));
+        assertThat(SlartiBuiltinFunctions.PRINT.impl().symbol(), is(sym("print")));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void list_name() {
-        assertThat(SlartiBuiltinFunctions.LIST.impl().name(), is("list"));
+        assertThat(SlartiBuiltinFunctions.LIST.impl().symbol(), is(sym("list")));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void head_name() {
-        assertThat(SlartiBuiltinFunctions.HEAD.impl().name(), is("head"));
+        assertThat(SlartiBuiltinFunctions.HEAD.impl().symbol(), is(sym("head")));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class SlartiBuiltinFunctionsTest {
 
     @Test
     public void tail_name() {
-        assertThat(SlartiBuiltinFunctions.TAIL.impl().name(), is("tail"));
+        assertThat(SlartiBuiltinFunctions.TAIL.impl().symbol(), is(sym("tail")));
     }
 
     @Test

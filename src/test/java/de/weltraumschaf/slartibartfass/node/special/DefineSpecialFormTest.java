@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
 import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.MemoryBox;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
@@ -28,6 +29,6 @@ public class DefineSpecialFormTest {
 
         assertThat(sut.eval(env), is(sym("foo")));
 
-        assertThat(env.getValue("foo"), is(of(42L)));
+        assertThat(env.getValue(sym("foo")), is(new MemoryBox(sym("foo"), of(42L))));
     }
 }

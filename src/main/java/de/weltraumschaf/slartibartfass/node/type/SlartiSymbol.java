@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Symbol type of the language.
  * <p>
- *     Symbols are used to name things. This is used together with the {@link de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm
+ *     Symbols are used to symbol things. This is used together with the {@link de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm
  *     define special form} to add variables into the {@link Environment}.
  * </p>
  * <p>
@@ -22,7 +22,7 @@ import java.util.Objects;
 public final class SlartiSymbol implements SlartiNode<String> {
 
     /**
-     * Literal symbol name.
+     * Literal symbol symbol.
      */
     private final String name;
 
@@ -33,11 +33,11 @@ public final class SlartiSymbol implements SlartiNode<String> {
      */
     public SlartiSymbol(final String name) {
         super();
-        this.name = Validate.notEmpty(name, "name");
+        this.name = Validate.notEmpty(name, "symbol");
     }
 
     /**
-     * The name of the symbol.
+     * The symbol of the symbol.
      *
      * @return never {@code null} or empty
      */
@@ -47,7 +47,7 @@ public final class SlartiSymbol implements SlartiNode<String> {
 
     @Override
     public SlartiNode eval(final Environment env) {
-        return env.getValue(name);
+        return env.getValue(this).getValue();
     }
 
     @Override

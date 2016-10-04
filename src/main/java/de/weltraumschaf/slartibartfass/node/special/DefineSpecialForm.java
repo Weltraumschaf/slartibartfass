@@ -45,7 +45,7 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
     }
 
     private SlartiNode defineSymbol(final Environment env, final SlartiSymbol name) {
-        env.putValue(name.name(), tail().head().eval(env));
+        env.putValue(name, tail().head().eval(env));
         return name;
     }
 
@@ -60,7 +60,7 @@ public final class DefineSpecialForm extends SlartiSpecialForm {
         final SlartiList formalParams = list.tail();
         final SlartiList functionBody = tail();
 
-        env.putValue(name.name(), SlartiFunction.newFunction(env, name, formalParams, functionBody));
+        env.putValue(name, SlartiFunction.newFunction(env, name, formalParams, functionBody));
         return name;
     }
 

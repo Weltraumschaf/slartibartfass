@@ -4,7 +4,6 @@ import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.SlartiType;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
@@ -13,28 +12,39 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import static de.weltraumschaf.slartibartfass.node.Slarti.sym;
+
 /**
  * This is the base type for function invocations.
  * <p>
- *     {@link #eval(Environment) Evaluating} this node will return the node itself.
+ * {@link #eval(Environment) Evaluating} this node will return the node itself.
  * </p>
  *
  * @author Sven Strittmatter
  */
 public abstract class SlartiFunction implements SlartiNode {
     /**
-     * The name of the function.
+     * The symbol of the function.
      */
-    private final String name;
+    private final SlartiSymbol symbol;
+
+    /**
+     * Convenience constructor.
+     *
+     * @param symbol must not be {@code null} or empty
+     */
+    protected SlartiFunction(final String symbol) {
+        this(sym(symbol));
+    }
 
     /**
      * Dedicated constructor.
      *
-     * @param name must not be {@code null} or empty
+     * @param symbol must not be {@code null} or empty
      */
-    protected SlartiFunction(final String name) {
+    protected SlartiFunction(final SlartiSymbol symbol) {
         super();
-        this.name = Validate.notEmpty(name, "name");
+        this.symbol = Validate.notNull(symbol, "symbol");
     }
 
     @Override
@@ -45,11 +55,11 @@ public abstract class SlartiFunction implements SlartiNode {
     /**
      * Convenience method.
      *
-     * @see #apply(List)
      * @param args must not be {@code null}
      * @return never {@code null}
+     * @see #apply(List)
      */
-    public final SlartiNode apply(final SlartiNode ... args) {
+    public final SlartiNode apply(final SlartiNode... args) {
         return apply(Arrays.asList(args));
     }
 
@@ -69,12 +79,12 @@ public abstract class SlartiFunction implements SlartiNode {
     public abstract boolean isBuiltIn();
 
     /**
-     * Get the literal name of the function.
+     * Get the literal symbol of the function.
      *
      * @return never {@code null} or empty
      */
-    public final String name() {
-        return name;
+    public final SlartiSymbol symbol() {
+        return symbol;
     }
 
     @Override
@@ -84,24 +94,24 @@ public abstract class SlartiFunction implements SlartiNode {
         }
 
         final SlartiFunction that = (SlartiFunction) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(symbol, that.symbol);
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(symbol);
     }
 
     @Override
     public String toString() {
-        return name;
+        return symbol.name();
     }
 
     /**
      * Factory method to create anonymous functions.
      *
-     * @param parentEnv enclosing scope, must not be {@code null}
-     * @param name function name ,must not be {@code null} or empty
+     * @param parentEnv    enclosing scope, must not be {@code null}
+     * @param name         function symbol ,must not be {@code null} or empty
      * @param formalParams must not be {@code null}
      * @param functionBody must not be {@code null}
      * @return never {@code null}
@@ -122,7 +132,7 @@ public abstract class SlartiFunction implements SlartiNode {
                 int i = 0;
                 for (final SlartiNode param : formalParams) {
                     final SlartiSymbol paramSymbol = (SlartiSymbol) param;
-                    localScope.putValue(paramSymbol.name(), args.get(i));
+                    localScope.putValue(paramSymbol, args.get(i));
                     i++;
                 }
             }

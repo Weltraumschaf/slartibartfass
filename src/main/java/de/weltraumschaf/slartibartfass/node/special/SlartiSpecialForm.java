@@ -18,7 +18,7 @@ import java.util.Objects;
 public abstract class SlartiSpecialForm extends SlartiList {
 
     /**
-     * Symbolic name of the form.
+     * Symbolic symbol of the form.
      */
     private final SlartiSymbol symbol;
 

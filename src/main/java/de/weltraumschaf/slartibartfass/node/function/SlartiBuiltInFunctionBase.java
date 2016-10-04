@@ -48,7 +48,7 @@ abstract class SlartiBuiltInFunctionBase extends SlartiFunction {
     SlartiError unsupportedTypeOfArgument(final SlartiNode<?> argument) {
         return new SlartiError(
             String.format("Unsupported type %s of argument for function %s!",
-                argument.getClass().getSimpleName(), name()));
+                argument.getClass().getSimpleName(), symbol()));
     }
 
     void errorIfNotNumber(final SlartiNode arg) {

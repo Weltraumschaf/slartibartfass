@@ -22,7 +22,7 @@ public class SlartiBuiltinFunctions_MultiplyTest {
 
     @Test
     public void name() {
-        assertThat(SlartiBuiltinFunctions.MULTIPLY.impl().name(), is("*"));
+        assertThat(SlartiBuiltinFunctions.MULTIPLY.impl().symbol(), is(sym("*")));
     }
 
     @Test

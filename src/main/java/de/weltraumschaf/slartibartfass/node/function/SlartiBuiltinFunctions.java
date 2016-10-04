@@ -49,7 +49,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 1) {
-                throw new SlartiError("Function %s requires at least one argument!", name());
+                throw new SlartiError("Function %s requires at least one argument!", symbol());
             } else if (args.size() == 1) {
                 final SlartiNode arg = args.get(0);
                 errorIfNotNumber(arg);
@@ -106,7 +106,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 2) {
-                throw new SlartiError("Function %s requires at least two arguments!", name());
+                throw new SlartiError("Function %s requires at least two arguments!", symbol());
             }
 
             final ResultAccumulator accu = new ResultAccumulator(
@@ -135,7 +135,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() < 2) {
-                throw new SlartiError("Function %s requires at least two arguments!", name());
+                throw new SlartiError("Function %s requires at least two arguments!", symbol());
             }
 
             final ResultAccumulator accu = new ResultAccumulator(
@@ -164,7 +164,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(final List<SlartiNode> args) {
             if (args.size() != 2) {
-                throw new SlartiError("Function %s requires two arguments!", name());
+                throw new SlartiError("Function %s requires two arguments!", symbol());
             }
 
             final SlartiNode left = args.get(0);
@@ -184,7 +184,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(List<SlartiNode> args) {
             if (args.size() != 2) {
-                throw new SlartiError("Function %s requires two arguments!", name());
+                throw new SlartiError("Function %s requires two arguments!", symbol());
             }
 
             final SlartiNode left = args.get(0);
@@ -204,7 +204,7 @@ public enum SlartiBuiltinFunctions {
         @Override
         public SlartiNode apply(List<SlartiNode> args) {
             if (args.size() != 2) {
-                throw new SlartiError("Function %s requires two arguments!", name());
+                throw new SlartiError("Function %s requires two arguments!", symbol());
             }
 
             final SlartiNode left = args.get(0);
@@ -383,7 +383,7 @@ public enum SlartiBuiltinFunctions {
 
         for (final SlartiBuiltinFunctions fn : values()) {
             ((SlartiBuiltInFunctionBase) fn.impl()).setIo(io);
-            env.putValue(fn.impl.name(), fn.impl);
+            env.putValue(fn.impl.symbol(), fn.impl);
         }
     }
 

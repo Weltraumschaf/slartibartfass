@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SlartiFunctionTest {
 
-    private final SlartiFunction sut = new SlartiFunction("name") {
+    private final SlartiFunction sut = new SlartiFunction("symbol") {
         @Override
         public SlartiNode apply(List<SlartiNode> args) {
             return null;

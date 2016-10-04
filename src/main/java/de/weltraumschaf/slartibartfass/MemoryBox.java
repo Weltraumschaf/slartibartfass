@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public final class MemoryBox {
     /**
-     * Gives the slot a unique (in its environment) name to identify the allocated memory.
+     * Gives the slot a unique (in its environment) symbol to identify the allocated memory.
      * <p>
      * The symbol of a box must not be changed after allocated.
      * </p>

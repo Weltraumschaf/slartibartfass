@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static de.weltraumschaf.slartibartfass.node.Slarti.sym;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -34,7 +35,7 @@ public class SlartiSymbolTest {
     @Test
     public void eval() {
         final Environment env = new Environment();
-        env.putValue("foo", new SlartiString("bar"));
+        env.putValue(sym("foo"), new SlartiString("bar"));
 
         assertThat(sut.eval(env), is(new SlartiString("bar")));
     }

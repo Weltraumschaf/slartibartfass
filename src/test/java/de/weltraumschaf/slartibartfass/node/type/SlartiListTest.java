@@ -143,7 +143,7 @@ public class SlartiListTest {
         final SlartiList sut = list(a, of(23L), of(42L));
         final SlartiFunction fn = mock(SlartiFunction.class);
         when(fn.apply(Arrays.asList(of(23L), of(42L)))).thenReturn(of("result"));
-        env.putValue(a.name(), fn);
+        env.putValue(a, fn);
 
         assertThat(sut.eval(env), is(of("result")));
 
@@ -154,7 +154,7 @@ public class SlartiListTest {
     public void eval_headIsSymbolDefiningValue() {
         final Environment env = new Environment();
         final SlartiSymbol a = sym("a");
-        env.putValue(a.name(), of(42L));
+        env.putValue(a, of(42L));
         final SlartiList sut = list(a);
 
         assertThat(sut.eval(env), is(of(42L)));

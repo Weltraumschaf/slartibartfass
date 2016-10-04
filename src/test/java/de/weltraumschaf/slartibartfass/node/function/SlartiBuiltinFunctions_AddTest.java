@@ -17,7 +17,7 @@ public class SlartiBuiltinFunctions_AddTest {
 
     @Test
     public void name() {
-        assertThat(SlartiBuiltinFunctions.ADD.impl().name(), is("+"));
+        assertThat(SlartiBuiltinFunctions.ADD.impl().symbol(), is(sym("+")));
     }
 
     @Test

@@ -238,7 +238,7 @@ final class Repl {
          */
         private static final char PREFIX = '!';
         /**
-         * Lookup table to find the command enum by name.
+         * Lookup table to find the command enum by symbol.
          */
         private static final Map<String, Command> LOOKUP = new HashMap<>();
         static {

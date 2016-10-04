@@ -22,7 +22,7 @@ public class SlartiBuiltinFunctions_DivisionTest {
 
     @Test
     public void name() {
-        assertThat(SlartiBuiltinFunctions.DIVISION.impl().name(), is("/"));
+        assertThat(SlartiBuiltinFunctions.DIVISION.impl().symbol(), is(sym("/")));
     }
 
     @Test(expected = RuntimeException.class)

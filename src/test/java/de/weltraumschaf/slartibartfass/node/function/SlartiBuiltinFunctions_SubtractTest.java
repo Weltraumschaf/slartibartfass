@@ -23,7 +23,7 @@ public class SlartiBuiltinFunctions_SubtractTest {
 
     @Test
     public void name() {
-        assertThat(SlartiBuiltinFunctions.SUBTRACT.impl().name(), is("-"));
+        assertThat(SlartiBuiltinFunctions.SUBTRACT.impl().symbol(), is(sym("-")));
     }
 
     @Test(expected = RuntimeException.class)

@@ -22,7 +22,7 @@ public class QuoteSpecialFormTest {
         ));
 
         final Environment env = new Environment();
-        env.putValue("foo", of(42L));
+        env.putValue(sym("foo"), of(42L));
 
         assertThat(sut.eval(env), is(list(
             new SlartiSymbol("foo"), of("bar"), of(23L)

@@ -45,11 +45,6 @@ public final class Environment {
         this.parent = parent;
     }
 
-    @Deprecated
-    public SlartiNode getValue(final String name) {
-        return getValue(sym(name)).getValue();
-    }
-
     public MemoryBox getValue(final SlartiSymbol  name) {
         if (store.containsKey(name)) {
             return this.store.get(name);
@@ -62,11 +57,6 @@ public final class Environment {
 
     public void putValue(final SlartiSymbol name, final SlartiNode value) {
         store.put(name, new MemoryBox(name, value));
-    }
-
-    @Deprecated
-    public void putValue(final String name, final SlartiNode value) {
-        putValue(sym(name), value);
     }
 
     public boolean hasParent() {

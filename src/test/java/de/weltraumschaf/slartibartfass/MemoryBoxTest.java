@@ -20,11 +20,11 @@ public class MemoryBoxTest {
 
     @Test(expected = NullPointerException.class)
     public void constructWithValueAsNullIsNotAllowed() {
-        new MemoryBox(sym("name"), null);
+        new MemoryBox(sym("symbol"), null);
     }
 
     @Test(expected = NullPointerException.class)
     public void setValueWithNullIsnNotAlowed() {
-        new MemoryBox(sym("name"), of(42L)).setValue(null);
+        new MemoryBox(sym("symbol"), of(42L)).setValue(null);
     }
 }
