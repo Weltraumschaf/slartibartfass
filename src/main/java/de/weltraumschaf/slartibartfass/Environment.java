@@ -22,7 +22,7 @@ public final class Environment {
     /**
      * Stores the allocated memory.
      */
-    private final Map<String, MemoryBox> store = new HashMap<>();
+    private final Map<SlartiSymbol, MemoryBox> store = new HashMap<>();
     /**
      * Null if the environment does not gave a parent.
      */
@@ -45,9 +45,14 @@ public final class Environment {
         this.parent = parent;
     }
 
+    @Deprecated
     public SlartiNode getValue(final String name) {
+        return getValue(sym(name)).getValue();
+    }
+
+    public MemoryBox getValue(final SlartiSymbol  name) {
         if (store.containsKey(name)) {
-            return this.store.get(name).getValue();
+            return this.store.get(name);
         } else if (hasParent()) {
             return parent.getValue(name);
         } else {
@@ -56,7 +61,7 @@ public final class Environment {
     }
 
     public void putValue(final SlartiSymbol name, final SlartiNode value) {
-        store.put(name.name(), new MemoryBox(name, value));
+        store.put(name, new MemoryBox(name, value));
     }
 
     @Deprecated
@@ -77,8 +82,8 @@ public final class Environment {
             parent.print(out);
         }
 
-        final List<String> symbols = new ArrayList<>(store.keySet());
-        Collections.sort(symbols);
+        final List<SlartiSymbol> symbols = new ArrayList<>(store.keySet());
+        Collections.sort(symbols, (o1, o2) -> o1.name().compareTo(o2.name()));
         symbols.forEach(symbol -> out.println(String.format("  %1$-8s", symbol) + " -> " + format(store.get(symbol))));
     }
 

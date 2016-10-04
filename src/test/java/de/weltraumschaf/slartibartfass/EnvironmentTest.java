@@ -1,18 +1,22 @@
 package de.weltraumschaf.slartibartfass;
 
-import de.weltraumschaf.slartibartfass.node.type.SlartiString;
 import org.junit.Test;
+
+import static de.weltraumschaf.slartibartfass.node.Slarti.of;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Tests for {@link Environment}.
+ */
 public class EnvironmentTest {
     @Test
     public void getValue_isPresent() {
         final Environment sut = new Environment();
 
-        sut.putValue("foo", new SlartiString("bar"));
+        sut.putValue("foo", of("bar"));
 
-        assertThat(sut.getValue("foo"), is(new SlartiString("bar")));
+        assertThat(sut.getValue("foo"), is(of("bar")));
     }
 
     @Test(expected = RuntimeException.class)
@@ -25,9 +29,9 @@ public class EnvironmentTest {
     @Test
     public void getValue_isPresentInParent() {
         final Environment parent = new Environment();
-        parent.putValue("foo", new SlartiString("bar"));
+        parent.putValue("foo", of("bar"));
         final Environment sut = new Environment(parent);
 
-        assertThat(sut.getValue("foo"), is(new SlartiString("bar")));
+        assertThat(sut.getValue("foo"), is(of("bar")));
     }
 }
