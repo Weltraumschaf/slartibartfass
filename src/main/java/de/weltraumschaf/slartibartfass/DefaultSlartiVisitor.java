@@ -35,7 +35,7 @@ final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
 
     @Override
     public SlartiNode visitList(final SlartiParser.ListContext ctx) {
-        Collection<SlartiNode> list = ctx.form()
+        final Collection<SlartiNode> list = ctx.form()
             .stream()
             .map(this::visit)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -81,7 +81,7 @@ final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
             final char c = text.charAt(i);
 
             if (c == '\\') {
-                char next = text.charAt(i + 1);
+                final char next = text.charAt(i + 1);
                 ++i;
 
                 switch (next) {
@@ -104,7 +104,7 @@ final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
                         buffer.append('\f');
                         break;
                     case 'b':
-                        buffer.deleteCharAt(buffer.length() -1);
+                        buffer.deleteCharAt(buffer.length() - 1);
                         break;
                     default:
                         buffer.append(next);
@@ -117,4 +117,10 @@ final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
 
         return new SlartiString(buffer.toString());
     }
+
+    @Override
+    public SlartiNode visitNil(final SlartiParser.NilContext ctx) {
+        return SlartiList.NIL;
+    }
+
 }
