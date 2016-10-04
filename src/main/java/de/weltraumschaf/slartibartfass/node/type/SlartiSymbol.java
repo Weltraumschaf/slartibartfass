@@ -47,7 +47,7 @@ public final class SlartiSymbol implements SlartiNode<String> {
 
     @Override
     public SlartiNode eval(final Environment env) {
-        return env.getValue(this).getValue();
+        return env.getValue(this).memory();
     }
 
     @Override

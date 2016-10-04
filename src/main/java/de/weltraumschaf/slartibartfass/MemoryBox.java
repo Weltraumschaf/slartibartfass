@@ -6,7 +6,7 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import java.util.Objects;
 
 /**
- * This type represents a box for an allocated value in the memory.
+ * This type represents a box for an allocated memory in the memory.
  *
  * @author Sven Strittmatter
  */
@@ -19,58 +19,58 @@ public final class MemoryBox {
      */
     private final SlartiSymbol symbol;
     /**
-     * The allocated value.
+     * The allocated memory.
      * <p>
-     * This must never be {@code null} because all allocated values must be initialized. The value may be changed later,
-     * but never to {@code null}. The value is not considered in {@link #equals(Object)} and {@link #hashCode()} because
-     * the value may change, but the allocated box is the same.
+     * This must never be {@code null} because all allocated values must be initialized. The memory may be changed later,
+     * but never to {@code null}. The memory is not considered in {@link #equals(Object)} and {@link #hashCode()} because
+     * the memory may change, but the allocated box is the same.
      * </p>
      */
-    private transient SlartiNode<?> value;
+    private transient SlartiNode<?> memory;
 
     /**
      * Dedicated constructor.
      *
      * @param symbol must not be {@code null}
-     * @param value  must not be {@code null}
+     * @param memory  must not be {@code null}
      */
-    public MemoryBox(final SlartiSymbol symbol, final SlartiNode<?> value) {
+    public MemoryBox(final SlartiSymbol symbol, final SlartiNode<?> memory) {
         super();
         this.symbol = Objects.requireNonNull(symbol, "Parameter 'symbol' must not be null!");
-        this.value = Objects.requireNonNull(value, "Parameter 'value' must not be null!");
+        this.memory = Objects.requireNonNull(memory, "Parameter 'memory' must not be null!");
     }
 
     /**
      * Get the symbol of the box.
      * <p>
-     * This value never change after object creation during its life time.
+     * This memory never change after object creation during its life time.
      * </p>
      *
      * @return never {@code null}
      */
-    public SlartiSymbol getSymbol() {
+    public SlartiSymbol symbol() {
         return symbol;
     }
 
     /**
-     * Get the allocated value.
+     * Get the allocated memory.
      * <p>
-     * This value may change during object life  time.
+     * This memory may change during object life  time.
      * </p>
      *
      * @return never {@code null}
      */
-    public SlartiNode<?> getValue() {
-        return value;
+    public SlartiNode<?> memory() {
+        return memory;
     }
 
     /**
-     * Changes a allocated value.
+     * Changes a allocated memory.
      *
-     * @param value must not be {@code null}
+     * @param memory must not be {@code null}
      */
-    public void setValue(final SlartiNode<?> value) {
-        this.value = Objects.requireNonNull(value, "Parameter 'value' must not be null!");
+    public void memory(final SlartiNode<?> memory) {
+        this.memory = Objects.requireNonNull(memory, "Parameter 'memory' must not be null!");
     }
 
     @Override
@@ -92,7 +92,7 @@ public final class MemoryBox {
     public String toString() {
         return "MemoryBox{" +
             "symbol=" + symbol +
-            ", value=" + value +
+            ", memory=" + memory +
             '}';
     }
 }

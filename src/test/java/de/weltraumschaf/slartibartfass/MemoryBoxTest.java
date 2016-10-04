@@ -25,6 +25,6 @@ public class MemoryBoxTest {
 
     @Test(expected = NullPointerException.class)
     public void setValueWithNullIsnNotAlowed() {
-        new MemoryBox(sym("symbol"), of(42L)).setValue(null);
+        new MemoryBox(sym("symbol"), of(42L)).memory(null);
     }
 }
