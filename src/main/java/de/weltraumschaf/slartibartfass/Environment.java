@@ -2,18 +2,44 @@ package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
+import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 import java.io.PrintStream;
 import java.util.*;
 
+import static de.weltraumschaf.slartibartfass.node.Slarti.sym;
+
+/**
+ * The environment stores allocated memory.
+ * <p>
+ * Allocated memory means everything which is defined by the {@link de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm}.
+ * The environment may have parents to build scopes. Typical the {@link SlartiFunction} builds his own environment as scope.
+ * </p>
+ *
+ * @author Sven Strittmatter
+ */
 public final class Environment {
-    private final Map<String, SlartiNode> store = new HashMap<>();
+    /**
+     * Stores the allocated memory.
+     */
+    private final Map<String, MemoryBox> store = new HashMap<>();
+    /**
+     * Null if the environment does not gave a parent.
+     */
     private final Environment parent;
 
+    /**
+     * Convenience constuctor which creates one w/o a parent.
+     */
     public Environment() {
         this(null);
     }
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param parent may be {@code null}
+     */
     public Environment(final Environment parent) {
         super();
         this.parent = parent;
@@ -21,7 +47,7 @@ public final class Environment {
 
     public SlartiNode getValue(final String name) {
         if (store.containsKey(name)) {
-            return this.store.get(name);
+            return this.store.get(name).getValue();
         } else if (hasParent()) {
             return parent.getValue(name);
         } else {
@@ -29,8 +55,13 @@ public final class Environment {
         }
     }
 
+    public void putValue(final SlartiSymbol name, final SlartiNode value) {
+        store.put(name.name(), new MemoryBox(name, value));
+    }
+
+    @Deprecated
     public void putValue(final String name, final SlartiNode value) {
-        store.put(name, value);
+        putValue(sym(name), value);
     }
 
     public boolean hasParent() {
