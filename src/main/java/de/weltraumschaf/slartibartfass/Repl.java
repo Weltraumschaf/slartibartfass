@@ -42,6 +42,8 @@ final class Repl {
         " ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
         "|____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
         "                                                                 \n";
+    private static final String INITIAL_HELP = "Hello, World example:\n" +
+        "(println \"Hello, World!\")\n";
     /**
      * The REPL prompt to signal that user input is expected.
      */
@@ -152,6 +154,8 @@ final class Repl {
     private void welcome(final Version version) {
         io.print(WELCOME);
         io.println(String.format("Welcome to Slartibartfass REPL v%s.", version.getVersion()));
+        io.println("");
+        io.println(INITIAL_HELP);
         io.println("");
         io.println(String.format("  Type %s for help.", Command.HELP));
         io.println("");
