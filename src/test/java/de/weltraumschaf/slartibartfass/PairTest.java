@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 import static org.hamcrest.Matchers.is;
@@ -19,6 +20,7 @@ public class PairTest {
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(Pair.class)
             .withPrefabValues(Pair.class, Pair.cons(of(1L)), Pair.cons(of(2L)))
+            .suppress(Warning.NONFINAL_FIELDS)
             .verify();
     }
 

@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**
  * Tests for {@link InternalList}.
@@ -19,12 +20,12 @@ import static org.junit.Assert.assertThat;
  */
 public class InternalListTest {
 
-    private final InternalList<String> sut = new InternalList<>();
+    private final InternalList sut = new InternalList();
 
     @Test
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(InternalList.class)
-            .withPrefabValues(InternalList.LinkedEntry.class, new InternalList.LinkedEntry<>("foo"), new InternalList.LinkedEntry<>("bar"))
+            .withPrefabValues(Pair.class, Pair.cons(of("foo")), Pair.cons(of("bar")))
             .suppress(Warning.NONFINAL_FIELDS)
             .verify();
     }
@@ -33,28 +34,28 @@ public class InternalListTest {
     public void add_size_head_tail() {
         assertThat(sut.size(), is(0));
         assertThat(sut.head(), is(nullValue()));
-        assertThat(sut.tail(), is(new InternalList<>()));
+        assertThat(sut.tail(), is(new InternalList()));
 
-        sut.add("foo");
+        sut.add(of("foo"));
 
         assertThat(sut.size(), is(1));
-        assertThat(sut.head(), is("foo"));
-        assertThat(sut.tail(), is(new InternalList<>()));
-        assertThat(sut, contains("foo"));
+        assertThat(sut.head(), is(of("foo")));
+        assertThat(sut.tail(), is(new InternalList()));
+        assertThat(sut, contains(of("foo")));
 
-        sut.add("bar");
+        sut.add(of("bar"));
 
         assertThat(sut.size(), is(2));
-        assertThat(sut.head(), is("foo"));
-        assertThat(sut.tail(), is(new InternalList<>(Collections.singletonList("bar"))));
-        assertThat(sut, contains("foo", "bar"));
+        assertThat(sut.head(), is(of("foo")));
+        assertThat(sut.tail(), is(new InternalList(Collections.singletonList(of("bar")))));
+        assertThat(sut, contains(of("foo"), of("bar")));
 
-        sut.add("baz");
+        sut.add(of("baz"));
 
         assertThat(sut.size(), is(3));
-        assertThat(sut.head(), is("foo"));
-        assertThat(sut.tail(), is(new InternalList<>(Arrays.asList("bar", "baz"))));
-        assertThat(sut, contains("foo", "bar", "baz"));
+        assertThat(sut.head(), is(of("foo")));
+        assertThat(sut.tail(), is(new InternalList(Arrays.asList(of("bar"), of("baz")))));
+        assertThat(sut, contains(of("foo"), of("bar"), of("baz")));
     }
 
 }

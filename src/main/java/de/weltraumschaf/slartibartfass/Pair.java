@@ -26,7 +26,7 @@ public final class Pair {
     /**
      * The pointer to the next pair.
      */
-    private final Pair cdr;
+    private Pair cdr;
 
     /**
      * Convenience constructor for empty pair.
@@ -88,6 +88,10 @@ public final class Pair {
         }
 
         return cdr;
+    }
+
+    public void cdr(final Pair cdr) {
+        this.cdr = Validate.notNull(cdr, "cdr");
     }
 
     /**

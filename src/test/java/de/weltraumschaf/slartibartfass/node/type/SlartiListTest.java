@@ -2,7 +2,6 @@ package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.InternalList;
-import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -12,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -26,7 +26,7 @@ public class SlartiListTest {
     @Test
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(SlartiList.class)
-            .withPrefabValues(InternalList.class, new InternalList<>(Collections.singletonList("foo")), new InternalList<>(Collections.singletonList("bar")))
+            .withPrefabValues(InternalList.class, new InternalList(Collections.singletonList(of("foo"))), new InternalList(Collections.singletonList(of("bar"))))
             .withRedefinedSubclass(SlartiSpecialForm.class)
             .verify();
     }
@@ -78,7 +78,7 @@ public class SlartiListTest {
         final SlartiSymbol c = sym("c");
         final SlartiList sut = list(a, b, c);
 
-        assertThat(sut.value(), is(new InternalList<SlartiNode>(Arrays.asList(a, b, c))));
+        assertThat(sut.value(), is(new InternalList(Arrays.asList(a, b, c))));
     }
 
     @Test

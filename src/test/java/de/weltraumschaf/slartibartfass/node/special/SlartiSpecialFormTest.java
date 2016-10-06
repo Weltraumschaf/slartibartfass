@@ -12,6 +12,7 @@ import java.util.Collections;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**
  * Tests for {@link SlartiSpecialForm}.
@@ -23,7 +24,7 @@ public class SlartiSpecialFormTest {
     public void equalsAndHashCode() {
         EqualsVerifier.forClass(SlartiSpecialForm.class)
             .withRedefinedSuperclass()
-            .withPrefabValues(InternalList.class, new InternalList<>(Collections.singletonList("foo")), new InternalList<>(Collections.singletonList("bar")))
+            .withPrefabValues(InternalList.class, new InternalList(Collections.singletonList(of("foo"))), new InternalList(Collections.singletonList(of("bar"))))
             .verify();
     }
 

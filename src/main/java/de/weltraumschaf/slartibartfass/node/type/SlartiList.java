@@ -21,7 +21,7 @@ import java.util.*;
  *
  * @author Sven Strittmatter
  */
-public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterable<SlartiNode> {
+public class SlartiList implements SlartiNode<InternalList>, Iterable<SlartiNode> {
     /**
      * Represents an empty list.
      */
@@ -29,7 +29,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
     /**
      * Holds the list data.
      */
-    private final InternalList<SlartiNode> data;
+    private final InternalList data;
 
     /**
      * Convenience constructor.
@@ -46,7 +46,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
      * @param data must not be {@code null}
      */
     public SlartiList(final Collection<SlartiNode> data) {
-        this(new InternalList<>(data));
+        this(new InternalList(data));
     }
 
     /**
@@ -54,7 +54,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
      *
      * @param data must not be {@code null}
      */
-    public SlartiList(final InternalList<SlartiNode> data) {
+    public SlartiList(final InternalList data) {
         super();
         this.data = Validate.notNull(data, "data");
     }
@@ -116,7 +116,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
      *
      * @return never {@code null}, no defensive copy
      */
-    public final InternalList<SlartiNode> data() {
+    public final InternalList data() {
         return data;
     }
 
@@ -177,7 +177,7 @@ public class SlartiList implements SlartiNode<InternalList<SlartiNode>>, Iterabl
     }
 
     @Override
-    public InternalList<SlartiNode> value() {
+    public InternalList value() {
         return data;
     }
 

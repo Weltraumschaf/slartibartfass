@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -10,20 +11,19 @@ import java.util.Objects;
 /**
  * This is a simple list implementation which provides an interface to do Scheme like operations.
  * <p>
- *     This list is a simply lonked list which provides {@link #head()} and {@link #tail()} operations.
+ * This list is a simply lonked list which provides {@link #head()} and {@link #tail()} operations.
  * </p>
  *
- * @param <T> type of the elements in the list
  * @author Sven Strittmatter
  */
-public class InternalList<T> implements Iterable<T> {
+public class InternalList implements Iterable<SlartiNode> {
 
     /**
      * Reusable empty list.
      */
-    public static final InternalList<?> EMPTY = new InternalList<Object>() {
+    public static final InternalList EMPTY = new InternalList() {
         @Override
-        public void add(final Object element) {
+        public void add(final SlartiNode element) {
             throw new UnsupportedOperationException("Adding elements not allowed!");
         }
     };
@@ -35,18 +35,18 @@ public class InternalList<T> implements Iterable<T> {
     /**
      * The first element.
      */
-    private LinkedEntry<T> head;
+    private Pair head;
     /**
      * The last element.
      */
-    private LinkedEntry<T> last;
+    private Pair last;
 
     /**
      * Dedicated constructor.
      *
      * @param elements must not be {@code null}
      */
-    public InternalList(final Collection<T> elements) {
+    public InternalList(final Collection<SlartiNode> elements) {
         super();
         elements.forEach(this::add);
     }
@@ -63,15 +63,16 @@ public class InternalList<T> implements Iterable<T> {
      *
      * @param element must not be {@code null}
      */
-    public void add(final T element) {
+    public void add(final SlartiNode element) {
         Validate.notNull(element, "element");
+        final Pair newPair = Pair.cons(element);
 
         if (null == head) {
-            head = new LinkedEntry<>(element);
+            head = newPair;
             last = head;
         } else {
-            last.next = new LinkedEntry<>(element);
-            last = last.next;
+            last.cdr(newPair);
+            last = newPair;
         }
 
         ++size;
@@ -91,12 +92,12 @@ public class InternalList<T> implements Iterable<T> {
      *
      * @return {@code null} if the list is empty
      */
-    public final T head() {
+    public final SlartiNode head() {
         if (null == head) {
             return null;
         }
 
-        return head.value;
+        return head.car();
     }
 
     /**
@@ -104,12 +105,12 @@ public class InternalList<T> implements Iterable<T> {
      *
      * @return never {@code null}, maybe empty if there are no more elements than the {@link #head()}
      */
-    public final InternalList<T> tail() {
-        final InternalList<T> tail = new InternalList<>();
+    public final InternalList tail() {
+        final InternalList tail = new InternalList();
 
         if (size > 1) {
             tail.size = size - 1;
-            tail.head = head.next;
+            tail.head = head.cdr();
             tail.last = last;
         }
 
@@ -117,8 +118,8 @@ public class InternalList<T> implements Iterable<T> {
     }
 
     @Override
-    public final Iterator<T> iterator() {
-        return new InternalIterator<>(head);
+    public final Iterator<SlartiNode> iterator() {
+        return new InternalIterator(head);
     }
 
     @Override
@@ -127,7 +128,7 @@ public class InternalList<T> implements Iterable<T> {
             return false;
         }
 
-        final InternalList<?> that = (InternalList<?>) o;
+        final InternalList that = (InternalList) o;
         return size == that.size
             && Objects.equals(head, that.head)
             && Objects.equals(last, that.last);
@@ -156,7 +157,7 @@ public class InternalList<T> implements Iterable<T> {
         final StringBuilder buffer = new StringBuilder();
         String sep = "";
 
-        for (final T item : this) {
+        for (final SlartiNode item : this) {
             buffer.append(sep).append(item);
             sep = ", ";
         }
@@ -165,84 +166,34 @@ public class InternalList<T> implements Iterable<T> {
     }
 
     /**
-     * Entry type to link the list values.
-     *
-     * @param <V> type of entry
+     * Implements iterator for {@link InternalList}.
      */
-    static final class LinkedEntry<V> {
-        /**
-         * The value itself.
-         * <p>
-         *     This value is never {@code null}
-         * </p>
-         */
-        private final V value;
-        /**
-         * The next linked value.
-         * <p>
-         *     This value may {@code null} for the last one in the list.
-         * </p>
-         */
-        private LinkedEntry<V> next;
-
-        /**
-         * Dedicated constructor.
-         *
-         * @param value must not be {@code null}
-         */
-        LinkedEntry(final V value) {
-            super();
-            this.value = Validate.notNull(value, "value");
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (!(o instanceof InternalList.LinkedEntry)) {
-                return false;
-            }
-
-            final LinkedEntry<?> linkedEntry = (LinkedEntry<?>) o;
-            return Objects.equals(value, linkedEntry.value)
-                && Objects.equals(next, linkedEntry.next);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(value, next);
-        }
-    }
-
-    /**
-     * Implememts iterator for {@link InternalList}.
-     *
-     * @param <E> type of iterated elements
-     */
-    private static final class InternalIterator<E> implements Iterator<E> {
+    private static final class InternalIterator implements Iterator<SlartiNode> {
 
         /**
          * The current iterated entry.
          */
-        private LinkedEntry<E> current;
+        private Pair current;
 
         /**
          * Dedicated constructor.
          *
          * @param head may be {@code null}
          */
-        private InternalIterator(final LinkedEntry<E> head) {
+        private InternalIterator(final Pair head) {
             super();
             this.current = head;
         }
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return current != null && !current.isEmpty();
         }
 
         @Override
-        public E next() {
-            final E value = current.value;
-            current = current.next;
+        public SlartiNode next() {
+            final SlartiNode value = current.car();
+            current = current.cdr();
             return value;
         }
     }
