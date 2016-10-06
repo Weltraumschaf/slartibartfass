@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
@@ -10,21 +11,16 @@ import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 public class MemoryBoxTest {
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(MemoryBox.class).verify();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void constructWithSymbolAsNullIsNotAllowed() {
-        new MemoryBox(null, of(42L));
+        EqualsVerifier.forClass(MemoryBox.class).suppress(Warning.NONFINAL_FIELDS).verify();
     }
 
     @Test(expected = NullPointerException.class)
     public void constructWithValueAsNullIsNotAllowed() {
-        new MemoryBox(sym("symbol"), null);
+        new MemoryBox(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void setValueWithNullIsnNotAlowed() {
-        new MemoryBox(sym("symbol"), of(42L)).memory(null);
+        new MemoryBox(of(42L)).memory(null);
     }
 }

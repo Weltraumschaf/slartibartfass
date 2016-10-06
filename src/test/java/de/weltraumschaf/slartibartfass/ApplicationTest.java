@@ -32,7 +32,7 @@ public class ApplicationTest {
             assertThat(String.format(
                 "Built in function %s not in env!", fn),
                 env.getValue(fn.impl().symbol()),
-                is(new MemoryBox(fn.impl().symbol(), fn.impl())));
+                is(new MemoryBox(fn.impl())));
         }
     }
 

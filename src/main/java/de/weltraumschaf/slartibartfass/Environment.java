@@ -77,7 +77,7 @@ public final class Environment {
     public void putValue(final SlartiSymbol name, final SlartiNode value) {
         Validate.notNull(name, "name");
         Validate.notNull(value, "value");
-        store.put(name, new MemoryBox(name, value));
+        store.put(name, new MemoryBox(value));
     }
 
     /**

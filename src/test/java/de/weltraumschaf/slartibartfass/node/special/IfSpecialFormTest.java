@@ -52,7 +52,7 @@ public class IfSpecialFormTest {
 
         sut.eval(env);
 
-        assertThat(env.getValue(sym("res")), is(new MemoryBox(sym("res"), of(42L))));
+        assertThat(env.getValue(sym("res")), is(new MemoryBox(of(42L))));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class IfSpecialFormTest {
 
         sut.eval(env);
 
-        assertThat(env.getValue(sym("res")), is(new MemoryBox(sym("res"), of(23L))));
+        assertThat(env.getValue(sym("res")), is(new MemoryBox(of(23L))));
     }
 
     @Test

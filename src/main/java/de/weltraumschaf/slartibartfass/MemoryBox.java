@@ -12,44 +12,22 @@ import java.util.Objects;
  */
 public final class MemoryBox {
     /**
-     * Gives the slot a unique (in its environment) symbol to identify the allocated memory.
-     * <p>
-     * The symbol of a box must not be changed after allocated.
-     * </p>
-     */
-    private final SlartiSymbol symbol;
-    /**
      * The allocated memory.
      * <p>
      * This must never be {@code null} because all allocated values must be initialized. The memory may be changed later,
-     * but never to {@code null}. The memory is not considered in {@link #equals(Object)} and {@link #hashCode()} because
-     * the memory may change, but the allocated box is the same.
+     * but never to {@code null}.
      * </p>
      */
-    private transient SlartiNode<?> memory;
+    private SlartiNode<?> memory;
 
     /**
      * Dedicated constructor.
      *
-     * @param symbol must not be {@code null}
      * @param memory  must not be {@code null}
      */
-    public MemoryBox(final SlartiSymbol symbol, final SlartiNode<?> memory) {
+    public MemoryBox(final SlartiNode<?> memory) {
         super();
-        this.symbol = Objects.requireNonNull(symbol, "Parameter 'symbol' must not be null!");
         this.memory = Objects.requireNonNull(memory, "Parameter 'memory' must not be null!");
-    }
-
-    /**
-     * Get the symbol of the box.
-     * <p>
-     * This memory never change after object creation during its life time.
-     * </p>
-     *
-     * @return never {@code null}
-     */
-    public SlartiSymbol symbol() {
-        return symbol;
     }
 
     /**
@@ -80,19 +58,18 @@ public final class MemoryBox {
         }
 
         final MemoryBox that = (MemoryBox) o;
-        return Objects.equals(symbol, that.symbol);
+        return Objects.equals(memory, that.memory);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(symbol);
+        return Objects.hash(memory);
     }
 
     @Override
     public String toString() {
         return "MemoryBox{" +
-            "symbol=" + symbol +
-            ", memory=" + memory +
+            "memory=" + memory +
             '}';
     }
 }
