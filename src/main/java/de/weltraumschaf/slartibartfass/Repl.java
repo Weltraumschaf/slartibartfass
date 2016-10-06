@@ -42,8 +42,20 @@ final class Repl {
         " ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
         "|____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
         "                                                                 \n";
-    private static final String INITIAL_HELP = "Hello, World example:\n" +
-        "(println \"Hello, World!\")\n";
+    /**
+     * Some initial help examples for beginners.
+     */
+    private static final String INITIAL_HELP =
+        "Hello, World example:\n" +
+        "  (println \"Hello, World!\")\n\n" +
+        "A simple math expression:\n" +
+        "  (* 3 (+ 2 3 4))\n\n" +
+        "Define a variable and print it:\n" +
+        "  (define foo \"my var\")\n" +
+        "  (println foo)\n\n" +
+        "Define a function and call it:\n" +
+        "  (define (bar x) (* 3 x))\n" +
+        "  (bar 23)\n";
     /**
      * The REPL prompt to signal that user input is expected.
      */
@@ -152,12 +164,11 @@ final class Repl {
      * @param version must not be {@code null}
      */
     private void welcome(final Version version) {
+        // See https://en.wikipedia.org/wiki/ANSI_escape_code
         io.print(WELCOME);
-        io.println(String.format("Welcome to Slartibartfass REPL v%s.", version.getVersion()));
+        io.println(String.format("\u001B[1mWelcome to Slartibartfass REPL v%s.\u001B[0m", version.getVersion()));
         io.println("");
-        io.println(INITIAL_HELP);
-        io.println("");
-        io.println(String.format("  Type %s for help.", Command.HELP));
+        io.println(String.format("  \u001B[1mType %s for help.\u001B[0m", Command.HELP));
         io.println("");
     }
 
@@ -179,6 +190,9 @@ final class Repl {
         switch (cmd) {
             case ENV:
                 env.print(io.getStdout());
+                break;
+            case EXAMPLES:
+                io.println(INITIAL_HELP);
                 break;
             case EXIT:
                 exit = true;
@@ -228,6 +242,10 @@ final class Repl {
          * Shows the allocated  memory.
          */
         ENV("Shows the environment from the current scope up to the root."),
+        /**
+         * Show some examples.
+         */
+        EXAMPLES("Show some example code snippets."),
         /**
          * Exits the REPL.
          */
@@ -304,7 +322,7 @@ final class Repl {
         public static void printHelp(final PrintStream out) {
             Validate.notNull(out, "out");
             out.println("Available commands:");
-            Arrays.stream(values()).forEach( c -> out.println(String.format("  %1$-8s", c.toString()) + c.help));
+            Arrays.stream(values()).forEach(c -> out.println(String.format("  %1$-10s", c.toString()) + c.help));
         }
     }
 
@@ -312,11 +330,16 @@ final class Repl {
      * Provides tab completion for the REPL commands to the console reader.
      */
     private static final class CommandEnumCompleter extends StringsCompleter {
+        /**
+         * Dedicated constructor.
+         *
+         * @param source must not be {@code null}
+         */
         CommandEnumCompleter(Class<? extends Enum> source) {
             checkNotNull(source);
 
             for (Enum<?> n : source.getEnumConstants()) {
-                this.getStrings().add(n.toString().toLowerCase());
+                getStrings().add(n.toString().toLowerCase());
             }
         }
     }
