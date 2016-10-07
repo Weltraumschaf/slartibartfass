@@ -192,7 +192,7 @@ public class DefaultSlartiVisitorTest {
         assertThat(nodes, is(instanceOf(SlartiList.class)));
 
         final SlartiList list = (SlartiList) nodes;
-        assertThat(list.size(), is(5));
+        assertThat(list.size(), is(6));
     }
 
     @Test

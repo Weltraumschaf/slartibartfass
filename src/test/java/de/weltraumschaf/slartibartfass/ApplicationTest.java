@@ -42,6 +42,6 @@ public class ApplicationTest {
 
         sut.loadStdLib(new DefaultSlartiVisitor(), env);
 
-        assertThat(env.size(), is(5));
+        assertThat(env.size(), is(6));
     }
 }

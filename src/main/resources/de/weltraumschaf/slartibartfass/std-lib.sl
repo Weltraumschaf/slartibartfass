@@ -1,28 +1,21 @@
-(define not
-    (lambda (x)
+(define (not x)
         (if (= #true x)
             #false
-            #true)
-    ))
+            #true))
 
-(define >=
-    (lambda (x)
-        (not (< x y))
-    ))
-    
-(define <=
-    (lambda (x)
-        (not (> x y))
-    ))
+(define (>= x)
+        (not (< x y)))
 
-(define square
-    (lambda (x)
-        (* x x)
-    ))
+(define (<= x)
+        (not (> x y)))
 
-(define abs
-    (lambda (x)
+(define (square x)
+        (* x x))
+
+(define (cube x)
+        (* x x x))
+
+(define (abs x)
         (if (< x 0)
             (- x)
-            x
-    )))
+            x))
