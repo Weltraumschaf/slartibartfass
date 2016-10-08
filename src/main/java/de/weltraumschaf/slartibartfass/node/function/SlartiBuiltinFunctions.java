@@ -172,6 +172,7 @@ public enum SlartiBuiltinFunctions {
             final SlartiNode right = args.get(1);
             errorIfNotNumber(right);
 
+            // Cast to real so also integers are covered.
             return left.castToReal().value() < right.castToReal().value() ?
                 SlartiBoolean.TRUE :
                 SlartiBoolean.FALSE;
@@ -192,6 +193,7 @@ public enum SlartiBuiltinFunctions {
             final SlartiNode right = args.get(1);
             errorIfNotNumber(right);
 
+            // Cast to real so also integers are covered.
             return left.castToReal().value() > right.castToReal().value() ?
                 SlartiBoolean.TRUE :
                 SlartiBoolean.FALSE;
@@ -207,6 +209,7 @@ public enum SlartiBuiltinFunctions {
                 throw new SlartiError("Function %s requires two arguments!", symbol());
             }
 
+            // TODO Cast second to first operand.
             final SlartiNode left = args.get(0);
             final SlartiNode right = args.get(1);
 
