@@ -175,7 +175,7 @@ public interface SlartiType<T> {
      * @param wanted must not be {@code null}
      * @return never {@code null}
      */
-    default SlartiType castTo(final SlartiType wanted) {
+    default SlartiNode castTo(final SlartiType wanted) {
         Validate.notNull(wanted, "wanted");
 
         if (wanted.isBoolean()) {

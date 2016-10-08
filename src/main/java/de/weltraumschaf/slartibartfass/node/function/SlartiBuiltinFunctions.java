@@ -209,9 +209,8 @@ public enum SlartiBuiltinFunctions {
                 throw new SlartiError("Function %s requires two arguments!", symbol());
             }
 
-            // TODO Cast second to first operand.
             final SlartiNode left = args.get(0);
-            final SlartiNode right = args.get(1);
+            final SlartiNode right = args.get(1).castTo(left);
 
             return left.equals(right) ? SlartiBoolean.TRUE : SlartiBoolean.FALSE;
         }
