@@ -11,12 +11,14 @@ import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static jline.internal.Preconditions.checkNotNull;
 
@@ -33,20 +35,10 @@ import static jline.internal.Preconditions.checkNotNull;
  */
 final class Repl {
     /**
-     * Logo of the REPL.
-     */
-    private static final String FIGLET =
-        "   ____  _            _   _ _                _    __               \n"
-            + "  / ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n"
-            + "  \\___ \\| |/ _` | '__| __| | '_ \\ / _` | '__| __| |_ / _` / __/ __|\n"
-            + "   ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n"
-            + "  |____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n"
-            + "                                                                   \n";
-    /**
      * Greeting to the user.
      */
     private static final String WELCOME =
-        "           Welcome to Slartibartfass REPL v%s            %n";
+        "           Welcome to Slartibartfass REPL v%s            \n";
     /**
      * Some initial help examples for beginners.
      */
@@ -169,13 +161,22 @@ final class Repl {
      *
      * @param version must not be {@code null}
      */
-    private void welcome(final Version version) {
+    private void welcome(final Version version) throws IOException {
         io.print(Ansi.fmt()
-            .fg(Ansi.Color.BLUE).bold().text(FIGLET).reset()
+            .fg(Ansi.Color.BLUE).bold().text(figlet()).reset()
+            .text("\n\n")
             .fg(Ansi.Color.BLUE).italic().text(WELCOME, version).reset()
-            .text("%n")
-            .bold().text("  Type %s for help.%n%n", Command.HELP).reset()
+            .text("\n")
+            .bold().text("  Type %s for help.\n\n", Command.HELP).reset()
             .toString());
+    }
+
+    private String figlet() throws IOException {
+        final InputStream input = getClass().getResourceAsStream("/de/weltraumschaf/slartibartfass/figlet");
+
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
+            return buffer.lines().collect(Collectors.joining(String.format("\n")));
+        }
     }
 
     /**
