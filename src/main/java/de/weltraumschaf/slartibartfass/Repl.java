@@ -33,15 +33,20 @@ import static jline.internal.Preconditions.checkNotNull;
  */
 final class Repl {
     /**
+     * Logo of the REPL.
+     */
+    private static final String FIGLET =
+        "   ____  _            _   _ _                _    __               \n" +
+        "  / ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n" +
+        "  \\___ \\| |/ _` | '__| __| | '_ \\ / _` | '__| __| |_ / _` / __/ __|\n" +
+        "   ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
+        "  |____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
+        "                                                                   \n";
+    /**
      * Greeting to the user.
      */
     private static final String WELCOME =
-        " ____  _            _   _ _                _    __               \n" +
-        "/ ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n" +
-        "\\___ \\| |/ _` | '__| __| | '_ \\ / _` | '__| __| |_ / _` / __/ __|\n" +
-        " ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
-        "|____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
-        "                                                                 \n";
+        "           Welcome to Slartibartfass REPL v%s.           ";
     /**
      * Some initial help examples for beginners.
      */
@@ -60,6 +65,10 @@ final class Repl {
      * The REPL prompt to signal that user input is expected.
      */
     private static final String PROMPT = "sl> ";
+    /**
+     * Helper to format console output.
+     */
+    private final ConsoleFormatter fmt = new ConsoleFormatter();
     /**
      * Injected I/O streams
      */
@@ -122,7 +131,7 @@ final class Repl {
                 execute(Command.getCmd(data));
 
                 if (exit) {
-                    io.println(PROMPT + "Bye bye :-)");
+                    io.println("Bye bye :-)");
                     break;
                 }
 
@@ -142,14 +151,14 @@ final class Repl {
 
                 io.println(result.toString());
             } catch (final SlartiError e) {
-                io.errorln("[E] " + e.getMessage());
+                io.errorln(fmt.color(ConsoleFormatter.Color.RED, "[E] " + e.getMessage()));
 
                 if (isDebugEnabled) {
                     printStackTraceOnDebug(e);
                 }
 
             } catch (RuntimeException e) {
-                io.errorln("[F] " + e.getMessage());
+                io.errorln(fmt.color(ConsoleFormatter.Color.RED, "[F] " + e.getMessage()));
 
                 if (isDebugEnabled) {
                     printStackTraceOnDebug(e);
@@ -164,11 +173,12 @@ final class Repl {
      * @param version must not be {@code null}
      */
     private void welcome(final Version version) {
-        // See https://en.wikipedia.org/wiki/ANSI_escape_code
-        io.print(WELCOME);
-        io.println(String.format("\u001B[1mWelcome to Slartibartfass REPL v%s.\u001B[0m", version.getVersion()));
+        io.print(fmt.color(ConsoleFormatter.Color.BLUE, fmt.bold(FIGLET)));
+        io.println(String.format(
+            fmt.color(ConsoleFormatter.Color.BLUE, fmt.italic(WELCOME)),
+            version.getVersion()));
         io.println("");
-        io.println(String.format("  \u001B[1mType %s for help.\u001B[0m", Command.HELP));
+        io.println(String.format(fmt.bold("  Type %s for help."), Command.HELP));
         io.println("");
     }
 
@@ -201,7 +211,7 @@ final class Repl {
                 Command.printHelp(io.getStdout());
                 break;
             default:
-                io.errorln("[E] Unknown command: '" + cmd + "'!");
+                io.errorln(fmt.color(ConsoleFormatter.Color.RED, "[E] Unknown command: '" + cmd + "'!"));
                 break;
         }
     }
@@ -218,7 +228,7 @@ final class Repl {
         final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
-        reader.setPrompt(PROMPT);
+        reader.setPrompt(fmt.bold(PROMPT));
         return reader;
     }
 
