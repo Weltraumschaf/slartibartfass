@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 /**
- * Factory to create parser.
+ * Factory to fmt parser.
  *
  * @author Sven Strittmatter
  */

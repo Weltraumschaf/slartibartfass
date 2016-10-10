@@ -23,10 +23,10 @@ import static jline.internal.Preconditions.checkNotNull;
 /**
  * Provides a read eval print loop.
  * <p>
- *     The REPL reads a user input line until newline, then parse and interpret it and finally prints the result
- *     back to the user. It upports the same syntax like the interpreted files. Aso the REPL supports some iternal
- *     {@link Command commands} to do things not provided by the language itself: E.g. show the allocated memory
- *     in the  environment.
+ * The REPL reads a user input line until newline, then parse and interpret it and finally prints the result
+ * back to the user. It upports the same syntax like the interpreted files. Aso the REPL supports some iternal
+ * {@link Command commands} to do things not provided by the language itself: E.g. show the allocated memory
+ * in the  environment.
  * </p>
  *
  * @author Sven Strittmatter
@@ -36,41 +36,36 @@ final class Repl {
      * Logo of the REPL.
      */
     private static final String FIGLET =
-        "   ____  _            _   _ _                _    __               \n" +
-        "  / ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n" +
-        "  \\___ \\| |/ _` | '__| __| | '_ \\ / _` | '__| __| |_ / _` / __/ __|\n" +
-        "   ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n" +
-        "  |____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n" +
-        "                                                                   \n";
+        "   ____  _            _   _ _                _    __               \n"
+            + "  / ___|| | __ _ _ __| |_(_) |__   __ _ _ __| |_ / _| __ _ ___ ___ \n"
+            + "  \\___ \\| |/ _` | '__| __| | '_ \\ / _` | '__| __| |_ / _` / __/ __|\n"
+            + "   ___) | | (_| | |  | |_| | |_) | (_| | |  | |_|  _| (_| \\__ \\__ \\\n"
+            + "  |____/|_|\\__,_|_|   \\__|_|_.__/ \\__,_|_|   \\__|_|  \\__,_|___/___/\n"
+            + "                                                                   \n";
     /**
      * Greeting to the user.
      */
     private static final String WELCOME =
-        "           Welcome to Slartibartfass REPL v%s.           ";
+        "           Welcome to Slartibartfass REPL v%s            %n";
     /**
      * Some initial help examples for beginners.
      */
-    private static final String INITIAL_HELP =
-        "Hello, World example:\n" +
-        "  (println \"Hello, World!\")\n\n" +
-        "A simple math expression:\n" +
-        "  (* 3 (+ 2 3 4))\n\n" +
-        "Define a variable and print it:\n" +
-        "  (define foo \"my var\")\n" +
-        "  (println foo)\n\n" +
-        "Define a function and call it:\n" +
-        "  (define (bar x) (* 3 x))\n" +
-        "  (bar 23)\n";
+    private static final String INITIAL_HELP = "Hello, World example:\n"
+        + "  (println \"Hello, World!\")\n\n"
+        + "A simple math expression:\n"
+        + "  (* 3 (+ 2 3 4))\n\n"
+        + "Define a variable and print it:\n"
+        + "  (define foo \"my var\")\n"
+        + "  (println foo)\n\n"
+        + "Define a function and call it:\n"
+        + "  (define (bar x) (* 3 x))\n"
+        + "  (bar 23)\n";
     /**
      * The REPL prompt to signal that user input is expected.
      */
     private static final String PROMPT = "sl> ";
     /**
-     * Helper to format console output.
-     */
-    private final ConsoleFormatter fmt = new ConsoleFormatter();
-    /**
-     * Injected I/O streams
+     * Injected I/O streams.
      */
     private final IO io;
     /**
@@ -93,9 +88,9 @@ final class Repl {
     /**
      * Dedicated constructor.
      *
-     * @param io must not be {@code null}
-     * @param visitor must not be {@code null}
-     * @param env must not be {@code null}
+     * @param io             must not be {@code null}
+     * @param visitor        must not be {@code null}
+     * @param env            must not be {@code null}
      * @param isDebugEnabled whether to print debug output
      */
     Repl(final IO io, final SlartiVisitor<SlartiNode> visitor, final Environment env, boolean isDebugEnabled) {
@@ -109,7 +104,7 @@ final class Repl {
     /**
      * Starts the REPL.
      * <p>
-     *     The REPL ends if {@code null} is read as input.
+     * The REPL ends if {@code null} is read as input.
      * </p>
      *
      * @param version must not be {@code null}
@@ -131,7 +126,7 @@ final class Repl {
                 execute(Command.getCmd(data));
 
                 if (exit) {
-                    io.println("Bye bye :-)");
+                    io.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
                     break;
                 }
 
@@ -140,7 +135,9 @@ final class Repl {
 
 
             try {
-                final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()), isDebugEnabled);
+                final SlartiParser parser = parsers.newParser(
+                    new ByteArrayInputStream(data.getBytes()),
+                    isDebugEnabled);
                 final SlartiNode node = visitor.visit(parser.file());
                 final Object result = node.eval(env);
 
@@ -151,14 +148,14 @@ final class Repl {
 
                 io.println(result.toString());
             } catch (final SlartiError e) {
-                io.errorln(fmt.color(ConsoleFormatter.Color.RED, "[E] " + e.getMessage()));
+                io.errorln(error(e.getMessage()));
 
                 if (isDebugEnabled) {
                     printStackTraceOnDebug(e);
                 }
 
             } catch (RuntimeException e) {
-                io.errorln(fmt.color(ConsoleFormatter.Color.RED, "[F] " + e.getMessage()));
+                io.errorln(fatal(e.getMessage()));
 
                 if (isDebugEnabled) {
                     printStackTraceOnDebug(e);
@@ -173,13 +170,12 @@ final class Repl {
      * @param version must not be {@code null}
      */
     private void welcome(final Version version) {
-        io.print(fmt.color(ConsoleFormatter.Color.BLUE, fmt.bold(FIGLET)));
-        io.println(String.format(
-            fmt.color(ConsoleFormatter.Color.BLUE, fmt.italic(WELCOME)),
-            version.getVersion()));
-        io.println("");
-        io.println(String.format(fmt.bold("  Type %s for help."), Command.HELP));
-        io.println("");
+        io.print(Ansi.fmt()
+            .fg(Ansi.Color.BLUE).bold().text(FIGLET).reset()
+            .fg(Ansi.Color.BLUE).italic().text(WELCOME, version).reset()
+            .text("%n")
+            .bold().text("  Type %s for help.%n%n", Command.HELP).reset()
+            .toString());
     }
 
     /**
@@ -211,13 +207,25 @@ final class Repl {
                 Command.printHelp(io.getStdout());
                 break;
             default:
-                io.errorln(fmt.color(ConsoleFormatter.Color.RED, "[E] Unknown command: '" + cmd + "'!"));
+                io.errorln(error("Unknown command: '" + cmd + "'!"));
                 break;
         }
     }
 
+    private String error(final String message) {
+        return errorFormat("Error: " + message);
+    }
+
+    private String fatal(final String message) {
+        return errorFormat("Fatal: " + message);
+    }
+
+    private String errorFormat(final String message) {
+        return Ansi.fmt().bold().fg(Ansi.Color.RED).text(message).reset().toString();
+    }
+
     /**
-     * Facotry method to create the interactive console.
+     * Facotry method to fmt the interactive console.
      *
      * @return never {@code null}, always new instance
      * @throws IOException if the I/O streams can't be written/read
@@ -228,7 +236,7 @@ final class Repl {
         final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
-        reader.setPrompt(fmt.bold(PROMPT));
+        reader.setPrompt(Ansi.fmt().bold().fg(Ansi.Color.BLUE).text(PROMPT).reset().toString());
         return reader;
     }
 
@@ -244,7 +252,7 @@ final class Repl {
     /**
      * Special commands in the REPL.
      * <p>
-     *     These commands are not part of the language itself and are treated case sensitive.
+     * These commands are not part of the language itself and are treated case sensitive.
      * </p>
      */
     private enum Command {
@@ -273,6 +281,7 @@ final class Repl {
          * Lookup table to find the command enum by symbol.
          */
         private static final Map<String, Command> LOOKUP = new HashMap<>();
+
         static {
             Arrays.stream(Command.values()).forEach(c -> LOOKUP.put(c.toString(), c));
         }
@@ -314,7 +323,7 @@ final class Repl {
         /**
          * Get the command enum for given string.
          * <p>
-         *     Use {@link #isCmd(String)} to check if there is a command for the givne string.
+         * Use {@link #isCmd(String)} to check if there is a command for the givne string.
          * </p>
          *
          * @param in must not be {@code null}

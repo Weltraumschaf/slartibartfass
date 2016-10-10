@@ -5,7 +5,7 @@ import de.weltraumschaf.slartibartfass.node.type.*;
 import java.util.Collection;
 
 /**
- * Factory to create nodes.
+ * Factory to fmt nodes.
  *
  * @author Sven Strittmatter
  */
@@ -19,7 +19,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create booleans.
+     * Convenience method to fmt booleans.
      *
      * @param value must not be {@code null}
      * @return never {@code null}
@@ -29,7 +29,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create integers.
+     * Convenience method to fmt integers.
      *
      * @param value must not be {@code null}
      * @return never {@code null}
@@ -39,7 +39,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create reals.
+     * Convenience method to fmt reals.
      *
      * @param value must not be {@code null}
      * @return never {@code null}
@@ -49,7 +49,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create strings.
+     * Convenience method to fmt strings.
      *
      * @param value must not be {@code null}
      * @return never {@code null}
@@ -59,7 +59,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create a list from nodes.
+     * Convenience method to fmt a list from nodes.
      *
      * @param nodes must not be {@code null}
      * @return never {@code null}
@@ -69,7 +69,7 @@ public final class Slarti {
     }
 
     /**
-     * Convenience method to create a symbol.
+     * Convenience method to fmt a symbol.
      *
      * @param name must not be {@code null} or empty
      * @return never {@code null}
