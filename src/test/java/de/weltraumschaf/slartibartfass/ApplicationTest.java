@@ -16,8 +16,9 @@ public class ApplicationTest {
     private final Application sut = new Application(new String[0]);
 
     @Before
-    public void setIo() {
+    public void setIo() throws IOException {
         sut.setIoStreams(mock(IO.class));
+        sut.prepareExecution();
     }
 
     @Test

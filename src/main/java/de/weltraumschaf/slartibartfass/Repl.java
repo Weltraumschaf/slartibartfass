@@ -1,6 +1,5 @@
 package de.weltraumschaf.slartibartfass;
 
-import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
@@ -23,7 +22,7 @@ import static jline.internal.Preconditions.checkNotNull;
  * Provides a read eval print loop.
  * <p>
  * The REPL reads a user input line until newline, then parse and interpret it and finally prints the result
- * back to the user. It upports the same syntax like the interpreted files. Aso the REPL supports some iternal
+ * back to the user. It supports the same syntax like the interpreted files. Aso the REPL supports some iternal
  * {@link Command commands} to do things not provided by the language itself: E.g. show the allocated memory
  * in the  environment.
  * </p>
@@ -54,9 +53,9 @@ final class Repl {
      */
     private static final String PROMPT = "sl> ";
     /**
-     * Injected I/O streams.
+     * Injected I/O.
      */
-    private final IO io;
+    private final SlartInputOutput output;
     /**
      * Visitor to convert the parsed input.
      */
@@ -66,10 +65,6 @@ final class Repl {
      */
     private final Environment env;
     /**
-     * Whether to print debug information.
-     */
-    private final boolean isDebugEnabled;
-    /**
      * Flag to signal that the loop should be exited.
      */
     private boolean exit;
@@ -77,17 +72,15 @@ final class Repl {
     /**
      * Dedicated constructor.
      *
-     * @param io             must not be {@code null}
+     * @param output             must not be {@code null}
      * @param visitor        must not be {@code null}
      * @param env            must not be {@code null}
-     * @param isDebugEnabled whether to print debug output
      */
-    Repl(final IO io, final SlartiVisitor<SlartiNode> visitor, final Environment env, boolean isDebugEnabled) {
+    Repl(final SlartInputOutput output, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
         super();
-        this.io = Validate.notNull(io, "io");
+        this.output = Validate.notNull(output, "output");
         this.visitor = Validate.notNull(visitor, "visitor");
         this.env = Validate.notNull(env, "env");
-        this.isDebugEnabled = isDebugEnabled;
     }
 
     /**
@@ -100,7 +93,7 @@ final class Repl {
      * @throws IOException if the REPL can't read from the console
      */
     void start(final Version version) throws IOException {
-        final Parsers parsers = new Parsers(io);
+        final Parsers parsers = new Parsers();
         final ConsoleReader reader = createReader();
         welcome(version);
 
@@ -115,18 +108,15 @@ final class Repl {
                 execute(Command.getCmd(data));
 
                 if (exit) {
-                    io.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
+                    output.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
                     break;
                 }
 
                 continue;
             }
 
-
             try {
-                final SlartiParser parser = parsers.newParser(
-                    new ByteArrayInputStream(data.getBytes()),
-                    isDebugEnabled);
+                final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()));
                 final SlartiNode node = visitor.visit(parser.file());
                 final Object result = node.eval(env);
 
@@ -135,20 +125,13 @@ final class Repl {
                     continue;
                 }
 
-                io.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
+                output.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
             } catch (final SlartiError e) {
-                io.errorln(error(e.getMessage()));
-
-                if (isDebugEnabled) {
-                    printStackTraceOnDebug(e);
-                }
-
+                output.error(e.getMessage());
+                output.printStackTraceOnDebug(e);
             } catch (RuntimeException e) {
-                io.errorln(fatal(e.getMessage()));
-
-                if (isDebugEnabled) {
-                    printStackTraceOnDebug(e);
-                }
+                output.fatal(e.getMessage());
+                output.printStackTraceOnDebug(e);
             }
         }
     }
@@ -160,7 +143,7 @@ final class Repl {
      * @throws IOException if figlet can't be read
      */
     private void welcome(final Version version) throws IOException {
-        io.print(Ansi.fmt()
+        output.print(Ansi.fmt()
             .fg(Ansi.Color.BLUE).bold().text(figlet()).reset()
             .nl().nl()
             .fg(Ansi.Color.BLUE).italic().text(WELCOME, version).reset()
@@ -185,15 +168,6 @@ final class Repl {
     }
 
     /**
-     * Print the exception stack trace to the error output stream.
-     *
-     * @param e must not be {@code null}
-     */
-    private void printStackTraceOnDebug(final Throwable e) {
-        e.printStackTrace(io.getStderr());
-    }
-
-    /**
      * Executes a REPL command.
      *
      * @param cmd if {@code null} a error message will be printed to the user.
@@ -201,33 +175,21 @@ final class Repl {
     private void execute(final Command cmd) {
         switch (cmd) {
             case ENV:
-                env.print(io.getStdout());
+                env.print(output.getStdout());
                 break;
             case EXAMPLES:
-                io.println(INITIAL_HELP);
+                output.println(INITIAL_HELP);
                 break;
             case EXIT:
                 exit = true;
                 break;
             case HELP:
-                Command.printHelp(io.getStdout());
+                Command.printHelp(output.getStdout());
                 break;
             default:
-                io.errorln(error("Unknown command: '" + cmd + "'!"));
+                output.error("Unknown command: '" + cmd + "'!");
                 break;
         }
-    }
-
-    private String error(final String message) {
-        return errorFormat("Error: " + message);
-    }
-
-    private String fatal(final String message) {
-        return errorFormat("Fatal: " + message);
-    }
-
-    private String errorFormat(final String message) {
-        return Ansi.fmt().bold().fg(Ansi.Color.RED).text(message).reset().toString();
     }
 
     /**
@@ -239,7 +201,7 @@ final class Repl {
     private ConsoleReader createReader() throws IOException {
         // Disable this so we can use the bang (!) for our commands as prefix.
         System.setProperty("jline.expandevents", Boolean.FALSE.toString());
-        final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
+        final ConsoleReader reader = new ConsoleReader(output.getStdin(), output.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
         reader.setPrompt(Ansi.fmt().bold().fg(Ansi.Color.BLUE).text(PROMPT).reset().toString());

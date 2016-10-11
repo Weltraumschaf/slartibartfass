@@ -1,22 +1,23 @@
 package de.weltraumschaf.slartibartfass;
 
-import de.weltraumschaf.commons.application.*;
+import de.weltraumschaf.commons.application.ApplicationException;
+import de.weltraumschaf.commons.application.InvokableAdapter;
+import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
-import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import jline.console.ConsoleReader;
-import jline.console.completer.Completer;
-import jline.console.completer.NullCompleter;
+import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
 /**
  * Main application class.
  * <p>
- *     This class provides the {@link #main(String[])} main entry point}.
+ * This class provides the {@link #main(String[])} main entry point}.
  * </p>
  *
  * @author Sven Strittmatter
@@ -27,9 +28,14 @@ public final class Application extends InvokableAdapter {
      */
     private final JCommanderImproved<CliOptions> cliArgs = CliOptions.newCliArgParser();
     /**
-     * USed to show the version from Maven.
+     * Used to show the version from Maven.
      */
     private final Version version = new Version(Constants.BASE_PACKAGE.value() + "/version.properties");
+    /**
+     * Used for I/O.
+     */
+    private SlartInputOutput outup;
+
     /**
      * Dedicated constructor.
      *
@@ -50,20 +56,34 @@ public final class Application extends InvokableAdapter {
 
     @Override
     public void execute() throws Exception {
-        version.load();
-        final CliOptions opts = cliArgs.gatherOptions(getArgs());
-        debug = opts.isDebug();
+        final CliOptions opts = gatherOptions();
+        prepareExecution();
 
         if (opts.isHelp()) {
-            getIoStreams().print(opts.helpMessage(cliArgs));
+            outup.print(opts.helpMessage(cliArgs));
             return;
         }
 
         if (opts.isVersion()) {
-            getIoStreams().println(version.getVersion());
+            outup.println(version.getVersion());
             return;
         }
 
+        slarti(opts);
+    }
+
+    private CliOptions gatherOptions() {
+        final CliOptions opts = cliArgs.gatherOptions(getArgs());
+        debug = opts.isDebug();
+        return opts;
+    }
+
+    void prepareExecution() throws IOException {
+        outup = new SlartInputOutput(getIoStreams(), isDebugEnabled());
+        version.load();
+    }
+
+    private void slarti(final CliOptions opts) throws ApplicationException {
         try {
             final Environment env = new Environment();
             final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
@@ -81,35 +101,29 @@ public final class Application extends InvokableAdapter {
         }
     }
 
-    private void printDebug(final String msg) {
-        if (isDebugEnabled()) {
-            getIoStreams().println("[d] " + msg);
-        }
-    }
-
     void loadBuiltInFunctions(final Environment env) {
-        printDebug("Load built in function ...");
+        outup.debug("Load built in function ...");
         SlartiBuiltinFunctions.register(env, getIoStreams());
     }
 
     void loadStdLib(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
-        printDebug("Load STD lib ...");
+        outup.debug("Load STD lib ...");
         final InputStream src = getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/std-lib.sl");
-        final Parsers parsers = new Parsers(getIoStreams());
-        final SlartiNode node = visitor.visit(parsers.newParser(src, isDebugEnabled()).file());
+        final Parsers parsers = new Parsers();
+        final SlartiNode node = visitor.visit(parsers.newParser(src).file());
         node.eval(env);
     }
 
     private void startRepl(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
-        printDebug("Start REPL ...");
-        new Repl(getIoStreams(), visitor, env, isDebugEnabled()).start(version);
+        outup.debug("Start REPL ...");
+        new Repl(outup, visitor, env).start(version);
     }
 
     private void runInterpreter(final SlartiVisitor<SlartiNode> visitor, final Environment env, final Collection<String> filenames) throws IOException {
         for (final String filename : filenames) {
-            printDebug(String.format("Interpret file %s  ...", filename));
-            final Parsers parsers = new Parsers(getIoStreams());
-            final SlartiParser parser = parsers.newParser(new FileInputStream(filename), isDebugEnabled());
+            outup.debug(String.format("Interpret file %s  ...", filename));
+            final Parsers parsers = new Parsers();
+            final SlartiParser parser = parsers.newParser(new FileInputStream(filename));
             visitor.visit(parser.file()).eval(env);
         }
     }

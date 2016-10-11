@@ -20,27 +20,14 @@ import java.util.Objects;
  */
 final class Parsers {
 
-    private final IO io;
-
-    /**
-     * Dedicated constructor.
-     *
-     * @param io must not be {@code null}
-     */
-    Parsers(final IO io) {
-        super();
-        this.io = Objects.requireNonNull(io, "Parameter 'io' must not be null!");
-    }
-
     /**
      * Creates a new parser instance.
      *
      * @param src must not be {@code null}
-     * @param debugEnabled whether to enable debug output
      * @return never {@code null} alsways new instance
      * @throws IOException if the source can't be read
      */
-    SlartiParser newParser(final InputStream src, final boolean debugEnabled) throws IOException {
+    SlartiParser newParser(final InputStream src) throws IOException {
         Objects.requireNonNull(src, "Parameter 'src' must not be null!");
         final CharStream input = new ANTLRInputStream(src);
         final Lexer lexer = new SlartiLexer(input);

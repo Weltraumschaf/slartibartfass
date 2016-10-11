@@ -20,7 +20,7 @@ import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 @SuppressWarnings("unchecked")
 public class DefaultSlartiVisitorTest {
-    private final Parsers parsers = new Parsers(mock(IO.class));
+    private final Parsers parsers = new Parsers();
     private final DefaultSlartiVisitor sut = new DefaultSlartiVisitor();
 
     private InputStream stream(final String input) {
@@ -33,7 +33,7 @@ public class DefaultSlartiVisitorTest {
     }
 
     private SlartiParser parser(final InputStream input) throws IOException {
-        return parsers.newParser(input, false);
+        return parsers.newParser(input);
     }
 
     @Test
