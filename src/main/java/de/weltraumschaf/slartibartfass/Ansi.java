@@ -114,6 +114,16 @@ public final class Ansi {
         return this;
     }
 
+    /**
+     * Add a new line to the buffer.
+     *
+     * @return self for chaining
+     */
+    public Ansi nl() {
+        buffer.append('\n');
+        return this;
+    }
+
     private String ansi(final int code) {
         return String.format(ESCAPE_SEQUENCE, code);
     }

@@ -138,7 +138,7 @@ final class Repl {
                     continue;
                 }
 
-                io.println(result.toString());
+                io.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
             } catch (final SlartiError e) {
                 io.errorln(error(e.getMessage()));
 
@@ -164,10 +164,11 @@ final class Repl {
     private void welcome(final Version version) throws IOException {
         io.print(Ansi.fmt()
             .fg(Ansi.Color.BLUE).bold().text(figlet()).reset()
-            .text("\n\n")
+            .nl().nl()
             .fg(Ansi.Color.BLUE).italic().text(WELCOME, version).reset()
-            .text("\n")
-            .bold().text("  Type %s for help.\n\n", Command.HELP).reset()
+            .nl()
+            .bold().text("  Type %s for help.", Command.HELP).reset()
+            .nl().nl()
             .toString());
     }
 
