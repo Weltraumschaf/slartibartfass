@@ -18,7 +18,7 @@ import java.util.Objects;
  *
  * @author Sven Strittmatter
  */
-final class Parsers {
+public final class Parsers {
 
     /**
      * Creates a new parser instance.
@@ -27,7 +27,7 @@ final class Parsers {
      * @return never {@code null} alsways new instance
      * @throws IOException if the source can't be read
      */
-    SlartiParser newParser(final InputStream src) throws IOException {
+    public SlartiParser newParser(final InputStream src) throws IOException {
         Objects.requireNonNull(src, "Parameter 'src' must not be null!");
         final CharStream input = new ANTLRInputStream(src);
         final Lexer lexer = new SlartiLexer(input);

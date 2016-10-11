@@ -1,7 +1,8 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.backend;
 
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.slartibartfass.*;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
@@ -29,7 +30,7 @@ import static jline.internal.Preconditions.checkNotNull;
  *
  * @author Sven Strittmatter
  */
-final class Repl {
+public final class Repl {
     /**
      * Greeting to the user.
      */
@@ -76,7 +77,7 @@ final class Repl {
      * @param visitor        must not be {@code null}
      * @param env            must not be {@code null}
      */
-    Repl(final SlartInputOutput output, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
+    public Repl(final SlartInputOutput output, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
         super();
         this.output = Validate.notNull(output, "output");
         this.visitor = Validate.notNull(visitor, "visitor");
@@ -92,7 +93,7 @@ final class Repl {
      * @param version must not be {@code null}
      * @throws IOException if the REPL can't read from the console
      */
-    void start(final Version version) throws IOException {
+    public void start(final Version version) throws IOException {
         final Parsers parsers = new Parsers();
         final ConsoleReader reader = createReader();
         welcome(version);

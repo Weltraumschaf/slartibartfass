@@ -1,4 +1,4 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.backend;
 
 /**
  * Tests for {@link Repl}.
