@@ -45,13 +45,7 @@ final class Parsers {
         final CharStream input = new ANTLRInputStream(src);
         final Lexer lexer = new SlartiLexer(input);
         final TokenStream tokens = new CommonTokenStream(lexer);
-        final SlartiParser parser = new SlartiParser(tokens);
 
-        parser.removeErrorListeners();
-        // XXX: Need this?
-        parser.addErrorListener(new ErrorListener(io, debugEnabled));
-//        parser.setErrorHandler(new BailErrorStrategy());
-
-        return parser;
+        return new SlartiParser(tokens);
     }
 }
