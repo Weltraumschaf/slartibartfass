@@ -23,17 +23,13 @@ import java.util.Collection;
  */
 public final class Application extends InvokableAdapter {
     /**
-     * Base for accessing bundled resources.
-     */
-    static final String BASE_PACKAGE = "/de/weltraumschaf/slartibartfass";
-    /**
      * Helper for CLI argument parsing.
      */
     private final JCommanderImproved<CliOptions> cliArgs = CliOptions.newCliArgParser();
     /**
      * USed to show the version from Maven.
      */
-    private final Version version = new Version(BASE_PACKAGE + "/version.properties");
+    private final Version version = new Version(Constants.BASE_PACKAGE.value() + "/version.properties");
     /**
      * Dedicated constructor.
      *
@@ -98,7 +94,7 @@ public final class Application extends InvokableAdapter {
 
     void loadStdLib(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
         printDebug("Load STD lib ...");
-        final InputStream src = getClass().getResourceAsStream(BASE_PACKAGE + "/std-lib.sl");
+        final InputStream src = getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/std-lib.sl");
         final Parsers parsers = new Parsers(getIoStreams());
         final SlartiNode node = visitor.visit(parsers.newParser(src, isDebugEnabled()).file());
         node.eval(env);

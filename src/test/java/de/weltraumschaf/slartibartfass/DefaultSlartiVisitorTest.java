@@ -184,7 +184,7 @@ public class DefaultSlartiVisitorTest {
 
     @Test
     public void visit_stdlib() throws IOException {
-        final SlartiParser parser = parser(getClass().getResourceAsStream(Application.BASE_PACKAGE + "/std-lib.sl"));
+        final SlartiParser parser = parser(getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/std-lib.sl"));
 
         final SlartiNode nodes = sut.visit(parser.file());
 

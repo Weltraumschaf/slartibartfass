@@ -12,9 +12,6 @@ import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -160,6 +157,7 @@ final class Repl {
      * Show a welcome message to the user.
      *
      * @param version must not be {@code null}
+     * @throws IOException if figlet can't be read
      */
     private void welcome(final Version version) throws IOException {
         io.print(Ansi.fmt()
@@ -172,11 +170,17 @@ final class Repl {
             .toString());
     }
 
+    /**
+     * Reads the figlet from file.
+     *
+     * @return never {@code null}
+     * @throws IOException if figlet can't be read
+     */
     private String figlet() throws IOException {
-        final InputStream input = getClass().getResourceAsStream("/de/weltraumschaf/slartibartfass/figlet");
+        final InputStream input = getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/figlet");
 
         try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
-            return buffer.lines().collect(Collectors.joining(String.format("\n")));
+            return buffer.lines().collect(Collectors.joining("\n"));
         }
     }
 
