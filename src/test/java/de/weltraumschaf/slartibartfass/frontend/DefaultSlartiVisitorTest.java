@@ -1,6 +1,8 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.frontend;
 
-import de.weltraumschaf.commons.application.IO;
+import de.weltraumschaf.slartibartfass.Constants;
+import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;
+import de.weltraumschaf.slartibartfass.frontend.Parsers;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 

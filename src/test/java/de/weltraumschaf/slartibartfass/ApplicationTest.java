@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.commons.application.IO;
+import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 import org.junit.Before;
 import org.junit.Test;

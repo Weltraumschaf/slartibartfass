@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.backend;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.*;
+import de.weltraumschaf.slartibartfass.frontend.Parsers;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;

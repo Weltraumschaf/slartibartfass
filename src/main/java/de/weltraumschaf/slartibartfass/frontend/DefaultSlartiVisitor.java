@@ -1,4 +1,4 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.frontend;
 
 import de.weltraumschaf.slartibartfass.frontend.SlartiBaseVisitor;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  *
  * @author Sven Strittmatter
  */
-final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
+public final class DefaultSlartiVisitor extends SlartiBaseVisitor<SlartiNode> {
 
     @Override
     protected SlartiNode defaultResult() {

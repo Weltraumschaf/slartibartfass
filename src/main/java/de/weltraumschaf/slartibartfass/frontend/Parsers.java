@@ -1,4 +1,4 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.frontend;
 
 
 import de.weltraumschaf.commons.application.IO;
