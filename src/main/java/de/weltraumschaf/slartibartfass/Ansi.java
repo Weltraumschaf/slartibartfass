@@ -7,10 +7,48 @@ package de.weltraumschaf.slartibartfass;
  */
 public final class Ansi {
 
+    //@checkstyle:off
+    private static final int RESET = 0;
+    private static final int INTENSITY_BOLD = 1;
+    private static final int INTENSITY_FAINT = 2;
+    private static final int ITALIC = 3;
+    private static final int UNDERLINE = 4;
+    private static final int BLINK_SLOW = 5;
+    private static final int BLINK_FAST = 6;
+    private static final int NEGATIVE_ON = 7;
+    private static final int CONCEAL_ON = 8;
+    private static final int STRIKETHROUGH_ON = 9;
+    private static final int UNDERLINE_DOUBLE = 21;
+    private static final int INTENSITY_BOLD_OFF = 22;
+    private static final int ITALIC_OFF = 23;
+    private static final int UNDERLINE_OFF = 24;
+    private static final int BLINK_OFF = 25;
+    private static final int NEGATIVE_OFF = 27;
+    private static final int CONCEAL_OFF = 28;
+    private static final int STRIKETHROUGH_OFF = 29;
+    //@checkstyle:on
+
     /**
      * Escape sequence format.
      */
     private static final String ESCAPE_SEQUENCE = "\u001B[%dm";
+    /**
+     * Add this to color code for foreground.
+     */
+    private static final int COLOR_FG = 30;
+    /**
+     * Add this to color code for bright foreground.
+     */
+    private static final int COLOR_FG_BRIGHT = 90;
+    /**
+     * Add this to color code for background.
+     */
+    private static final int COLOR_BG = 40;
+    /**
+     * Add this to color code for bright background.
+     */
+    private static final int COLOR_BG_BRIGHT = 100;
+
     /**
      * Buffers the formatted string.
      */
@@ -38,7 +76,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi reset() {
-        buffer.append(ansi(0));
+        buffer.append(ansi(RESET));
         return this;
     }
 
@@ -48,7 +86,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi bold() {
-        buffer.append(ansi(1));
+        buffer.append(ansi(INTENSITY_BOLD));
         return this;
     }
 
@@ -58,7 +96,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi italic() {
-        buffer.append(ansi(3));
+        buffer.append(ansi(ITALIC));
         return this;
     }
 
@@ -68,7 +106,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi fg(final Color color) {
-        buffer.append(ansi(color.value + 30));
+        buffer.append(ansi(color.value + COLOR_FG));
         return this;
     }
 
@@ -78,7 +116,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi fgBright(final Color color) {
-        buffer.append(ansi(color.value + 90));
+        buffer.append(ansi(color.value + COLOR_FG_BRIGHT));
         return this;
     }
 
@@ -88,7 +126,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi bg(final Color color) {
-        buffer.append(ansi(color.value + 40));
+        buffer.append(ansi(color.value + COLOR_BG));
         return this;
     }
 
@@ -98,7 +136,7 @@ public final class Ansi {
      * @return self for chaining
      */
     public Ansi bgBright(final Color color) {
-        buffer.append(ansi(color.value + 100));
+        buffer.append(ansi(color.value + COLOR_BG_BRIGHT));
         return this;
     }
 
@@ -124,6 +162,12 @@ public final class Ansi {
         return this;
     }
 
+    /**
+     * Formats the given code as ANSI escape sequence.
+     *
+     * @param code any number which is a valid ANSI code
+     * @return never {@code null} or empty
+     */
     private String ansi(final int code) {
         return String.format(ESCAPE_SEQUENCE, code);
     }
@@ -174,8 +218,16 @@ public final class Ansi {
          */
         DEFAULT(9);
 
+        /**
+         * The literal color code.
+         */
         private final int value;
 
+        /**
+         * Dedicated constructor.
+         *
+         * @param value from 0 - 9
+         */
         Color(final int value) {
             this.value = value;
         }
