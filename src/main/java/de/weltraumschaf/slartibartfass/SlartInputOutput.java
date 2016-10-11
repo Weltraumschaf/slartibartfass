@@ -71,7 +71,9 @@ public final class SlartInputOutput {
      * @param e must not be {@code null}
      */
     public void printStackTraceOnDebug(final Throwable e) {
-        e.printStackTrace(io.getStderr());
+        if (debugEnabled) {
+            e.printStackTrace(io.getStderr());
+        }
     }
 
     /**
@@ -110,5 +112,9 @@ public final class SlartInputOutput {
      */
     public InputStream getStdin() {
         return io.getStdin();
+    }
+
+    public IO getIo() {
+        return io;
     }
 }

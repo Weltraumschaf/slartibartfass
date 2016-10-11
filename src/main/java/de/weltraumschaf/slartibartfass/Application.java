@@ -4,6 +4,7 @@ import de.weltraumschaf.commons.application.ApplicationException;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
+import de.weltraumschaf.slartibartfass.backend.Interpreter;
 import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;
 import de.weltraumschaf.slartibartfass.frontend.Parsers;
 import de.weltraumschaf.slartibartfass.backend.Repl;
@@ -37,7 +38,7 @@ public final class Application extends InvokableAdapter {
     /**
      * Used for I/O.
      */
-    private SlartInputOutput outup;
+    private SlartInputOutput output;
 
     /**
      * Dedicated constructor.
@@ -59,20 +60,25 @@ public final class Application extends InvokableAdapter {
 
     @Override
     public void execute() throws Exception {
-        final CliOptions opts = gatherOptions();
-        prepareExecution();
+        try {
+            final CliOptions opts = gatherOptions();
+            prepareExecution();
 
-        if (opts.isHelp()) {
-            outup.print(opts.helpMessage(cliArgs));
-            return;
+            if (opts.isHelp()) {
+                output.print(opts.helpMessage(cliArgs));
+                return;
+            }
+
+            if (opts.isVersion()) {
+                output.println(version.getVersion());
+                return;
+            }
+
+            slarti(opts);
+        } catch (final Exception e) {
+            final String message = e.getMessage() == null ? "No message!" : e.getMessage();
+            throw new ApplicationException(ExitCodeImpl.FATAL, message, e);
         }
-
-        if (opts.isVersion()) {
-            outup.println(version.getVersion());
-            return;
-        }
-
-        slarti(opts);
     }
 
     private CliOptions gatherOptions() {
@@ -82,53 +88,26 @@ public final class Application extends InvokableAdapter {
     }
 
     void prepareExecution() throws IOException {
-        outup = new SlartInputOutput(getIoStreams(), isDebugEnabled());
+        output = new SlartInputOutput(getIoStreams(), isDebugEnabled());
         version.load();
     }
 
-    private void slarti(final CliOptions opts) throws ApplicationException {
-        try {
-            final Environment env = new Environment();
-            final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
-            loadBuiltInFunctions(env);
-            loadStdLib(visitor, env);
-
-            if (opts.getFiles().isEmpty()) {
-                startRepl(visitor, env);
-            } else {
-                runInterpreter(visitor, env, opts.getFiles());
-            }
-        } catch (final Exception e) {
-            final String message = e.getMessage() == null ? "No message!" : e.getMessage();
-            throw new ApplicationException(ExitCodeImpl.FATAL, message, e);
+    private void slarti(final CliOptions opts) throws IOException {
+        if (opts.getFiles().isEmpty()) {
+            startRepl();
+        } else {
+            runInterpreter(opts.getFiles());
         }
     }
 
-    void loadBuiltInFunctions(final Environment env) {
-        outup.debug("Load built in function ...");
-        SlartiBuiltinFunctions.register(env, getIoStreams());
+    private void startRepl() throws IOException {
+        output.debug("Start REPL ...");
+        new Repl(output).start(version);
     }
 
-    void loadStdLib(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
-        outup.debug("Load STD lib ...");
-        final InputStream src = getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/std-lib.sl");
-        final Parsers parsers = new Parsers();
-        final SlartiNode node = visitor.visit(parsers.newParser(src).file());
-        node.eval(env);
-    }
-
-    private void startRepl(final SlartiVisitor<SlartiNode> visitor, final Environment env) throws IOException {
-        outup.debug("Start REPL ...");
-        new Repl(outup, visitor, env).start(version);
-    }
-
-    private void runInterpreter(final SlartiVisitor<SlartiNode> visitor, final Environment env, final Collection<String> filenames) throws IOException {
-        for (final String filename : filenames) {
-            outup.debug(String.format("Interpret file %s  ...", filename));
-            final Parsers parsers = new Parsers();
-            final SlartiParser parser = parsers.newParser(new FileInputStream(filename));
-            visitor.visit(parser.file()).eval(env);
-        }
+    private void runInterpreter(final Collection<String> filenames) {
+        output.debug("Start Interpreter ...");
+        new Interpreter(output).start(filenames);
     }
 
 }

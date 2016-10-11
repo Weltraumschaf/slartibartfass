@@ -4,6 +4,7 @@ import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,27 +24,8 @@ public class ApplicationTest {
     }
 
     @Test
-    public void loadBuiltInFunctions() {
-        final Environment env = new Environment();
+    @Ignore
+    public void writeTests() {
 
-        sut.loadBuiltInFunctions(env);
-
-        assertThat(env.size(), is(SlartiBuiltinFunctions.values().length));
-
-        for (final SlartiBuiltinFunctions fn : SlartiBuiltinFunctions.values()) {
-            assertThat(String.format(
-                "Built in function %s not in env!", fn),
-                env.getValue(fn.impl().symbol()),
-                is(new MemoryBox(fn.impl())));
-        }
-    }
-
-    @Test
-    public void loadStdLib() throws IOException {
-        final Environment env = new Environment();
-
-        sut.loadStdLib(new DefaultSlartiVisitor(), env);
-
-        assertThat(env.size(), is(6));
     }
 }

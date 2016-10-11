@@ -31,7 +31,7 @@ import static jline.internal.Preconditions.checkNotNull;
  *
  * @author Sven Strittmatter
  */
-public final class Repl {
+public final class Repl extends BaseExecutor {
     /**
      * Greeting to the user.
      */
@@ -54,18 +54,7 @@ public final class Repl {
      * The REPL prompt to signal that user input is expected.
      */
     private static final String PROMPT = "sl> ";
-    /**
-     * Injected I/O.
-     */
-    private final SlartInputOutput output;
-    /**
-     * Visitor to convert the parsed input.
-     */
-    private final SlartiVisitor<SlartiNode> visitor;
-    /**
-     * The root scope to allocate memory.
-     */
-    private final Environment env;
+
     /**
      * Flag to signal that the loop should be exited.
      */
@@ -75,14 +64,9 @@ public final class Repl {
      * Dedicated constructor.
      *
      * @param output             must not be {@code null}
-     * @param visitor        must not be {@code null}
-     * @param env            must not be {@code null}
      */
-    public Repl(final SlartInputOutput output, final SlartiVisitor<SlartiNode> visitor, final Environment env) {
-        super();
-        this.output = Validate.notNull(output, "output");
-        this.visitor = Validate.notNull(visitor, "visitor");
-        this.env = Validate.notNull(env, "env");
+    public Repl(final SlartInputOutput output) {
+        super(output);
     }
 
     /**
@@ -95,7 +79,7 @@ public final class Repl {
      * @throws IOException if the REPL can't read from the console
      */
     public void start(final Version version) throws IOException {
-        final Parsers parsers = new Parsers();
+        init();
         final ConsoleReader reader = createReader();
         welcome(version);
 
