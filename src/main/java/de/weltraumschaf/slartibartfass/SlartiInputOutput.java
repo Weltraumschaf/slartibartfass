@@ -7,11 +7,14 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 /**
- * This class performs formated printing to output streams.
+ * This class performs formatted printing to output streams.
+ * <p>
+ * This class wraps an {@link IO} to add some {@link Ansi ANSI formatting}.
+ * </p>
  *
  * @author Sven Strittmatter
  */
-public final class SlartInputOutput {
+public final class SlartiInputOutput {
     /**
      * Used to delegate the I/O.
      */
@@ -27,7 +30,7 @@ public final class SlartInputOutput {
      * @param io           must not be {@code null}
      * @param debugEnabled whether to print debug lines or not
      */
-    public SlartInputOutput(final IO io, final boolean debugEnabled) {
+    public SlartiInputOutput(final IO io, final boolean debugEnabled) {
         super();
         this.io = Validate.notNull(io, "io");
         this.debugEnabled = debugEnabled;
@@ -67,20 +70,23 @@ public final class SlartInputOutput {
 
     /**
      * Print the exception stack trace to the error output stream.
+     * <p>
+     * It only prints the stack trace if {@link #debugEnabled debug is enabled}.
+     * </p>
      *
      * @param e must not be {@code null}
      */
     public void printStackTraceOnDebug(final Throwable e) {
         if (debugEnabled) {
-            e.printStackTrace(io.getStderr());
+            io.printStackTrace(e);
         }
     }
 
     /**
      * Delegate method.
      *
-     * @see IO#print(String)
      * @param str must not be {@code null}
+     * @see IO#print(String)
      */
     public void print(final String str) {
         io.print(str);
@@ -89,8 +95,8 @@ public final class SlartInputOutput {
     /**
      * Delegate method.
      *
-     * @see IO#println(String)
      * @param str must not be {@code null}
+     * @see IO#println(String)
      */
     public void println(final String str) {
         io.println(str);
@@ -114,6 +120,11 @@ public final class SlartInputOutput {
         return io.getStdin();
     }
 
+    /**
+     * Get the wrapped {@link IO}.
+     *
+     * @return never {@code null}
+     */
     public IO getIo() {
         return io;
     }

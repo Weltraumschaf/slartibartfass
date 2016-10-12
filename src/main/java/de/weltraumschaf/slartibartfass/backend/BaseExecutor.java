@@ -2,7 +2,7 @@ package de.weltraumschaf.slartibartfass.backend;
 
 import de.weltraumschaf.slartibartfass.Constants;
 import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.SlartInputOutput;
+import de.weltraumschaf.slartibartfass.SlartiInputOutput;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;
 import de.weltraumschaf.slartibartfass.frontend.Parsers;
@@ -29,9 +29,9 @@ abstract class BaseExecutor {
     /**
      * Injected I/O.
      */
-    protected final SlartInputOutput output;
+    protected final SlartiInputOutput output;
 
-    public BaseExecutor(final SlartInputOutput output) {
+    public BaseExecutor(final SlartiInputOutput output) {
         super();
         this.output = output;
     }

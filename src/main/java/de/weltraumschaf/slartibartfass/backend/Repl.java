@@ -3,9 +3,7 @@ package de.weltraumschaf.slartibartfass.backend;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.*;
-import de.weltraumschaf.slartibartfass.frontend.Parsers;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
-import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import jline.console.ConsoleReader;
@@ -65,7 +63,7 @@ public final class Repl extends BaseExecutor {
      *
      * @param output             must not be {@code null}
      */
-    public Repl(final SlartInputOutput output) {
+    public Repl(final SlartiInputOutput output) {
         super(output);
     }
 

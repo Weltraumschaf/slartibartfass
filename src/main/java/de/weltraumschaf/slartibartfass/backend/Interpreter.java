@@ -1,6 +1,6 @@
 package de.weltraumschaf.slartibartfass.backend;
 
-import de.weltraumschaf.slartibartfass.SlartInputOutput;
+import de.weltraumschaf.slartibartfass.SlartiInputOutput;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 
@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 public final class Interpreter extends BaseExecutor {
 
-    public Interpreter(final SlartInputOutput output) {
+    public Interpreter(final SlartiInputOutput output) {
         super(output);
     }
 

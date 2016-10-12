@@ -5,17 +5,9 @@ import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.slartibartfass.backend.Interpreter;
-import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;
-import de.weltraumschaf.slartibartfass.frontend.Parsers;
 import de.weltraumschaf.slartibartfass.backend.Repl;
-import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
-import de.weltraumschaf.slartibartfass.frontend.SlartiVisitor;
-import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.function.SlartiBuiltinFunctions;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collection;
 
 /**
@@ -38,7 +30,7 @@ public final class Application extends InvokableAdapter {
     /**
      * Used for I/O.
      */
-    private SlartInputOutput output;
+    private SlartiInputOutput output;
 
     /**
      * Dedicated constructor.
@@ -88,7 +80,7 @@ public final class Application extends InvokableAdapter {
     }
 
     void prepareExecution() throws IOException {
-        output = new SlartInputOutput(getIoStreams(), isDebugEnabled());
+        output = new SlartiInputOutput(getIoStreams(), isDebugEnabled());
         version.load();
     }
 
