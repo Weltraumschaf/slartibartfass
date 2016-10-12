@@ -29,7 +29,7 @@ import static jline.internal.Preconditions.checkNotNull;
  *
  * @author Sven Strittmatter
  */
-public final class Repl extends BaseExecutor {
+final class Repl extends BaseExecutor {
     /**
      * Greeting to the user.
      */
@@ -53,6 +53,7 @@ public final class Repl extends BaseExecutor {
      */
     private static final String PROMPT = "sl> ";
 
+    private final Version version;
     /**
      * Flag to signal that the loop should be exited.
      */
@@ -61,22 +62,16 @@ public final class Repl extends BaseExecutor {
     /**
      * Dedicated constructor.
      *
-     * @param output             must not be {@code null}
+     * @param io  must not be {@code null}
+     * @param version must not be {@code null}
      */
-    public Repl(final SlartiInputOutput output) {
-        super(output);
+    public Repl(final SlartiInputOutput io, final Version version) {
+        super(io);
+        this.version = Validate.notNull(version, "version");
     }
 
-    /**
-     * Starts the REPL.
-     * <p>
-     * The REPL ends if {@code null} is read as input.
-     * </p>
-     *
-     * @param version must not be {@code null}
-     * @throws IOException if the REPL can't read from the console
-     */
-    public void start(final Version version) throws IOException {
+    @Override
+    public void start() throws IOException {
         init();
         final ConsoleReader reader = createReader();
         welcome(version);
@@ -92,7 +87,7 @@ public final class Repl extends BaseExecutor {
                 execute(Command.getCmd(data));
 
                 if (exit) {
-                    output.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
+                    io.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
                     break;
                 }
 
@@ -109,13 +104,13 @@ public final class Repl extends BaseExecutor {
                     continue;
                 }
 
-                output.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
+                io.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
             } catch (final SlartiError e) {
-                output.error(e.getMessage());
-                output.printStackTraceOnDebug(e);
+                io.error(e.getMessage());
+                io.printStackTraceOnDebug(e);
             } catch (RuntimeException e) {
-                output.fatal(e.getMessage());
-                output.printStackTraceOnDebug(e);
+                io.fatal(e.getMessage());
+                io.printStackTraceOnDebug(e);
             }
         }
     }
@@ -127,7 +122,7 @@ public final class Repl extends BaseExecutor {
      * @throws IOException if figlet can't be read
      */
     private void welcome(final Version version) throws IOException {
-        output.print(Ansi.fmt()
+        io.print(Ansi.fmt()
             .fg(Ansi.Color.BLUE).bold().text(figlet()).reset()
             .nl().nl()
             .fg(Ansi.Color.BLUE).italic().text(WELCOME, version).reset()
@@ -159,19 +154,19 @@ public final class Repl extends BaseExecutor {
     private void execute(final Command cmd) {
         switch (cmd) {
             case ENV:
-                env.print(output.getStdout());
+                env.print(io.getStdout());
                 break;
             case EXAMPLES:
-                output.println(INITIAL_HELP);
+                io.println(INITIAL_HELP);
                 break;
             case EXIT:
                 exit = true;
                 break;
             case HELP:
-                Command.printHelp(output.getStdout());
+                Command.printHelp(io.getStdout());
                 break;
             default:
-                output.error("Unknown command: '" + cmd + "'!");
+                io.error("Unknown command: '" + cmd + "'!");
                 break;
         }
     }
@@ -185,7 +180,7 @@ public final class Repl extends BaseExecutor {
     private ConsoleReader createReader() throws IOException {
         // Disable this so we can use the bang (!) for our commands as prefix.
         System.setProperty("jline.expandevents", Boolean.FALSE.toString());
-        final ConsoleReader reader = new ConsoleReader(output.getStdin(), output.getStdout());
+        final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
         reader.setPrompt(Ansi.fmt().bold().fg(Ansi.Color.BLUE).text(PROMPT).reset().toString());
@@ -286,7 +281,7 @@ public final class Repl extends BaseExecutor {
         }
 
         /**
-         * Print he help for all commands to the givne output stream.
+         * Print he help for all commands to the givne io stream.
          *
          * @param out must not be {@code null}
          */

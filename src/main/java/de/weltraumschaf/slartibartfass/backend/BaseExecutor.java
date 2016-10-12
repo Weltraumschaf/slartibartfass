@@ -1,5 +1,6 @@
 package de.weltraumschaf.slartibartfass.backend;
 
+import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Constants;
 import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiInputOutput;
@@ -14,35 +15,40 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * Common functionality for {@link Backend backends}.
+ *
  * @author Sven Strittmatter
  */
-abstract class BaseExecutor {
+abstract class BaseExecutor implements Backend {
     /**
      * Visitor to convert the parsed input.
      */
-    protected final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
+    final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
     /**
      * The root scope to allocate memory.
      */
     protected final Environment env = new Environment();
-    protected final Parsers parsers = new Parsers();
+    /**
+     * Factory to create a parser.
+     */
+    final Parsers parsers = new Parsers();
     /**
      * Injected I/O.
      */
-    protected final SlartiInputOutput output;
+    final SlartiInputOutput io;
 
-    public BaseExecutor(final SlartiInputOutput output) {
+    public BaseExecutor(final SlartiInputOutput io) {
         super();
-        this.output = output;
+        this.io = Validate.notNull(io, "io");
     }
 
     private void loadBuiltInFunctions() {
-        output.debug("Load built in function ...");
-        SlartiBuiltinFunctions.register(env, output.getIo());
+        io.debug("Load built in function ...");
+        SlartiBuiltinFunctions.register(env, io.getIo());
     }
 
     private void loadStdLib() {
-        output.debug("Load STD lib ...");
+        io.debug("Load STD lib ...");
         final InputStream src = getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/std-lib.sl");
         final SlartiNode node;
 
@@ -55,8 +61,9 @@ abstract class BaseExecutor {
         node.eval(env);
     }
 
-    protected final void init() {
+    final Backend init() {
         loadBuiltInFunctions();
         loadStdLib();
+        return this;
     }
 }

@@ -4,11 +4,9 @@ import de.weltraumschaf.commons.application.ApplicationException;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
-import de.weltraumschaf.slartibartfass.backend.Interpreter;
-import de.weltraumschaf.slartibartfass.backend.Repl;
-
+import de.weltraumschaf.slartibartfass.backend.Backend;
+import de.weltraumschaf.slartibartfass.backend.Backends;
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * Main application class.
@@ -30,7 +28,7 @@ public final class Application extends InvokableAdapter {
     /**
      * Used for I/O.
      */
-    private SlartiInputOutput output;
+    private SlartiInputOutput io;
 
     /**
      * Dedicated constructor.
@@ -57,12 +55,12 @@ public final class Application extends InvokableAdapter {
             prepareExecution();
 
             if (opts.isHelp()) {
-                output.print(opts.helpMessage(cliArgs));
+                io.print(opts.helpMessage(cliArgs));
                 return;
             }
 
             if (opts.isVersion()) {
-                output.println(version.getVersion());
+                io.println(version.getVersion());
                 return;
             }
 
@@ -80,26 +78,23 @@ public final class Application extends InvokableAdapter {
     }
 
     void prepareExecution() throws IOException {
-        output = new SlartiInputOutput(getIoStreams(), isDebugEnabled());
+        io = new SlartiInputOutput(getIoStreams(), isDebugEnabled());
         version.load();
     }
 
     private void slarti(final CliOptions opts) throws IOException {
+        final Backends backends = new Backends();
+        final Backend backend;
+
         if (opts.getFiles().isEmpty()) {
-            startRepl();
+            io.debug("Start REPL ...");
+            backend = backends.newRepl(io, version);
         } else {
-            runInterpreter(opts.getFiles());
+            io.debug("Start Interpreter ...");
+            backend = backends.newInterpreter(io, opts.getFiles());
         }
-    }
 
-    private void startRepl() throws IOException {
-        output.debug("Start REPL ...");
-        new Repl(output).start(version);
-    }
-
-    private void runInterpreter(final Collection<String> filenames) {
-        output.debug("Start Interpreter ...");
-        new Interpreter(output).start(filenames);
+        backend.start();
     }
 
 }
