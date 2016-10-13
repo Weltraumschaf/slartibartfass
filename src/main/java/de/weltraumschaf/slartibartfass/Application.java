@@ -71,17 +71,33 @@ public final class Application extends InvokableAdapter {
         }
     }
 
+    /**
+     * Collect the CLI arguments.
+     *
+     * @return never {@code null}
+     */
     private CliOptions gatherOptions() {
         final CliOptions opts = cliArgs.gatherOptions(getArgs());
         debug = opts.isDebug();
         return opts;
     }
 
+    /**
+     * Does everything necessary for proper execution.
+     *
+     * @throws IOException if version info file can't be loaded
+     */
     void prepareExecution() throws IOException {
         io = new SlartiInputOutput(getIoStreams(), isDebugEnabled());
         version.load();
     }
 
+    /**
+     * Executes the concrete business logic (aka. interpret code).
+     *
+     * @param opts must not be {@code null}
+     * @throws IOException if any file can't be loaded
+     */
     private void slarti(final CliOptions opts) throws IOException {
         final Backends backends = new Backends();
         final Backend backend;

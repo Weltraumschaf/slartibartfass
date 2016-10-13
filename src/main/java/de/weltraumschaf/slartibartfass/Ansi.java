@@ -7,7 +7,7 @@ package de.weltraumschaf.slartibartfass;
  */
 public final class Ansi {
 
-    //@checkstyle:off
+    //@CHECKSTYLE:OFF
     private static final int RESET = 0;
     private static final int INTENSITY_BOLD = 1;
     private static final int INTENSITY_FAINT = 2;
@@ -26,7 +26,7 @@ public final class Ansi {
     private static final int NEGATIVE_OFF = 27;
     private static final int CONCEAL_OFF = 28;
     private static final int STRIKETHROUGH_OFF = 29;
-    //@checkstyle:on
+    //@CHECKSTYLE:ON
 
     /**
      * Escape sequence format.
