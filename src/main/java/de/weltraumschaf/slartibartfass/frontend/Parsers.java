@@ -18,7 +18,7 @@ import java.util.Objects;
  *
  * @author Sven Strittmatter
  */
-public final class Parsers {
+public class Parsers {
 
     /**
      * Creates a new parser instance.

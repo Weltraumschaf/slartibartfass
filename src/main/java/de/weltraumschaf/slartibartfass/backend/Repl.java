@@ -22,7 +22,7 @@ import static jline.internal.Preconditions.checkNotNull;
  * Provides a read eval print loop.
  * <p>
  * The REPL reads a user input line until newline, then parse and interpret it and finally prints the result
- * back to the user. It supports the same syntax like the interpreted files. Aso the REPL supports some iternal
+ * back to the user. It supports the same syntax like the interpreted files. Aso the REPL supports some internal
  * {@link Command commands} to do things not provided by the language itself: E.g. show the allocated memory
  * in the  environment.
  * </p>
@@ -65,14 +65,13 @@ final class Repl extends BaseExecutor {
      * @param io  must not be {@code null}
      * @param version must not be {@code null}
      */
-    public Repl(final SlartiInputOutput io, final Version version) {
+    Repl(final SlartiInputOutput io, final Version version) {
         super(io);
         this.version = Validate.notNull(version, "version");
     }
 
     @Override
     public void start() throws IOException {
-        init();
         final ConsoleReader reader = createReader();
         welcome(version);
 
@@ -87,7 +86,7 @@ final class Repl extends BaseExecutor {
                 execute(Command.getCmd(data));
 
                 if (exit) {
-                    io.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
+                    io().println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
                     break;
                 }
 
@@ -95,22 +94,22 @@ final class Repl extends BaseExecutor {
             }
 
             try {
-                final SlartiParser parser = parsers.newParser(new ByteArrayInputStream(data.getBytes()));
-                final SlartiNode node = visitor.visit(parser.file());
-                final Object result = node.eval(env);
+                final SlartiParser parser = parsers().newParser(new ByteArrayInputStream(data.getBytes()));
+                final SlartiNode node = visitor().visit(parser.file());
+                final Object result = node.eval(env());
 
                 if (SlartiList.NIL.equals(result)) {
                     // Do not print empty list results.
                     continue;
                 }
 
-                io.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
+                io().println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.toString()).reset().toString());
             } catch (final SlartiError e) {
-                io.error(e.getMessage());
-                io.printStackTraceOnDebug(e);
+                io().error(e.getMessage());
+                io().printStackTraceOnDebug(e);
             } catch (RuntimeException e) {
-                io.fatal(e.getMessage());
-                io.printStackTraceOnDebug(e);
+                io().fatal(e.getMessage());
+                io().printStackTraceOnDebug(e);
             }
         }
     }
@@ -122,7 +121,7 @@ final class Repl extends BaseExecutor {
      * @throws IOException if figlet can't be read
      */
     private void welcome(final Version version) throws IOException {
-        io.print(Ansi.fmt()
+        io().print(Ansi.fmt()
             .fg(Ansi.Color.BLUE).bold().text(figlet()).reset()
             .nl().nl()
             .fg(Ansi.Color.BLUE).italic().text(WELCOME, version).reset()
@@ -154,25 +153,25 @@ final class Repl extends BaseExecutor {
     private void execute(final Command cmd) {
         switch (cmd) {
             case ENV:
-                env.print(io.getStdout());
+                env().print(io().getStdout());
                 break;
             case EXAMPLES:
-                io.println(INITIAL_HELP);
+                io().println(INITIAL_HELP);
                 break;
             case EXIT:
                 exit = true;
                 break;
             case HELP:
-                Command.printHelp(io.getStdout());
+                Command.printHelp(io().getStdout());
                 break;
             default:
-                io.error("Unknown command: '" + cmd + "'!");
+                io().error("Unknown command: '" + cmd + "'!");
                 break;
         }
     }
 
     /**
-     * Facotry method to fmt the interactive console.
+     * Factory method to fmt the interactive console.
      *
      * @return never {@code null}, always new instance
      * @throws IOException if the I/O streams can't be written/read
@@ -180,7 +179,7 @@ final class Repl extends BaseExecutor {
     private ConsoleReader createReader() throws IOException {
         // Disable this so we can use the bang (!) for our commands as prefix.
         System.setProperty("jline.expandevents", Boolean.FALSE.toString());
-        final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
+        final ConsoleReader reader = new ConsoleReader(io().getStdin(), io().getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
         reader.setPrompt(Ansi.fmt().bold().fg(Ansi.Color.BLUE).text(PROMPT).reset().toString());
@@ -259,18 +258,14 @@ final class Repl extends BaseExecutor {
          * @return {@code true} if it is a command, else {@code false}
          */
         public static boolean isCmd(final String in) {
-            if (null == in) {
-                return false;
-            }
+            return null != in && LOOKUP.containsKey(in.trim());
 
-            return LOOKUP.containsKey(in.trim());
         }
-
 
         /**
          * Get the command enum for given string.
          * <p>
-         * Use {@link #isCmd(String)} to check if there is a command for the givne string.
+         * Use {@link #isCmd(String)} to check if there is a command for the given string.
          * </p>
          *
          * @param in must not be {@code null}
@@ -281,7 +276,7 @@ final class Repl extends BaseExecutor {
         }
 
         /**
-         * Print he help for all commands to the givne io stream.
+         * Print he help for all commands to the given io stream.
          *
          * @param out must not be {@code null}
          */

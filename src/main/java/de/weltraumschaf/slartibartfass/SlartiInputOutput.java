@@ -25,6 +25,15 @@ public final class SlartiInputOutput {
     private final boolean debugEnabled;
 
     /**
+     * Convenience constructor with disabled debugging.
+     *
+     * @param io must not be {@code null}
+     */
+    public SlartiInputOutput(final IO io) {
+        this(io, false);
+    }
+
+    /**
      * Dedicated constructor.
      *
      * @param io           must not be {@code null}

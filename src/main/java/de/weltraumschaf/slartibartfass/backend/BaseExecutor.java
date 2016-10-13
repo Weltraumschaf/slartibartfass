@@ -23,21 +23,21 @@ abstract class BaseExecutor implements Backend {
     /**
      * Visitor to convert the parsed input.
      */
-    final SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
+    private  SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
     /**
      * The root scope to allocate memory.
      */
-    protected final Environment env = new Environment();
+    private  Environment env = new Environment();
     /**
      * Factory to create a parser.
      */
-    final Parsers parsers = new Parsers();
+    private  Parsers parsers = new Parsers();
     /**
      * Injected I/O.
      */
-    final SlartiInputOutput io;
+    private final SlartiInputOutput io;
 
-    public BaseExecutor(final SlartiInputOutput io) {
+    BaseExecutor(final SlartiInputOutput io) {
         super();
         this.io = Validate.notNull(io, "io");
     }
@@ -65,5 +65,33 @@ abstract class BaseExecutor implements Backend {
         loadBuiltInFunctions();
         loadStdLib();
         return this;
+    }
+
+    final SlartiVisitor<SlartiNode> visitor() {
+        return visitor;
+    }
+
+    final void visitor(final SlartiVisitor<SlartiNode> visitor) {
+        this.visitor = Validate.notNull(visitor, "visitor");
+    }
+
+    final Environment env() {
+        return env;
+    }
+
+    final void env(final Environment env) {
+        this.env = Validate.notNull(env, "env");
+    }
+
+    final Parsers parsers() {
+        return parsers;
+    }
+
+    final void parsers(final Parsers parsers) {
+        this.parsers = Validate.notNull(parsers, "parsers");
+    }
+
+    final SlartiInputOutput io() {
+        return io;
     }
 }

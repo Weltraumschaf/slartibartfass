@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * Interprets all givne files.
+ * Interprets all given files.
  *
  * @author Sven Strittmatter
  */
@@ -27,25 +27,24 @@ final class Interpreter extends BaseExecutor {
      * @param io must not be {@code null}
      * @param filenames must not be {@code null}
      */
-    public Interpreter(final SlartiInputOutput io, final Collection<String> filenames) {
+    Interpreter(final SlartiInputOutput io, final Collection<String> filenames) {
         super(io);
         this.filenames = Validate.notNull(filenames, "filenames");
     }
 
     @Override
     public void start() {
-        init();
         filenames.forEach(filename -> {
-            io.debug("Interpret file %s  ...", filename);
+            io().debug("Interpret file %s  ...", filename);
             final SlartiParser parser;
 
             try (FileInputStream src = new FileInputStream(filename)) {
-                parser = parsers.newParser(src);
+                parser = parsers().newParser(src);
             } catch (IOException e) {
-                throw new SlartiError("Can't read sourc file! Reason: %s", e.getMessage());
+                throw new SlartiError("Can't read source file! Reason: %s", e.getMessage());
             }
 
-            visitor.visit(parser.file()).eval(env);
+            visitor().visit(parser.file()).eval(env());
         });
     }
 }
