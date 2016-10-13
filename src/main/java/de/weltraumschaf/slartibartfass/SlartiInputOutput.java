@@ -64,7 +64,7 @@ public final class SlartiInputOutput {
      * @param args          optional format arguments
      */
     public void error(final String messageFormat, final Object... args) {
-        io.errorln(Ansi.fmt().fg(Ansi.Color.RED).text("[E] ").text(messageFormat, args).reset().toString());
+        io.errorln(Ansi.fmt().fg(Ansi.Color.RED).bold().text("[E] ").text(messageFormat, args).reset().toString());
     }
 
     /**
@@ -74,7 +74,7 @@ public final class SlartiInputOutput {
      * @param args          optional format arguments
      */
     public void fatal(final String messageFormat, final Object... args) {
-        io.errorln(Ansi.fmt().fg(Ansi.Color.RED).text("[F] ").text(messageFormat, args).reset().toString());
+        io.errorln(Ansi.fmt().fg(Ansi.Color.RED).bold().text("[F] ").text(messageFormat, args).reset().toString());
     }
 
     /**
@@ -87,7 +87,9 @@ public final class SlartiInputOutput {
      */
     public void printStackTraceOnDebug(final Throwable e) {
         if (debugEnabled) {
+            print(Ansi.fmt().fg(Ansi.Color.RED).toString());
             io.printStackTrace(e);
+            print(Ansi.fmt().reset().toString());
         }
     }
 

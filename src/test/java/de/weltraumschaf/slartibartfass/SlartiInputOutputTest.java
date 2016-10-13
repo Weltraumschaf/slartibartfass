@@ -39,14 +39,14 @@ public class SlartiInputOutputTest {
     public void error() {
         sut.error("foo %d bar", 42);
 
-        verify(io, times(1)).errorln("\u001B[31m[E] foo 42 bar\u001B[0m");
+        verify(io, times(1)).errorln("\u001B[31m\u001B[1m[E] foo 42 bar\u001B[0m");
     }
 
     @Test
     public void fatal() {
         sut.fatal("foo %d bar", 42);
 
-        verify(io, times(1)).errorln("\u001B[31m[F] foo 42 bar\u001B[0m");
+        verify(io, times(1)).errorln("\u001B[31m\u001B[1m[F] foo 42 bar\u001B[0m");
     }
 
     @Test
