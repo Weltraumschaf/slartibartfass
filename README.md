@@ -174,6 +174,7 @@ function provided by the standard lib).
 ## Other Reading Stuff
 
 - [Lambda Papers](http://library.readscheme.org/page1.html)
+- [An Introduction to Scheme and its Implementation](http://www.cs.rpi.edu/academics/courses/fall00/ai/scheme/reference/schintro-v14/schintro_toc.html)
 
 [antlr]:    http://www.antlr.org/
 [dist]:     https://ci.weltraumschaf.de/job/Slartibartfass/lastSuccessfulBuild/artifact/target/slartibartfass.zip
