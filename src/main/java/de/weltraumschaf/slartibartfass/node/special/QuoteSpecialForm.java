@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * This special form treats the quoted argument literal instead of evaluate it.
  * <p>
- *     Syntax: {@code (quote foo)} or {@code 'foo}
+ * Syntax: {@code (quote foo)} or {@code 'foo}
  * </p>
  * <p>
- *     Usually expressions are evaluated directly:
+ * Usually expressions are evaluated directly:
  * </p>
  * <pre>
  *     sl> (define a 2)
@@ -23,7 +23,7 @@ import java.util.List;
  *     (2 3)
  * </pre>
  * <p>
- *     With quote the quoted expressions ae not evaluated:
+ * With quote the quoted expressions ae not evaluated:
  * </p>
  * <pre>
  *     sl> (define a 2)

@@ -5,7 +5,7 @@ import de.weltraumschaf.slartibartfass.backend.Environment;
 /**
  * Real type of the language.
  * <p>
- *     {@link #eval(Environment) Evaluating} this node will return its bare double representation.
+ * {@link #eval(Environment) Evaluating} this node will return its bare double representation.
  * </p>
  *
  * @author Sven Strittmatter

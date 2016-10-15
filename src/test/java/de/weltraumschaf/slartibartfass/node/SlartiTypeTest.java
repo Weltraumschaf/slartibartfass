@@ -5,6 +5,7 @@ import de.weltraumschaf.slartibartfass.node.type.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**

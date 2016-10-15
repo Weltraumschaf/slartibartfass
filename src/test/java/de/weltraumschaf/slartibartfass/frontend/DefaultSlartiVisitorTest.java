@@ -145,7 +145,7 @@ public class DefaultSlartiVisitorTest {
 
         assertThat(nodes,
             is(list(list(
-                sym("println"),  of("Hello, World!")
+                sym("println"), of("Hello, World!")
             ))));
     }
 
@@ -157,7 +157,7 @@ public class DefaultSlartiVisitorTest {
 
         assertThat(nodes,
             is(list(list(
-                sym("println"),  of("Hello, World!")
+                sym("println"), of("Hello, World!")
             ))));
     }
 

@@ -121,7 +121,7 @@ public final class Environment {
         symbols.stream()
             .map(symbol -> {
                 return "  " + Ansi.fmt().bold().text(String.format("%1$-8s", symbol.name().replaceAll("%", "%%"))).reset().toString()
-                        + " -> " + format(store.get(symbol).memory());
+                    + " -> " + format(store.get(symbol).memory());
             })
             .forEach(out::println);
     }
@@ -136,8 +136,8 @@ public final class Environment {
         if (node instanceof SlartiFunction) {
             final SlartiFunction fn = (SlartiFunction) node;
             return fn.isBuiltIn()
-                    ? Ansi.fmt().fg(Ansi.Color.BLUE).text("builtin fn").reset().toString()
-                    : "defined fn";
+                ? Ansi.fmt().fg(Ansi.Color.BLUE).text("builtin fn").reset().toString()
+                : "defined fn";
         }
 
         return node.toString();

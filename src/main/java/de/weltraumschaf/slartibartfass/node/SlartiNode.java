@@ -12,12 +12,12 @@ public interface SlartiNode<T> extends SlartiType<T> {
     /**
      * Interprets the node.
      * <p>
-     *     To evaluate the node it needs an {@link Environment} from the calling context. Every node may
-     *     add entries into the environment or add child environments and pass them to evaluated child nodes
-     *     to give them an own scope.
+     * To evaluate the node it needs an {@link Environment} from the calling context. Every node may
+     * add entries into the environment or add child environments and pass them to evaluated child nodes
+     * to give them an own scope.
      * </p>
      * <p>
-     *     The method returns the result of the evaluation.
+     * The method returns the result of the evaluation.
      * </p>
      *
      * @param env must not be {@code null}

@@ -9,12 +9,12 @@ import java.util.Objects;
 /**
  * Symbol type of the language.
  * <p>
- *     Symbols are used to symbol things. This is used together with the {@link de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm
- *     define special form} to add variables into the {@link Environment}.
+ * Symbols are used to symbol things. This is used together with the {@link de.weltraumschaf.slartibartfass.node.special.DefineSpecialForm
+ * define special form} to add variables into the {@link Environment}.
  * </p>
  * <p>
- *     {@link #eval(Environment) Evaluating} this node will look in the given {@link Environment environment} and all
- *     its parent for the symbol and returns the value of the first match.
+ * {@link #eval(Environment) Evaluating} this node will look in the given {@link Environment environment} and all
+ * its parent for the symbol and returns the value of the first match.
  * </p>
  *
  * @author Sven Strittmatter

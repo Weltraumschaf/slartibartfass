@@ -18,7 +18,7 @@ import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 public class SlartiBuiltinFunctions_OrTest {
     @Test
     public void or_zeroArgs() {
-        assertThat(SlartiBuiltinFunctions.OR.impl().apply(Collections.emptyList()), is(of (false)));
+        assertThat(SlartiBuiltinFunctions.OR.impl().apply(Collections.emptyList()), is(of(false)));
     }
 
     @Test
@@ -38,6 +38,6 @@ public class SlartiBuiltinFunctions_OrTest {
     public void or_threeArgs() {
         assertThat(SlartiBuiltinFunctions.OR.impl().apply(of(true), of(false), of(true)), is(of(true)));
         assertThat(SlartiBuiltinFunctions.OR.impl().apply(of(false), of(false), of(true)), is(of(true)));
-        assertThat(SlartiBuiltinFunctions.OR.impl().apply(of(false), of(false), of(false)),is(of(false)));
+        assertThat(SlartiBuiltinFunctions.OR.impl().apply(of(false), of(false), of(false)), is(of(false)));
     }
 }

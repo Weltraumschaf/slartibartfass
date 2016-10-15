@@ -3,6 +3,7 @@ package de.weltraumschaf.slartibartfass.backend;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
+
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**

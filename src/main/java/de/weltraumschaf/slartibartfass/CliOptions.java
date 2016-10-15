@@ -27,14 +27,14 @@ public final class CliOptions {
      */
     private static final String DESCRIPTION =
         "A simple LISP interpreter. The syntax is like Scheme.\n\n" +
-        "You can either start a REPL by invoking this command without any arguments\n" +
-        "or you can pass as many files to interpret to the command.";
+            "You can either start a REPL by invoking this command without any arguments\n" +
+            "or you can pass as many files to interpret to the command.";
     /**
      * Example usages for help.
      */
     private static final String EXAMPLES =
         "$> slarti                   Start the REPL. Stop it with ctrl + c. Get some help with `!help` in the REPL.\n" +
-        "  $> slarti hello_world.sl  Interpret the file hello_world.sl.";
+            "  $> slarti hello_world.sl  Interpret the file hello_world.sl.";
 
     /**
      * Debug option.

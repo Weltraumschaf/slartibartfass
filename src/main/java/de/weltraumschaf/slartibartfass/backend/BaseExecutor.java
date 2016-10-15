@@ -22,15 +22,15 @@ abstract class BaseExecutor implements Backend {
     /**
      * Visitor to convert the parsed input.
      */
-    private  SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
+    private SlartiVisitor<SlartiNode> visitor = new DefaultSlartiVisitor();
     /**
      * The root scope to allocate memory.
      */
-    private  Environment env = new Environment();
+    private Environment env = new Environment();
     /**
      * Factory to create a parser.
      */
-    private  Parsers parsers = new Parsers();
+    private Parsers parsers = new Parsers();
     /**
      * Injected I/O.
      */

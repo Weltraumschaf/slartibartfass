@@ -11,11 +11,12 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 
 import java.util.List;
 import java.util.Random;
+
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**
  * All provided built in functions.
- *
+ * <p>
  * TODO list, head, tail functions.
  *
  * @author Sven Strittmatter
@@ -54,10 +55,10 @@ public enum SlartiBuiltinFunctions {
                 final SlartiNode arg = args.get(0);
                 errorIfNotNumber(arg);
 
-                if  (arg.isInteger()) {
-                    return of(- arg.castToInteger().value());
+                if (arg.isInteger()) {
+                    return of(-arg.castToInteger().value());
                 } else if (arg.isReal()) {
-                    return of(- arg.castToReal().value());
+                    return of(-arg.castToReal().value());
                 }
 
                 return null; // Never eached because error will be thrown if wrong bd above.
@@ -378,7 +379,7 @@ public enum SlartiBuiltinFunctions {
      * Register all built in functions in the given environment.
      *
      * @param env must not be {@code null}
-     * @param io must not be {@code null}
+     * @param io  must not be {@code null}
      */
     public static void register(final Environment env, final IO io) {
         Validate.notNull(env, "env");

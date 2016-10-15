@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * The special forms contains a list of expressions (the symbol is not part of the list).
  * <p>
- *     Special forms are forms which are the bare minimum to form a turin complete language.
+ * Special forms are forms which are the bare minimum to form a turin complete language.
  * </p>
  *
  * @author Sven Strittmatter
@@ -26,7 +26,7 @@ public abstract class SlartiSpecialForm extends SlartiList {
      * Dedicated constructor.
      *
      * @param symbol must not be {@code null}
-     * @param list must not be {@code null}
+     * @param list   must not be {@code null}
      */
     SlartiSpecialForm(final SlartiSymbol symbol, final SlartiList list) {
         super(Validate.notNull(list, "list").data());
@@ -36,9 +36,10 @@ public abstract class SlartiSpecialForm extends SlartiList {
     /**
      * Determine sif the head of the givne list is a special form symbol.
      * <p>
-     *     If the given lists head is a special form it is substituted by the special form.
-     *     All other lists are returned untouched.
+     * If the given lists head is a special form it is substituted by the special form.
+     * All other lists are returned untouched.
      * </p>
+     *
      * @param list must not be {@code null}
      * @return never {@code null}
      */

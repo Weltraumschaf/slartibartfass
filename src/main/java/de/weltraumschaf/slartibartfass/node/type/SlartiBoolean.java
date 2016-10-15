@@ -5,21 +5,21 @@ import de.weltraumschaf.slartibartfass.backend.Environment;
 /**
  * Boolean type of the language.
  * <p>
- *     {@link #eval(Environment) Evaluating} this node will return its bare boolean representation.
+ * {@link #eval(Environment) Evaluating} this node will return its bare boolean representation.
  * </p>
  */
 public final class SlartiBoolean extends ValueBasedType<Boolean> {
     /**
      * Represents the {@code #true} value.
      * <p>
-     *     This object is shared because it is immutable.
+     * This object is shared because it is immutable.
      * </p>
      */
     public static final SlartiBoolean TRUE = new SlartiBoolean(Boolean.TRUE);
     /**
      * Represents the {@code #false} value.
      * <p>
-     *     This object is shared because it is immutable.
+     * This object is shared because it is immutable.
      * </p>
      */
     public static final SlartiBoolean FALSE = new SlartiBoolean(Boolean.FALSE);

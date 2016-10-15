@@ -22,7 +22,7 @@ public final class MemoryBox {
     /**
      * Dedicated constructor.
      *
-     * @param memory  must not be {@code null}
+     * @param memory must not be {@code null}
      */
     public MemoryBox(final SlartiNode<?> memory) {
         super();
@@ -67,8 +67,8 @@ public final class MemoryBox {
 
     @Override
     public String toString() {
-        return "MemoryBox{" +
-            "memory=" + memory +
-            '}';
+        return "MemoryBox{"
+            + "memory=" + memory
+            + '}';
     }
 }

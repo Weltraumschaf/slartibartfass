@@ -9,13 +9,13 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 /**
  * This special form creates a lambda function.
  * <p>
- *     Syntax: {@code (lambda (x) (* x x))}.
+ * Syntax: {@code (lambda (x) (* x x))}.
  * </p>
  * <p>
- *     The list given to the constructor contains the formal arguments as first element and the body o the lambda function
- *     as second element. The {@link #eval(Environment) evaluation} generates the {@link SlartiFunction function} for this
- *     arguments on the fly. Use this special form in conjunction with the {@link DefineSpecialForm define special form}
- *     to store the function under a name in the environment.
+ * The list given to the constructor contains the formal arguments as first element and the body o the lambda function
+ * as second element. The {@link #eval(Environment) evaluation} generates the {@link SlartiFunction function} for this
+ * arguments on the fly. Use this special form in conjunction with the {@link DefineSpecialForm define special form}
+ * to store the function under a name in the environment.
  * </p>
  *
  * @author Sven Strittmatter

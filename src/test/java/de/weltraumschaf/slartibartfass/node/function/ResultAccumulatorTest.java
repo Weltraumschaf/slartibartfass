@@ -2,6 +2,7 @@ package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
 import org.junit.Test;
+
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;

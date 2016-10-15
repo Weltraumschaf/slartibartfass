@@ -9,10 +9,10 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 /**
  * THis special form branches the execution based on the boolean result of a condition expression.
  * <p>
- *     Syntax: {@code (if (CONDITION) (THEN) (ELSE))} or without else branch {@code (if (CONDITION) (THEN))}.
+ * Syntax: {@code (if (CONDITION) (THEN) (ELSE))} or without else branch {@code (if (CONDITION) (THEN))}.
  * </p>
  * <p>
- *     If the else branch is omitted and the condition evaluates to false an empty list will be returned.
+ * If the else branch is omitted and the condition evaluates to false an empty list will be returned.
  * </p>
  *
  * @author Sven Strittmatter

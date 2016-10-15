@@ -64,7 +64,7 @@ final class Repl extends BaseExecutor {
     /**
      * Dedicated constructor.
      *
-     * @param io  must not be {@code null}
+     * @param io      must not be {@code null}
      * @param version must not be {@code null}
      */
     Repl(final SlartiInputOutput io, final Version version) {

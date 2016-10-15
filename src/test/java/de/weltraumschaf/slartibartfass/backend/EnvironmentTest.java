@@ -79,9 +79,9 @@ public class EnvironmentTest {
         sut.print(new PrintStream(output));
 
         assertThat(new String(output.toByteArray(), StandardCharsets.UTF_8),
-                is("  \u001B[1mbar     \u001B[0m -> 2\n"
-                        + "  \u001B[1mbaz     \u001B[0m -> 3\n"
-                        + "  \u001B[1mfoo     \u001B[0m -> 1\n"));
+            is("  \u001B[1mbar     \u001B[0m -> 2\n"
+                + "  \u001B[1mbaz     \u001B[0m -> 3\n"
+                + "  \u001B[1mfoo     \u001B[0m -> 1\n"));
     }
 
     @Test
@@ -96,9 +96,9 @@ public class EnvironmentTest {
         sut.print(new PrintStream(output));
 
         assertThat(new String(output.toByteArray(), StandardCharsets.UTF_8),
-                is("  \u001B[1mfoo     \u001B[0m -> 1\n"
-                        + "  \u001B[1mbar     \u001B[0m -> 2\n"
-                        + "  \u001B[1mbaz     \u001B[0m -> 3\n"));
+            is("  \u001B[1mfoo     \u001B[0m -> 1\n"
+                + "  \u001B[1mbar     \u001B[0m -> 2\n"
+                + "  \u001B[1mbaz     \u001B[0m -> 3\n"));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class EnvironmentTest {
         sut.print(new PrintStream(output));
 
         assertThat(new String(output.toByteArray(), StandardCharsets.UTF_8),
-                is("  \u001B[1mbar     \u001B[0m -> defined fn\n"
-                        + "  \u001B[1mfoo     \u001B[0m -> \u001B[34mbuiltin fn\u001B[0m\n"));
+            is("  \u001B[1mbar     \u001B[0m -> defined fn\n"
+                + "  \u001B[1mfoo     \u001B[0m -> \u001B[34mbuiltin fn\u001B[0m\n"));
     }
 }

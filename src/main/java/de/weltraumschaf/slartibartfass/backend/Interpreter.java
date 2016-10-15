@@ -24,7 +24,7 @@ final class Interpreter extends BaseExecutor {
     /**
      * Dedicated constructor.
      *
-     * @param io must not be {@code null}
+     * @param io        must not be {@code null}
      * @param filenames must not be {@code null}
      */
     Interpreter(final SlartiInputOutput io, final Collection<String> filenames) {

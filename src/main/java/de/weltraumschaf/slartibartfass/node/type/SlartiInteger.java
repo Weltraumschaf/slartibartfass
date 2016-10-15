@@ -5,7 +5,7 @@ import de.weltraumschaf.slartibartfass.backend.Environment;
 /**
  * Integer type of the language.
  * <p>
- *     {@link #eval(Environment) Evaluating} this node will return its bare long representation.
+ * {@link #eval(Environment) Evaluating} this node will return its bare long representation.
  * </p>
  *
  * @author Sven Strittmatter

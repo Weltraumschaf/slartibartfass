@@ -7,12 +7,13 @@ import de.weltraumschaf.slartibartfass.node.type.SlartiInteger;
 import de.weltraumschaf.slartibartfass.node.type.SlartiReal;
 
 import java.util.function.BiFunction;
+
 import static de.weltraumschaf.slartibartfass.node.Slarti.*;
 
 /**
  * Helper class to accumulate the result of arithmetic operations.
  * <p>
- *     This class does the job to check if the result should end in an integer or real number result.
+ * This class does the job to check if the result should end in an integer or real number result.
  * </p>
  *
  * @author Sven Strittmatter
@@ -44,7 +45,7 @@ final class ResultAccumulator {
      * Dedicated constructor.
      *
      * @param integerOperation must not be {@code null}
-     * @param realOperation must not be {@code null}
+     * @param realOperation    must not be {@code null}
      */
     ResultAccumulator(final BiFunction<Long, Long, Long> integerOperation, final BiFunction<Double, Double, Double> realOperation) {
         super();
@@ -72,7 +73,7 @@ final class ResultAccumulator {
     /**
      * Apply an operand to the accumulator.
      * <p>
-     *     Throws an {@link SlartiError} if the operand is neither of type {@link SlartiInteger} nor {@link SlartiReal}.
+     * Throws an {@link SlartiError} if the operand is neither of type {@link SlartiInteger} nor {@link SlartiReal}.
      * </p>
      *
      * @param operand must not be {@code null}
