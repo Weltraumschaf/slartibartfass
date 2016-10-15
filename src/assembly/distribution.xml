@@ -10,13 +10,22 @@
 
     <fileSets>
         <fileSet>
-            <directory>bin</directory>
+            <directory>src/main/scripts</directory>
 
             <includes>
-                <include>**/*</include>
+                <include>slarti.sh</include>
             </includes>
 
-            <outputDirectory>.</outputDirectory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+
+            <includes>
+                <include>${project.build.finalName}.jar</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>
