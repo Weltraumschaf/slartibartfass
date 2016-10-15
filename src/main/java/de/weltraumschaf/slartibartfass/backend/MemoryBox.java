@@ -1,7 +1,6 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.backend;
 
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 import java.util.Objects;
 

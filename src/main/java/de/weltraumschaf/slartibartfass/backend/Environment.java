@@ -2,7 +2,6 @@ package de.weltraumschaf.slartibartfass.backend;
 
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Ansi;
-import de.weltraumschaf.slartibartfass.MemoryBox;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;

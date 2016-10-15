@@ -1,6 +1,5 @@
 package de.weltraumschaf.slartibartfass.backend;
 
-import de.weltraumschaf.slartibartfass.MemoryBox;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import org.hamcrest.Matchers;
 import org.junit.Test;
