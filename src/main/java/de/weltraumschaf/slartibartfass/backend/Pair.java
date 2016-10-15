@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author Sven Strittmatter
  */
-public final class Pair {
+final class Pair {
 
     /**
      * Used to signal that there is no nex value.
