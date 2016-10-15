@@ -1,6 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
-import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;

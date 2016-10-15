@@ -1,14 +1,15 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.backend;
 
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.slartibartfass.Ansi;
+import de.weltraumschaf.slartibartfass.MemoryBox;
+import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 import java.io.PrintStream;
 import java.util.*;
-
-import static de.weltraumschaf.slartibartfass.node.Slarti.sym;
 
 /**
  * The environment stores allocated memory.

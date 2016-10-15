@@ -1,7 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
-import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import org.junit.Before;

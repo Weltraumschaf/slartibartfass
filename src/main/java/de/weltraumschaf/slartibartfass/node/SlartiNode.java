@@ -1,6 +1,6 @@
 package de.weltraumschaf.slartibartfass.node;
 
-import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 
 /**
  * Base type for AST nodes.

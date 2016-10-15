@@ -1,10 +1,8 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
-import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.InternalList;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
-import de.weltraumschaf.slartibartfass.node.type.SlartiString;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 
 import java.util.ArrayList;

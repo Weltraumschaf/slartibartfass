@@ -1,16 +1,10 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
-import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.SlartiError;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 import de.weltraumschaf.slartibartfass.node.*;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.type.SlartiList;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * This special form creates a lambda function.

@@ -1,10 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
-import de.weltraumschaf.commons.validate.Validate;
-import de.weltraumschaf.slartibartfass.Environment;
-import de.weltraumschaf.slartibartfass.node.SlartiNode;
-
-import java.util.Objects;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 
 /**
  * String type of the language.

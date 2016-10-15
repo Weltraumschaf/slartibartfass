@@ -2,7 +2,7 @@ package de.weltraumschaf.slartibartfass.node.function;
 
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
-import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.type.SlartiBoolean;

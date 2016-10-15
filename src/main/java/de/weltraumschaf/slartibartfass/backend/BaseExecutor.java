@@ -2,7 +2,6 @@ package de.weltraumschaf.slartibartfass.backend;
 
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.Constants;
-import de.weltraumschaf.slartibartfass.Environment;
 import de.weltraumschaf.slartibartfass.SlartiInputOutput;
 import de.weltraumschaf.slartibartfass.SlartiError;
 import de.weltraumschaf.slartibartfass.frontend.DefaultSlartiVisitor;

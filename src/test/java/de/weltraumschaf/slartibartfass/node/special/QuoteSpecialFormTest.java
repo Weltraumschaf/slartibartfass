@@ -1,6 +1,6 @@
 package de.weltraumschaf.slartibartfass.node.special;
 
-import de.weltraumschaf.slartibartfass.Environment;
+import de.weltraumschaf.slartibartfass.backend.Environment;
 import de.weltraumschaf.slartibartfass.node.type.SlartiSymbol;
 import org.junit.Test;
 

@@ -1,6 +1,8 @@
-package de.weltraumschaf.slartibartfass;
+package de.weltraumschaf.slartibartfass.backend;
 
+import de.weltraumschaf.slartibartfass.MemoryBox;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -26,7 +28,7 @@ public class EnvironmentTest {
 
         sut.putValue(sym("foo"), of("bar"));
 
-        assertThat(sut.getValue(sym("foo")), is(new MemoryBox(of("bar"))));
+        assertThat(sut.getValue(sym("foo")), Matchers.is(new MemoryBox(of("bar"))));
     }
 
     @Test(expected = RuntimeException.class)
