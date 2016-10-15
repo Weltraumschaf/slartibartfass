@@ -1,7 +1,7 @@
 package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.slartibartfass.backend.Environment;
-import de.weltraumschaf.slartibartfass.InternalList;
+import de.weltraumschaf.slartibartfass.backend.InternalList;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 import de.weltraumschaf.slartibartfass.node.special.SlartiSpecialForm;
 import nl.jqno.equalsverifier.EqualsVerifier;

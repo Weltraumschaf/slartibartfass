@@ -2,7 +2,7 @@ package de.weltraumschaf.slartibartfass.node.type;
 
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.slartibartfass.backend.Environment;
-import de.weltraumschaf.slartibartfass.InternalList;
+import de.weltraumschaf.slartibartfass.backend.InternalList;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 import de.weltraumschaf.slartibartfass.node.function.SlartiFunction;
 
