@@ -52,7 +52,9 @@ final class Repl extends BaseExecutor {
      * The REPL prompt to signal that user input is expected.
      */
     private static final String PROMPT = "sl> ";
-
+    /**
+     * Used to print version info.
+     */
     private final Version version;
     /**
      * Flag to signal that the loop should be exited.
@@ -152,6 +154,11 @@ final class Repl extends BaseExecutor {
      */
     private void execute(final Command cmd) {
         switch (cmd) {
+            case CLEAR:
+                env(new Environment());
+                init();
+                io().println("Environment cleared.");
+                break;
             case ENV:
                 env().print(io().getStdout());
                 break;
@@ -202,6 +209,10 @@ final class Repl extends BaseExecutor {
      * </p>
      */
     private enum Command {
+        /**
+         * Clears the user defined symbols.
+         */
+        CLEAR("Clears the whole environment: Removes all defined symbols, but reloads built in and STD lib."),
         /**
          * Shows the allocated  memory.
          */

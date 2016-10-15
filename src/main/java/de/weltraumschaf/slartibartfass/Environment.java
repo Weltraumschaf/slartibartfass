@@ -119,7 +119,10 @@ public final class Environment {
         final List<SlartiSymbol> symbols = new ArrayList<>(store.keySet());
         Collections.sort(symbols, (o1, o2) -> o1.name().compareTo(o2.name()));
         symbols.stream()
-            .map(symbol -> String.format("  %1$-8s", symbol.name()) + " -> " + format(store.get(symbol).memory()))
+            .map(symbol -> {
+                return "  " + Ansi.fmt().bold().text(String.format("%1$-8s", symbol.name().replaceAll("%", "%%"))).reset().toString()
+                        + " -> " + format(store.get(symbol).memory());
+            })
             .forEach(out::println);
     }
 
@@ -132,7 +135,9 @@ public final class Environment {
     private String format(final SlartiNode node) {
         if (node instanceof SlartiFunction) {
             final SlartiFunction fn = (SlartiFunction) node;
-            return fn.isBuiltIn() ? "builtin fn" : "defined fn";
+            return fn.isBuiltIn()
+                    ? Ansi.fmt().fg(Ansi.Color.BLUE).text("builtin fn").reset().toString()
+                    : "defined fn";
         }
 
         return node.toString();

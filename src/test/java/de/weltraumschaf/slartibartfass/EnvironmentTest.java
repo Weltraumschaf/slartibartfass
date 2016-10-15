@@ -78,7 +78,9 @@ public class EnvironmentTest {
         sut.print(new PrintStream(output));
 
         assertThat(new String(output.toByteArray(), StandardCharsets.UTF_8),
-            is("  bar      -> 2\n  baz      -> 3\n  foo      -> 1\n"));
+                is("  \u001B[1mbar     \u001B[0m -> 2\n"
+                        + "  \u001B[1mbaz     \u001B[0m -> 3\n"
+                        + "  \u001B[1mfoo     \u001B[0m -> 1\n"));
     }
 
     @Test
@@ -93,7 +95,9 @@ public class EnvironmentTest {
         sut.print(new PrintStream(output));
 
         assertThat(new String(output.toByteArray(), StandardCharsets.UTF_8),
-            is("  foo      -> 1\n  bar      -> 2\n  baz      -> 3\n"));
+                is("  \u001B[1mfoo     \u001B[0m -> 1\n"
+                        + "  \u001B[1mbar     \u001B[0m -> 2\n"
+                        + "  \u001B[1mbaz     \u001B[0m -> 3\n"));
     }
 
     @Test
@@ -108,6 +112,7 @@ public class EnvironmentTest {
         sut.print(new PrintStream(output));
 
         assertThat(new String(output.toByteArray(), StandardCharsets.UTF_8),
-            is("  bar      -> defined fn\n  foo      -> builtin fn\n"));
+                is("  \u001B[1mbar     \u001B[0m -> defined fn\n"
+                        + "  \u001B[1mfoo     \u001B[0m -> \u001B[34mbuiltin fn\u001B[0m\n"));
     }
 }
