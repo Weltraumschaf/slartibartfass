@@ -1,6 +1,7 @@
 package de.weltraumschaf.slartibartfass;
 
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.slartibartfass.backend.Pair;
 import de.weltraumschaf.slartibartfass.node.SlartiNode;
 
 import java.util.Collection;
