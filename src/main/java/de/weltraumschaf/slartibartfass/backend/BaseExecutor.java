@@ -37,16 +37,27 @@ abstract class BaseExecutor implements Backend {
      */
     private final SlartiInputOutput io;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param io must not be {@code null}
+     */
     BaseExecutor(final SlartiInputOutput io) {
         super();
         this.io = Validate.notNull(io, "io");
     }
 
+    /**
+     * Load built in functions into environment.
+     */
     private void loadBuiltInFunctions() {
         io.debug("Load built in function ...");
         SlartiBuiltinFunctions.register(env, io.getIo());
     }
 
+    /**
+     * Load standard library functions into environment.
+     */
     private void loadStdLib() {
         io.debug("Load STD lib ...");
         final InputStream src = getClass().getResourceAsStream(Constants.BASE_PACKAGE.value() + "/std-lib.sl");
@@ -61,36 +72,76 @@ abstract class BaseExecutor implements Backend {
         node.eval(env);
     }
 
+    /**
+     * Initialize the executor and must be called before first use.
+     *
+     * @return self for chaining
+     */
     final Backend init() {
         loadBuiltInFunctions();
         loadStdLib();
         return this;
     }
 
+    /**
+     * Get a visitor to traverse the AST.
+     *
+     * @return never {@code null}
+     */
     final SlartiVisitor<SlartiNode> visitor() {
         return visitor;
     }
 
+    /**
+     * Injects a visitor to traverse the AST.
+     *
+     * @param visitor must not be {@code null}
+     */
     final void visitor(final SlartiVisitor<SlartiNode> visitor) {
         this.visitor = Validate.notNull(visitor, "visitor");
     }
 
+    /**
+     * Get the top level scope.
+     *
+     * @return never {@code null}
+     */
     final Environment env() {
         return env;
     }
 
+    /**
+     * Inject new top level scope.
+     *
+     * @param env must not be {@code null
+     */
     final void env(final Environment env) {
         this.env = Validate.notNull(env, "env");
     }
 
+    /**
+     * Get parser facotry to create source code parsers.
+     *
+     * @return never {@code null}
+     */
     final Parsers parsers() {
         return parsers;
     }
 
+    /**
+     * Inject parser factory.
+     *
+     * @param parsers must not be {@code null
+     */
     final void parsers(final Parsers parsers) {
         this.parsers = Validate.notNull(parsers, "parsers");
     }
 
+    /**
+     * Get the I/O.
+     *
+     * @return never {@code null}
+     */
     final SlartiInputOutput io() {
         return io;
     }
