@@ -35,9 +35,9 @@ argument to launch the REPL:
 The REPL provides some special commands. They  all start with a bang (`!`). Just
 type `!help` to get a full list of available commands with explanation.
 
-The REPL provides similar features like  BSD editline/GNU readline such as `ctrl
-+ a` or  `ctrl + e` for moving cursor,  `ctrl + x` for deleting, `ctrl  + r` for
-history searching etc.
+The REPL provides similar features like  BSD editline/GNU readline such as 
+`ctrl + a` or  `ctrl + e` for moving cursor,  `ctrl + x` for deleting, 
+`ctrl + r` for history searching etc.
 
 ### The Hello, World! Example
 
