@@ -23,6 +23,10 @@ After that you can run Slartibartfass:
    
     $> ./bin/slarti -h
 
+And you will see the REPL:
+
+![The REPL with some examples](repl_screenshot.png)
+
 ## Use the REPL
 
 Slartibartfass  provides  a Read  Eval  Print  Loop.  Just  run it  without  any
