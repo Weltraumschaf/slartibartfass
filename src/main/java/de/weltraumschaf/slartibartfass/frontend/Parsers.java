@@ -1,16 +1,10 @@
 package de.weltraumschaf.slartibartfass.frontend;
 
 
-import de.weltraumschaf.commons.application.IO;
-import de.weltraumschaf.slartibartfass.frontend.SlartiLexer;
-import de.weltraumschaf.slartibartfass.frontend.SlartiParser;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.Parser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
