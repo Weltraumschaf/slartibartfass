@@ -67,8 +67,8 @@
     </ciManagement>
 
     <properties>
-        <project.build.version.source>1.8</project.build.version.source>
-        <project.build.version.target>1.8</project.build.version.target>
+        <project.build.version.source>11</project.build.version.source>
+        <project.build.version.target>11</project.build.version.target>
 
         <project.build.mainClass>de.weltraumschaf.slartibartfass.Application</project.build.mainClass>
         <project.bin.directory>${project.basedir}/bin</project.bin.directory>
