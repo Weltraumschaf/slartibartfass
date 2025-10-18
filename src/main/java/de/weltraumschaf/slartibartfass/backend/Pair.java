@@ -155,7 +155,7 @@ final class Pair {
     }
 
     /**
-     * Constructs a pair from the gicen node with the given pair as the next pair.
+     * Constructs a pair from the given node with the given pair as the next pair.
      *
      * @param car must not be {@code null}
      * @param cdr must not be {@code null}

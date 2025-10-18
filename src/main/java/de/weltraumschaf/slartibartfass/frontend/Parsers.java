@@ -18,7 +18,7 @@ public class Parsers {
      * Creates a new parser instance.
      *
      * @param src must not be {@code null}
-     * @return never {@code null} alsways new instance
+     * @return never {@code null} always new instance
      * @throws IOException if the source can't be read
      */
     public SlartiParser newParser(final InputStream src) throws IOException {
